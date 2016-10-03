@@ -20,6 +20,7 @@
 \usepackage[usenames,dvipsnames]{xcolor}
 \usepackage{afterpage}
 \usepackage{tikz}
+\usepackage[utf8x]{inputenc}
 
 \newcommand{\hcancel}[1]{%
     \tikz[baseline=(tocancel.base)]{
@@ -39,10 +40,10 @@
 \newcommand*\ie{i.e.\@\xspace}
 %\renewcommand{\itemhook}{\setlength{\topsep}{0pt}  \setlength{\itemsep}{0pt}\setlength{\leftmargin}{15pt}}
 
-\title{Ethereum: A Secure Decentralised Generalised Transaction Ledger \\ {\smaller \textbf{Homestead revision}}}
+\title{Ethereum: Un registre généralisé de transactions, sécurisé et décentralisé\\ {\smaller \textbf{révision Homestead}}}
 \author{
     Dr. Gavin Wood\\
-    Founder, Ethereum \& Ethcore\\
+    Fondateur, Ethereum \& Ethcore\\
     gavin@ethcore.io
 }
 \begin{document}
@@ -51,9 +52,9 @@
 %\pagecolor{lightpink}
 
 \begin{abstract}
-The blockchain paradigm when coupled with cryptographically-secured transactions has demonstrated its utility through a number of projects, not least Bitcoin. Each such project can be seen as a simple application on a decentralised, but singleton, compute resource. We can call this paradigm a transactional singleton machine with shared-state.
+Le paradigme de la blockchain, lorsqu'il est couplé à un mécanisme de transaction sécurisé par la cryptographie, a prouvé son utilité au travers de projets tels que Bitcoin. Chacun de ces projets peut être vu comme une simple application basée sur une unique ressource de calcul décentralisée. Nous pouvons appeler ce paradigme une machine transactionnelle unique à état partagé.
 
-Ethereum implements this paradigm in a generalised manner. Furthermore it provides a plurality of such resources, each with a distinct state and operating code but able to interact through a message-passing framework with others. We discuss its design, implementation issues, the opportunities it provides and the future hurdles we envisage.
+De manière générale, Ethereum implémente ce paradigme. Ethereum fournit un grand nombre de telles ressources, chacune possédant un état distinct et un code fonctionnel, mais en plus capable d'intéragir entre elles au travers d'un framework d'envoi de messages. Nous discutons de sa conception, des problèmes de conception, des opportunités que cela fournit et les futurs obstacles que nous envisageons.
 \end{abstract}
 
 \maketitle
@@ -63,17 +64,17 @@ Ethereum implements this paradigm in a generalised manner. Furthermore it provid
 
 \section{Introduction}\label{sec:introduction}
 
-With ubiquitous internet connections in most places of the world, global information transmission has become incredibly cheap. Technology-rooted movements like Bitcoin have demonstrated, through the power of the default, consensus mechanisms and voluntary respect of the social contract that it is possible to use the internet to make a decentralised value-transfer system, shared across the world and virtually free to use. This system can be said to be a very specialised version of a cryptographically secure, transaction-based state machine. Follow-up systems such as Namecoin adapted this original ``currency application'' of the technology into other applications albeit rather simplistic ones.
+Internet étant présent dans les plupart des endroits de la planète, la transmission de l'information globale est devenue extrèmement peu onéreuse. Les innovations technologiques tels que Bitcoin ont démontré, par le pouvoir d'un mécanisme de consensus et le respect volontaire du contrat social, qu'il était possible d'utiliser Internet pour créer un système décentralisé de transfert de valeurs, partagé à travers le monde et gratuit à utiliser. Ce système peut être décrit comme une version très spécifique d'une machine a état basée sur des transactions et sécurisée par la cryptographie. Les système de suivi tels que Namecoin ont adapté ce système d' ``application monétaire'' en d'autres application, aussi simples soient-elles.
 
-Ethereum is a project which attempts to build the generalised technology; technology on which all transaction-based state machine concepts may be built. Moreover it aims to provide to the end-developer a tightly integrated end-to-end system for building software on a hitherto unexplored compute paradigm in the mainstream: a trustful object messaging compute framework.
+Ethereum est un projet qui cherche à créer une technologie généralisée, c'est à dire un technologie sur laquelle tous les concepts fonctionnant sur une machine a état basée sur des transactions pourraient être construits. De plus, Ethereum a pour but de fournir au développeur final un système intégré bout en bout afin de  construire des logiciels basés sur un paradigme de calcul jusque-là inexploré par le grand public : un framework de calcul d'adressage d'objets de confiance
 
-\subsection{Driving Factors} \label{ch:driving}
+\subsection{Facteurs déterminants} \label{ch:driving}
 
-There are many goals of this project; one key goal is to facilitate transactions between consenting individuals who would otherwise have no means to trust one another. This may be due to geographical separation, interfacing difficulty, or perhaps the incompatibility, incompetence, unwillingness, expense, uncertainty, inconvenience or corruption of existing legal systems. By specifying a state-change system through a rich and unambiguous language, and furthermore architecting a system such that we can reasonably expect that an agreement will be thus enforced autonomously, we can provide a means to this end.
+Ce projet a beaucoup de buts; un des buts principaux étant de faciliter les transactions entre deux individus consentants qui n'auraient aucun moyen autrement de se faire confiance l'un l'autre. Cela peut être dû à une séparation géographique, une difficulté d'intéraction, ou peut-être encore à l'incompatibilité, l'incompétence, la réticence, le coût, l'incertitude, la gêne ou encore la corruption des systèmes légaux existants. En définissant un système de changement d'état à travers un langage riche et non ambigu, en architecturant de plus un système tel que nous pouvons raisonablement attendre qu'un accord soit appliqué de manière autonome, nous pouvons fournir un moyen à cette fin.
 
-Dealings in this proposed system would have several attributes not often found in the real world. The incorruptibility of judgement, often difficult to find, comes naturally from a disinterested algorithmic interpreter. Transparency, or being able to see exactly how a state or judgement came about through the transaction log and rules or instructional codes, never happens perfectly in human-based systems since natural language is necessarily vague, information is often lacking, and plain old prejudices are difficult to shake.
+Les opérations dans le système proposé pourraient avoir beaucoup d'attributs qui n'existent pas souvent dans le monde réel. L'incorruptibilité de jugement, souvent difficile à trouver, est naturelle lorsqu'elle vient d'un interpreter algorithmique désintéressé. La transparence, ou la capacité de voir exactement comment un état ou un jugement est arrivé à travers les logs d'une transaction ou les codes instructionnels, n'arrive jamais parfaitement dans les systèmes basés sur l'humain, notamment car le langage naturel est nécéssairement vague, que de l'information est souvent manquante et que les vieux préjudices sont difficiles à identifier.
 
-Overall, I wish to provide a system such that users can be guaranteed that no matter with which other individuals, systems or organisations they interact, they can do so with absolute confidence in the possible outcomes and how those outcomes might come about.
+De manière générale, je souhaite fournir un système dans lequel les utilisateurs peuvent être sûrs que peu importe avec quel autres individus, systèmes ou organisations ils interagissent, ils peuvent avoir une confiance absolue dans les possibles résultats et comment ces résultats sont déterminés.
 
 \subsection{Previous Work} \label{ch:previous}
 
@@ -271,7 +272,7 @@ Appendix \ref{app:signing} specifies the function, $S$, which maps transactions 
 \begin{equation}
 L_T(T) \equiv \begin{cases}
 (T_n, T_p, T_g, T_t, T_v, T_\mathbf{i}, T_w, T_r, T_s) & \text{if} \; T_t = \varnothing\\
-(T_n, T_p, T_g, T_t, T_v, T_\mathbf{d}, T_w, T_r, T_s) & \text{otherwise} 
+(T_n, T_p, T_g, T_t, T_v, T_\mathbf{d}, T_w, T_r, T_s) & \text{otherwise}
 \end{cases}
 \end{equation}
 
@@ -577,13 +578,13 @@ The validity is determined as:
 S(T) & \neq & \varnothing \quad \wedge \\
 \boldsymbol{\sigma}[S(T)] & \neq & \varnothing \quad \wedge \\
 T_n & = & \boldsymbol{\sigma}[S(T)]_n \quad \wedge \\
-g_0 & \leqslant & T_g \quad \wedge \\ 
+g_0 & \leqslant & T_g \quad \wedge \\
 v_0 & \leqslant & \boldsymbol{\sigma}[S(T)]_b \quad \wedge \\
 T_g & \leqslant & {B_H}_l - \ell(B_\mathbf{R})_u
 \end{array}
 \end{equation}
 
-Note the final condition; the sum of the transaction's gas limit, $T_g$, and the gas utilised in this block prior, given by $\ell(B_\mathbf{R})_u$, must be no greater than the block's \textbf{gasLimit}, ${B_H}_l$. 
+Note the final condition; the sum of the transaction's gas limit, $T_g$, and the gas utilised in this block prior, given by $\ell(B_\mathbf{R})_u$, must be no greater than the block's \textbf{gasLimit}, ${B_H}_l$.
 
 The execution of a valid transaction begins with an irrevocable change made to the state: the nonce of the account of the sender, $S(T)$, is incremented by one and the balance is reduced by part of the up-front cost, $T_gT_p$. The gas available for the proceeding computation, $g$, is defined as $T_g - g_0$. The computation, whether contract creation or a message call, results in an eventual state (which may legally be equivalent to the current state), the change to which is deterministic and never invalid: there can be no invalid transactions from this point.
 
@@ -698,7 +699,7 @@ I_e & \equiv & e
 
 $I_\mathbf{d}$ evaluates to the empty tuple as there is no input data to this call. $I_H$ has no special treatment and is determined from the blockchain.
 
-Code execution depletes gas, and gas may not go below zero, thus execution may exit before the code has come to a natural halting state. In this (and several other) exceptional cases we say an Out-of-Gas exception has occurred: The evaluated state is defined as being the empty set, $\varnothing$, and the entire create operation should have no effect on the state, effectively leaving it as it was immediately prior to attempting the creation. 
+Code execution depletes gas, and gas may not go below zero, thus execution may exit before the code has come to a natural halting state. In this (and several other) exceptional cases we say an Out-of-Gas exception has occurred: The evaluated state is defined as being the empty set, $\varnothing$, and the entire create operation should have no effect on the state, effectively leaving it as it was immediately prior to attempting the creation.
 
 If the initialization code completes successfully, a final contract-creation cost is paid, the code-deposit cost, $c$, proportional to the size of the created contract's code:
 \begin{equation}
@@ -1023,7 +1024,7 @@ The validation of ommer headers means nothing more than verifying that each omme
 
 where $k$ denotes the ``is-kin'' property:
 \begin{equation}
-k(U, H, n) \equiv \begin{cases} false & \text{if} \quad n = 0 \\ 
+k(U, H, n) \equiv \begin{cases} false & \text{if} \quad n = 0 \\
 s(U, H) &\\
 \quad \vee \; k(U, P(H)_H, n - 1) & \text{otherwise}
 \end{cases}
@@ -1051,7 +1052,7 @@ The application of rewards to a block involves raising the balance of the accoun
 \Omega(B, \boldsymbol{\sigma}) & \equiv & \boldsymbol{\sigma}': \boldsymbol{\sigma}' = \boldsymbol{\sigma} \quad \text{except:} \\
 \boldsymbol{\sigma}'[{B_H}_c]_b & = & \boldsymbol{\sigma}[{B_H}_c]_b + (1 + \frac{\lVert B_\mathbf{U}\rVert}{32})R_b \\
 \forall_{U \in B_\mathbf{U}}: \\ \nonumber
- \boldsymbol{\sigma}'[U_c]_b & = & \boldsymbol{\sigma}[U_c]_b + (1 + \frac{1}{8} (U_i - {B_H}_i)) R_b 
+ \boldsymbol{\sigma}'[U_c]_b & = & \boldsymbol{\sigma}[U_c]_b + (1 + \frac{1}{8} (U_i - {B_H}_i)) R_b
 \end{eqnarray}
 
 If there are collisions of the beneficiary addresses between ommers and the block (i.e. two ommers with the same beneficiary address or an ommer with the same beneficiary address as the present block), additions are applied cumulatively.
@@ -1100,7 +1101,7 @@ In the case of $B_\mathbf{R}[n]_u$, we take a similar approach defining each ite
 
 For $\mathbf{R}[n]_\mathbf{l}$, we utilise the $\Upsilon^\mathbf{l}$ function that we conveniently defined in the transaction execution function.
 \begin{equation}
-\mathbf{R}[n]_\mathbf{l} = 
+\mathbf{R}[n]_\mathbf{l} =
 \Upsilon^\mathbf{l}(\mathbf{R}[n - 1]_{\boldsymbol{\sigma}}, B_\mathbf{T}[n])
 \end{equation}
 
@@ -1138,7 +1139,7 @@ Mining involves grabbing random slices of the dataset and hashing them together.
 
 \section{Implementing Contracts}
 
-There are several patterns of contracts engineering that allow particular useful behaviours; two of these that I will briefly discuss are data feeds and random numbers. 
+There are several patterns of contracts engineering that allow particular useful behaviours; two of these that I will briefly discuss are data feeds and random numbers.
 
 \subsection{Data Feeds}
 A data feed contract is one which provides a single service: it gives access to information from the external world within Ethereum. The accuracy and timeliness of this information is not guaranteed and it is the task of a secondary contract author---the contract that utilises the data feed---to determine how much trust can be placed in any single data feed.
@@ -1440,7 +1441,7 @@ We declare that a signature is invalid unless all the following conditions are t
 \mathtt{\tiny secp256k1n} & \text{if} \quad H_i < \firsthomesteadblock \\
 \mathtt{\tiny secp256k1n} \div 2 & \text{otherwise} \\
 \end{dcases} \\
- v &\in \{27,28\} 
+ v &\in \{27,28\}
 \end{align}
 where:
 \begin{align}
@@ -1457,7 +1458,7 @@ The message hash, $h(T)$, to be signed is the Keccak hash of the transaction wit
 \begin{eqnarray}
 L_S(T) & \equiv & \begin{cases}
 (T_n, T_p, T_g, T_t, T_v, T_\mathbf{i}) & \text{if} \; T_t = 0\\
-(T_n, T_p, T_g, T_t, T_v, T_\mathbf{d}) & \text{otherwise} 
+(T_n, T_p, T_g, T_t, T_v, T_\mathbf{d}) & \text{otherwise}
 \end{cases} \\
 h(T) & \equiv & \mathtt{\small KEC}( L_S(T) )
 \end{eqnarray}
@@ -2003,7 +2004,7 @@ G_{callnewaccount} & \text{if} \quad \boldsymbol{\sigma}[\boldsymbol{\mu}_\mathb
 &&&& the current values for {\it sender} and {\it value}. \\
 &&&& Exactly equivalent to {\small CALL} except: \\
 &&&& $(\boldsymbol{\sigma}', g', A^+, \mathbf{o}) \equiv \begin{cases}\begin{array}{l}\Theta(\boldsymbol{\sigma}^*, I_s, I_o, I_a, t,\\\quad \boldsymbol{\mu}_\mathbf{s}[0], I_p, 0, \boldsymbol{\mu}_\mathbf{s}[2], \mathbf{i}, I_e + 1)\end{array} & \text{if} \quad \boldsymbol{\mu}_\mathbf{s}[2] \leqslant \boldsymbol{\sigma}[I_a]_b \;\wedge\; I_e < 1024 \\ (\boldsymbol{\sigma}, g, \varnothing, \mathbf{o}) & \text{otherwise} \end{cases}$ \\
-&&&& Note the changes (in addition to that of the fourth parameter) to the second and eighth\\ 
+&&&& Note the changes (in addition to that of the fourth parameter) to the second and eighth\\
 &&&& parameters to the call $\Theta$.\\
 &&&& This means that the recipient is in fact the same account as at present, simply\\
 &&&& that the code is overwritten {\it and} the context is almost entirely identical.\\
@@ -2060,7 +2061,7 @@ The size for Ethash's cache $\mathbf{c} \in \mathbb{B}$  and dataset $\mathbf{d}
 \begin{equation}
  E_{epoch}(H_i) = \left\lfloor\frac{H_i}{J_{epoch}}\right\rfloor
 \end{equation}
-The size of the dataset growth by $J_{datasetgrowth}$ bytes, and the size of the cache by $J_{cachegrowth}$ bytes, every epoch. In order to avoid regularity leading to cyclic behavior, the size must be a prime number. Therefore the size is reduced by a multiple of $J_{mixbytes}$, for the dataset, and $J_{hashbytes}$ for the cache. 
+The size of the dataset growth by $J_{datasetgrowth}$ bytes, and the size of the cache by $J_{cachegrowth}$ bytes, every epoch. In order to avoid regularity leading to cyclic behavior, the size must be a prime number. Therefore the size is reduced by a multiple of $J_{mixbytes}$, for the dataset, and $J_{hashbytes}$ for the cache.
 Let $d_{size} = \lVert \mathbf{d} \rVert$ be the size of the dataset. Which is calculated using
 \begin{equation}
  d_{size} = E_{prime}(J_{datasetinit} + J_{datasetgrowth} \cdot E_{epoch} - J_{mixbytes}, J_{mixbytes})
@@ -2076,7 +2077,7 @@ E_{prime}(x - 1 \cdot y, y) & \text{otherwise}
 \end{cases}
 \end{equation}
 \subsection{Dataset generation}
-In order the generate the dataset we need the cache $\mathbf{c}$, which is an array of bytes. It depends on the cache size  $c_{size}$ and the seed hash $\mathbf{s} \in \mathbb{B}_{32}$. 
+In order the generate the dataset we need the cache $\mathbf{c}$, which is an array of bytes. It depends on the cache size  $c_{size}$ and the seed hash $\mathbf{s} \in \mathbb{B}_{32}$.
 \subsubsection{Seed hash}
 The seed hash is different for every epoch. For the first epoch it is the Keccak-256 hash of a series of 32 bytes of zeros. For every other epoch it is always the Keccak-256 hash of the previous seed hash:
 \begin{equation}
@@ -2100,7 +2101,7 @@ We define the array $\mathbf{c}_{i}$, consisting of 64 single bytes,  as the $i$
 \texttt{KEC512}(\mathbf{c}_{i-1}) & \text{otherwise}
 \end{cases}
 \end{equation}
-Therefore $ \mathbf{c'}$ can be defined as 
+Therefore $ \mathbf{c'}$ can be defined as
 \begin{equation}
  \mathbf{c'}[i] = \mathbf{c}_{i} \quad \forall \quad i < n
 \end{equation}
@@ -2127,7 +2128,7 @@ Where a single round modifies each subset of the cache as follows:
   \text{with} \quad \mathbf{x'} = \mathbf{x} \quad \text{except} \quad \mathbf{x'}[j] = E_{rmh}(\mathbf{x}, j) \quad \forall \quad j < i
 \end{multline}
 
-\subsubsection{Full dataset calculation} \label{dataset} 
+\subsubsection{Full dataset calculation} \label{dataset}
 Essentially, we combine data from $J_{parents}$ pseudorandomly selected cache nodes, and hash that to compute the dataset. The entire dataset is then generated by a number of items, each $J_{hashbytes}$ bytes in size:
 \begin{equation}
  \mathbf{d}[i] = E_{datasetitem}(\mathbf{c}, i) \quad \forall \quad i < \left\lfloor\frac{d_{size}}{J_{hashbytes}}\right\rfloor
