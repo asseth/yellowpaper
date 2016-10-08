@@ -54,7 +54,7 @@
 \begin{abstract}
 Le paradigme de la blockchain, lorsqu'il est couplé à un mécanisme de transaction sécurisé par la cryptographie, a prouvé son utilité au travers de projets tels que Bitcoin. Chacun de ces projets peut être vu comme une simple application basée sur une unique ressource de calcul décentralisée. Nous pouvons appeler ce paradigme une machine transactionnelle unique à état partagé.
 
-De manière générale, Ethereum implémente ce paradigme. Ethereum fournit un grand nombre de telles ressources, chacune possédant un état distinct et un code fonctionnel, mais en plus capable d'intéragir entre elles au travers d'un framework d'envoi de messages. Nous discutons de sa conception, des problèmes de conception, des opportunités que cela fournit et les futurs obstacles que nous envisageons.
+De manière générale, Ethereum implémente ce paradigme. Ethereum fournit un grand nombre de telles ressources, chacune possédant un état distinct et un code fonctionnel, mais en plus capable d'intéragir entre elles au travers d'un framework d'envoi de messages. Nous discuterons de sa conception, des problèmes de conception, des opportunités que cela fournit et des futurs obstacles que nous envisageons.
 \end{abstract}
 
 \maketitle
@@ -66,7 +66,7 @@ De manière générale, Ethereum implémente ce paradigme. Ethereum fournit un g
 
 Internet étant présent dans les plupart des endroits de la planète, la transmission de l'information globale est devenue extrèmement peu onéreuse. Les innovations technologiques tels que Bitcoin ont démontré, par le pouvoir d'un mécanisme de consensus et le respect volontaire du contrat social, qu'il était possible d'utiliser Internet pour créer un système décentralisé de transfert de valeurs, partagé à travers le monde et gratuit à utiliser. Ce système peut être décrit comme une version très spécifique d'une machine a état basée sur des transactions et sécurisée par la cryptographie. Les système de suivi tels que Namecoin ont adapté ce système d' ``application monétaire'' en d'autres application, aussi simples soient-elles.
 
-Ethereum est un projet qui cherche à créer une technologie généralisée, c'est à dire un technologie sur laquelle tous les concepts fonctionnant sur une machine a état basée sur des transactions pourraient être construits. De plus, Ethereum a pour but de fournir au développeur final un système intégré bout en bout afin de  construire des logiciels basés sur un paradigme de calcul jusque-là inexploré par le grand public : un framework de calcul d'adressage d'objets de confiance
+Ethereum est un projet qui cherche à créer une technologie généralisée, c'est à dire un technologie sur laquelle tous les concepts fonctionnant sur une machine a état basée sur des transactions pourraient être construits. De plus, Ethereum a pour but de fournir au développeur final un système intégré bout en bout afin de  construire des logiciels basés sur un paradigme de calcul jusque-là inexploré par le grand public : un framework de calcul d'adressage d'objets de confiance.
 
 \subsection{Facteurs déterminants} \label{ch:driving}
 
@@ -140,57 +140,54 @@ $10^{18}$ & Ether \\
 \end{center}
 \par
 
-Throughout the present work, any reference to value, in the context of Ether, currency, a balance or a payment, should be assumed to be counted in Wei.
-
 Au travers du présent document, chaque référence à la valeur, dans le contexte de l'Ether, comme un solde de compte ou un paiement, sera exprimé en Wei.
 
 \subsection{Quelle histoire?}
 
-Since the system is decentralised and all parties have an opportunity to create a new block on some older pre-existing block, the resultant structure is necessarily a tree of blocks. In order to form a consensus as to which path, from root (the genesis block) to leaf (the block containing the most recent transactions) through this tree structure, known as the blockchain, there must be an agreed-upon scheme. If there is ever a disagreement between nodes as to which root-to-leaf path down the block tree is the `best' blockchain, then a \textit{fork} occurs.
+Alors que le système est décentralisé et que chaque parties a une opportunité de créer un nouveau bloc sur un ancien bloc pré-existant, la structure résultante est nécéssairement un arbre de blocs. De telle sorte à former un consensus sur quel chemin de la racine (le bloc genesis) à la feuille (le bloc contenant les transactions les plus récentes) à travers cette structure d'arbre, connue sous le nom de blockchain, il doit y avoir un schéma d'accord. Si jamais il y avait un désaccord entre les noeuds sur quel chemin en bas de l'arbre des blocs est la `meilleure' blockchain, alors un fork est effectué.  
 
-Alors que le système est décentralisé et que chaque parties a un eopportunité de créer un nouveau block sur un ancien bloc pré-existant
+Cela voudrait dire que passé un point donné dans le temps (bloc), plusieurs états du système peuvent coexister: certains noeuds croyant qu'un bloc contient les transactions canoniques, d'autres noeuds croyant un autre bloc être canonique, contenant potentiellement des transactions radicalement différentes ou incompatibles. Ceci est à éviter à tous coûts, comme l'incertitude qui pourrait résulter et qui pourrait tuer la confiance dans le système entier. 
 
-This would mean that past a given point in time (block), multiple states of the system may coexist: some nodes believing one block to contain the canonical transactions, other nodes believing some other block to be canonical, potentially containing radically different or incompatible transactions. This is to be avoided at all costs as the uncertainty that would ensue would likely kill all confidence in the entire system.
-
-The scheme we use in order to generate consensus is a simplified version of the GHOST protocol introduced by \cite{cryptoeprint:2013:881}. This process is described in detail in section \ref{ch:ghost}.
+Le schéma que nous utilisons pour générer un consensus est une version simplifiée du protocole GHOST, introduit par \cite{cryptoeprint:2013:881}. Ce processus est décrit en détail dans la section \ref{ch:ghost}.
 
 \section{Conventions}\label{ch:conventions}
 
-I use a number of typographical conventions for the formal notation, some of which are quite particular to the present work:
+J'utilise un nombre de conventions typographiques pour les notations formelles, quelques unes sont un peu particulières au document présent:
 
-The two sets of highly structured, `top-level', state values, are denoted with bold lowercase Greek letters. They fall into those of world-state, which are denoted $\boldsymbol{\sigma}$ (or a variant thereupon) and those of machine-state, $\boldsymbol{\mu}$.
+Les deux ensembles de haut niveau, hautement structurés, les valeurs d'état, sont notés en lettres Grecques en petits caractères gras. Ceux catégorisant l'état mondial sont notés $\boldsymbol{\sigma}$ (ou une variante là dessus) et ceux de l'état de la machine, $\boldsymbol{\mu}$.
 
-Functions operating on highly structured values are denoted with an upper-case greek letter, \eg $\Upsilon$, the Ethereum state transition function.
+Les fonctions opérant sur ces valeurs hautement structurées sont notés en lettre Grecque majuscule, \eg $\Upsilon$, la fonction de transition d'état d'Ethereum.
 
-For most functions, an uppercase letter is used, e.g. $C$, the general cost function. These may be subscripted to denote specialised variants, \eg $C_\text{\tiny SSTORE}$, the cost function for the {\tiny SSTORE} operation. For specialised and possibly externally defined functions, I may format as typewriter text, \eg the Keccak-256 hash function (as per the winning entry to the SHA-3 contest) is denoted $\texttt{KEC}$ (and generally referred to as plain Keccak). Also $\texttt{KEC512}$ is referring to the Keccak 512 hash function.
+Pour la plupart des fonctions, une lettre majuscule est utilisée, par exemple $C$, la fonction de coût général. Elles peuvent être subscriptées ( TODO: écrit en petit en bas à droite?) pour indiquer des variantes spécialisées, \eg $C_\text{\tiny SSTORE}$,
+la fonction de coût pour l'opération {\tiny SSTORE}. Pour les fonctions spécialisées et possiblement définies de manière externe, je peux formater comme un texte de machine à écrire, \eg la fonction de hachage Keccak-256 (selon l'entrée gagnante pour le concours SHA-3) est dénotée $\texttt{KEC}$ (et fait généralement référence à une simple Keccak). Aussi, $\texttt{KEC512}$ fait référence à une fonction de hachage Keccak 512.
 
-Tuples are typically denoted with an upper-case letter, \eg $T$, is used to denote an Ethereum transaction. This symbol may, if accordingly defined, be subscripted to refer to an individual component, \eg $T_n$, denotes the nonce of said transaction. The form of the subscript is used to denote its type; \eg uppercase subscripts refer to tuples with subscriptable components.
+Les tuples sont typiquement notés en lettres majuscules, \eg $T$, est utilisé pour noter une transaction Ethereum. Ce symbole peut, si il est définit en conséquence, être subscripté (TODO: écrit en petit en bas à droite) pour faire référence à un composant individuel, \eg $T_n$, dénote le nonce de ladite transaction. la forme du sucscript (TODO) est utiliser pour noter sa taille; \eg des subscripts (TODO) en majuscule font référence a des scripts avec des composants subscriptables (TODO).
 
-Scalars and fixed-size byte sequences (or, synonymously, arrays) are denoted with a normal lower-case letter, \eg $n$ is used in the document to denote a transaction nonce. Those with a particularly special meaning may be greek, \eg $\delta$, the number of items required on the stack for a given operation.
+Les scalaires et les séquences d'octets de taille fixe (synonyme, les tableaux), sont notés avec une lettre normale minuscule, \eg $n$ est utilisée dans le document pour représenter un nonce de transaction. Ceux qui ont particulièrement une signification spéciale peuvent être grecques, \eg $\delta$, le nombre d'éléments requis sur la pile pour une opération donnée;
 
-Arbitrary-length sequences are typically denoted as a bold lower-case letter, \eg $\mathbf{o}$ is used to denote the byte-sequence given as the output data of a message call. For particularly important values, a bold uppercase letter may be used.
+Des séquences de longueur arbitraires sont typiquement notés en lettre minuscules et en gras, \eg $\mathbf{o}$ est utilisé pour représenter la séquence d'octets donnée en tant que donnée de sortie d'un appel de message. Pour les valeurs particulièrement importantes, une lettre en majuscule et en gras peut-être utilisée.
 
-Throughout, we assume scalars are positive integers and thus belong to the set $\mathbb{P}$. The set of all byte sequences is $\mathbb{B}$, formally defined in Appendix \ref{app:rlp}. If such a set of sequences is restricted to those of a particular length, it is denoted with a subscript, thus the set of all byte sequences of length $32$ is named $\mathbb{B}_{32}$ and the set of all positive integers smaller than $2^{256}$ is named $\mathbb{P}_{256}$. This is formally defined in section \ref{ch:block}.
+Tout au long du document nous supposons que les valeurs scalaires sont des entiers positifs, et qu'elles appartiennent a l'ensemble $\mathbb{P}$. L'ensemble de toutes les séquences d'octets est $\mathbb{B}$, formellement défini dans l'annexe \ref{app:rlp}. Si une telle séquence d'ensembles est restreinte a un ensemble (? TODO) d'une longueur particulière, cela est noté avec un subscript (TODO), ainsi, l'ensemble de toutes les séquences d'octets de longueur $32$  est nommé $\mathbb{B}_{32}$ et l'ensemble de tous les entiers positifs plus petits que $2^{256}$ est nommé $\mathbb{P}_{256}$. Cela est décrit précisément dans la section \ref{ch:block}.
 
-Square brackets are used to index into and reference individual components or subsequences of sequences, \eg $\boldsymbol{\mu}_\mathbf{s}[0]$ denotes the first item on the machine's stack. For subsequences, ellipses are used to specify the intended range, to include elements at both limits, \eg $\boldsymbol{\mu}_\mathbf{m}[0..31]$ denotes the first 32 items of the machine's memory.
+Les crochets sont utilisés pour indexer et référencer les composants individuels ou les sous-séquences de séquences, \eg $\boldsymbol{\mu}_\mathbf{s}[0]$ représente le premier objet sur la pile de la machine. Pour les sous-séqueces, les ellipses (? TODO) sont utilisées pour spécifier la tranche attendue, pour inclure les éléments de chaque limite, \eg $\boldsymbol{\mu}_\mathbf{m}[0..31]$ représente les 32 premiers objets de la mémoire de la machine.
 
-In the case of the global state $\boldsymbol{\sigma}$, which is a sequence of accounts, themselves tuples, the square brackets are used to reference an individual account.
+Dans le cas de l'état global, $\boldsymbol{\sigma}$, qui est une séquence de comptes, eux-mêmes des tuples, les crochets sont utilisés pour référencer un compte individuel.
 
-When considering variants of existing values, I follow the rule that within a given scope for definition, if we assume that the unmodified `input' value be denoted by the placeholder $\Box$ then the modified and utilisable value is denoted as $\Box'$, and intermediate values would be $\Box^*$,  $\Box^{**}$ \&c. On very particular occasions, in order to maximise readability and only if unambiguous in meaning, I may use alpha-numeric subscripts to denote intermediate values, especially those of particular note.
+En considérant les variantes des valeurs existantes, je suis la règle qu'au sein d'un périmètre donné pour définition, si nous supposons que la valeur d'`input' non modifiée soit représentée par l'espace réservé (? TODO) $\Box$ alors la valeur modifiée et utilisable est représentée comme $\Box'$, et les valeurs intermédiaires seraient $\Box^*$, $\Box^{**}$ \&c. Lors d'occasions vraiment particulières, dans le but de maximiser la lisibilité et seulement si non ambigu dans le sens, je peux utiliser des subscripts (? TODO) alphanumériques pour représenter des valeurs intermédiaires, particulièrement celles de notes particulières.		 
 
-When considering the use of existing functions, given a function $f$, the function $f^*$ denotes a similar, element-wise version of the function mapping instead between sequences. It is formally defined in section \ref{ch:block}.
+En considérant l'utilisation de fonctions existantes, prenant une fonction $f$, la fonction $f^*$ représente une version similaire element-wise(TODO), de la fonction de mapping plutôt qu'entre les séquences. Cela est précisément décrit dans la section \ref{ch:block}.
 
-I define a number of useful functions throughout. One of the more common is $\ell$, which evaluates to the last item in the given sequence:
+Je définit un nombre de fonctions utiles à travers ce document. Une des plus communes est $\ell$, qui évalue le dernier objet de la séquence donnée:
 
 \begin{equation}
 \ell(\mathbf{x}) \equiv \mathbf{x}[\lVert \mathbf{x} \rVert - 1]
 \end{equation}
 
-\section{Blocks, State and Transactions} \label{ch:bst}
+\section{Blocs, état et transactions} \label{ch:bst}
 
-Having introduced the basic concepts behind Ethereum, we will discuss the meaning of a transaction, a block and the state in more detail.
+Ayant introduit les concepts de base d'Ethereum, nous allons dicuter du sens d'une transaction, d'un bloc et de l'état de manière plus détaillée.
 
-\subsection{World State} \label{ch:state}
+\subsection{L'état mondial} \label{ch:state}
 
 The world state (\textit{state}), is a mapping between addresses (160-bit identifiers) and account states (a data structure serialised as RLP, see Appendix \ref{app:rlp}). Though not stored on the blockchain, it is assumed that the implementation will maintain this mapping in a modified Merkle Patricia tree (\textit{trie}, see Appendix \ref{app:trie}). The trie requires a simple database backend that maintains a mapping of bytearrays to bytearrays; we name this underlying database the state database. This has a number of benefits; firstly the root node of this structure is cryptographically dependent on all internal data and as such its hash can be used as a secure identity for the entire system state. Secondly, being an immutable data structure, it allows any previous state (whose root hash is known) to be recalled by simply altering the root hash accordingly. Since we store all such root hashes in the blockchain, we are able to trivially revert to old states.
 
