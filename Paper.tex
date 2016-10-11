@@ -96,7 +96,7 @@ Antérieurement un travail sur les smart contracts a été effectué par \cite{s
 
 \section{Le paradigme de la blockchain} \label{ch:overview}
 
-Ethereum, pris dans son ensemble, peut-être vue comme une machine a état basée sur des transactions: nous commençons avec un état génésis (de genêse), et exécutons de stransactions de manière incrémentale pour le transformer en un état final. c'est l'état final que nous acceptons comme la ``version'' canonique du monde d'Ethereum. l'état peut inclure des informations tels que les soldes de comptes, la réputation, des accords de confiance, la donnée portant sur l'information du monde physique; en résumé, tout ce qui peut déjà être représenté par un ordinateur est admissible. Les transactions représentant une passerelle valide entre deux états; la partie `valide' est importante---il existe beaucoup plus de changements d'état invalides que de changements d'état valides. Les changements d'état invalides pourraient, \eg être des choses telles que réduire le solde d'un compte sans remplir ailleurs un montant équivalent. Un changement d'état valide l'est au travers d'une transaction. Concrètement: 
+Ethereum, pris dans son ensemble, peut être vu comme une machine a états basée sur des transactions: nous commençons avec un état originel, et exécutons des transactions de manière incrémentale pour le transformer en un état final. C'est cet état final que nous acceptons comme la ``version'' canonique du monde d'Ethereum. L'état peut inclure des informations tels que les soldes de comptes, la réputation, des accords de confiance, de la donnée portant sur l'information du monde physique; en résumé, tout ce qui peut actuellement être représenté par un ordinateur est admissible. Les transactions représentent ainsi une passerelle valide entre deux états; la partie `valide' est importante---il existe beaucoup plus de changements d'état invalides que de changements d'état valides. Les changements d'état invalides pourraient par exemple être des choses telles que réduire le solde d'un compte sans compenser ailleurs d'un montant équivalent. Un changement d'état valide l'est au travers d'une transaction. Concrètement: 
 \begin{equation}
 \boldsymbol{\sigma}_{t+1} \equiv \Upsilon(\boldsymbol{\sigma}_t, T)
 \end{equation}
@@ -104,12 +104,12 @@ Ethereum, pris dans son ensemble, peut-être vue comme une machine a état basé
 
 où $\Upsilon$ est la fonction de transition d'état Ethereum. Dans Ethereum, $\Upsilon$, combiné avec $\boldsymbol{\sigma}$ sont considérablement plus puissants que tous les systèmes comparables existants; $\Upsilon$ autorise les composants à effectuer des calculs arbitraires, alors que $\boldsymbol{\sigma}$ autorise les composants à stocker des états arbitraires entre les transactions.
 
-Les transactions sont regroupées en blocs; les blocs sont chainés les un les autres en utilisant un hash cryptographique comme référence. Les blocs fonctionnent comme un journal, enregistrant ensemble une série de transactions avec le bloc précédant et un identifiant pour l'état final (l'état final n'est pas stocké lui-même---cela serait beaucoup trop volumineux). Ils ponctuent également la série de transaction avec une incitation pour les noeuds à \textit{miner}.
+Les transactions sont regroupées en blocs; les blocs sont chaînés les un aux autres en utilisant un hash cryptographique comme référence. Les blocs fonctionnent comme un journal, enregistrant ensemble une série de transactions avec le bloc précédant et un identifiant pour l'état final (l'état final n'est pas stocké lui-même---cela serait beaucoup trop volumineux). Ils ponctuent également la série de transaction avec une incitation pour les noeuds à \textit{miner}.
 
-Miner est le processus de dédier de l'effort (travailler) pour soutenir une série de transactions (un bloc) contre n'importe quel autre bloc de compétiteur. Cela est mis en oeuvre grâce à une preuve cryptographique sécurisée. Ce schema est connu comme la preuve de travail (proof-of-work), et est étudié en détail dans la section \ref{ch:pow}.
+Miner est le processus de dédier de l'effort (travail) pour soutenir une série de transactions (un bloc) contre n'importe quel autre bloc compétiteur. Cela est mis en oeuvre grâce à une preuve cryptographique sécurisée. Ce schema est connu comme preuve de travail (proof-of-work), et est étudié en détail dans la section \ref{ch:pow}.
 
 
-Concrètement, en détail:
+Formellement, on développe ainsi:
 \begin{eqnarray}
 \boldsymbol{\sigma}_{t+1} & \equiv & \Pi(\boldsymbol{\sigma}_t, B) \\
 B & \equiv & (..., (T_0, T_1, ...) ) \\
@@ -117,9 +117,9 @@ B & \equiv & (..., (T_0, T_1, ...) ) \\
 \end{eqnarray}
 
 
-Où $\Omega$ est la fonction de changement d'état finalisant le bloc (une fonction qui gagne une partie nommée); $B$ est ce bloc, qui inclut une série de transactions parmi d'autres composants; et $\Pi$ est la fonction de changement d'état du niveau du bloc.
+Où $\Omega$ est la fonction de changement d'état finalisant le bloc (une fonction qui récompense la partie élue); $B$ est ce bloc, qui inclut une série de transactions parmi d'autres composants; et $\Pi$ est la fonction de changement d'état au niveau du bloc.
 
-C'est la base du paradigme de la blockchain, un moddèle qui forme la colonne vertébrale, non seulement d'Ethereum, mais également de tous les systèmes de consensus décentralisés basés sur des transactions à l'heure actuelle. 
+Ceci est la base du paradigme de la blockchain, un modèle qui forme la colonne vertébrale non seulement d'Ethereum, mais aussi de tous les systèmes de transactions décentralisées basés sur consensus à l'heure actuelle. 
 
 \subsection{Valeur}
 
