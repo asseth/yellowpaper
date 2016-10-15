@@ -196,7 +196,7 @@ L'état d'un compte comprend les quatre champs suivants:
 \begin{description}
 \item[nonce] Une valeur scalaire égale au nombre de transactions envoyées depuis cette adresse, ou, dans le cas d'un compte contenant du code, le nombre de contrats créés par ce compte. Pour les comptes ou les adresses $a$ dans l'état $\boldsymbol{\sigma}$, cela sera représenté par $\boldsymbol{\sigma}[a]_n$.
 \item[balance] Une valeur scalaire égale au nombre de Wei possédés par cette adresse. Représenté par $\boldsymbol{\sigma}[a]_b$.
-\item[storageRoot] Un hash de 256-bit du noeud racine d'un arbre radix merkle qui encode le stockage des contenus du compte (un mapping entre des valeurs entières de 256 bits), encodés dans le trie comme un mapping entre le hash Keccak 256 bits des clés entières de 256 bits et les valeurs entières encodées par RPL de 256 bits. Le hash est noté $\boldsymbol{\sigma}[a]_s$.
+\item[storageRoot] Un hash de 256-bit du noeud racine d'un arbre radix merkle qui encode le stockage des contenus du compte (un mapping entre des valeurs entières de 256 bits), encodés dans le trie comme un mapping entre le hash Keccak 256 bits des clés entières de 256 bits et les valeurs entières encodées par RLP de 256 bits. Le hash est noté $\boldsymbol{\sigma}[a]_s$.
 \item[codeHash] Le hash du code EVM du compte---c'est le code qui est exécuté lorsque cette adresse reçoit un appel de message; il est immutable et ainsi, contrairement à tous les autres champs, ne peut pas être changé après construction. Tous ces fragments de code sont contenus dans la base de donnée d'état sous leur hash correspondant pour les récupérer plus tard. Ce hash est noté $\boldsymbol{\sigma}[a]_c$, et ainsi le code peut petre représenté par $\mathbf{b}$, sachant que $\texttt{\small KEC}(\mathbf{b}) = \boldsymbol{\sigma}[a]_c$.
 \end{description}
 
@@ -243,25 +243,25 @@ Un numéro de bloc significatif pour la compatibilité avec le réseau public es
 \begin{equation}
 \firsthomesteadblock \equiv 1,\! 150,\! 000
 \end{equation}
-Le protocole a été mis à jour à ce bloc, donc ce symbole apparait dans quelques équations de comptes, pour les changements.
+Le protocole a été mis à jour à ce bloc, donc ce symbole apparait dans quelques équations des comptes, pour les changements.
 
 \subsection{La Transaction} \label{ch:transaction}
 
-Une transaction ($T$) est une instruction de signature cryptographique unique construite par un acteur externe du spectre d'Ethereum. Alors que nous supposons que l'ultime acteur externe sera humain par nature, les outils logiciels qui seront utilisé pour sa construction et sa propagation\footnote{Particulièrement, de tels `outils' pourraient en fin de compte devenir causalement écartées de leur création humaine---ou les humains peuvent devenir causalement neutres---de telle manière qu'il pourraient se comporter comme des agents autonomes. \eg Les contrats peuvent offrir des primes aux humains pour avoir envoyé des transactions pour initier leur exécution.}. Il y a deux types de transactions: celles qui entraînent des appels de message et celles qui entraînent la création de nouveaux comptes auxquels est associé du code (connu de manière informelle sous le nom de `création de contrat'). Chacun de ces types de transaction spécifient un nombre de champs communs:
+Une transaction ($T$) est une instruction de signature cryptographique unique construite par un acteur externe au périmètre d'Ethereum. Alors que nous supposons que l'ultime acteur externe sera humain par nature, des outils logiciels seront utilisés pour sa construction et sa propagation\footnote{Particulièrement, de tels `outils' pourraient en fin de compte devenir tellement disjoints de leur relation causale à une création humaine---ou bien les humains pourraient y devenir indifférents---qu'ils pourraient se comporter comme des agents autonomes. Par exemple les contrats pourraient offrir des primes aux humains pour avoir envoyé des transactions pour initier leur exécution.}. Il y a deux types de transactions: celles qui entraînent des appels de messages et celles qui entraînent la création de nouveaux comptes auxquels est associé du code (connues de manière informelle sous le nom de `créations de contrat'). Ces deux types de transaction spécifient un certain nombre de champs communs:
 
 \begin{description}
 \item[nonce] Une valeur scalaire égale au nombre de transactions émises par l'envoyeur $T_n$.
 \item[gasPrice] Une valeur scalaire égale au nombre de Wei à payer par unité de \textit{gas} pour tous les coûts de calcul engagés comme résultat de l'exécution de cette transaction; $T_p$.
-\item[gasLimit] Une valeur scalaire égale au montant maximum de gas qui peut re utilisé en exécutant cette transaction. Cela est payé en amont, avant que tout calcul soit fait et ne peut pas être augmenté plus tard; $T_g$.
+\item[gasLimit] Une valeur scalaire égale au montant maximum de gas qui peut être utilisé en exécutant cette transaction. Cela est payé en amont, avant que tout calcul soit fait et ne peut pas être augmenté plus tard; $T_g$.
 \item[to] L'adresse de 160 bits du destinataire de l'appel de message ou, pour une transaction de création de contrat , $\varnothing$, utilisé ici pour noter le seul membre de $\mathbb{B}_0$ ; formellement $T_t$.
-\item[value] Une valeur scalaire égale au nombre de Wei à transférer au destnataire de l'appel de message ou, dans le cas d'une création de contrat, comme une dotation pour le nouveau compte créé; $T_v$.
+\item[value] Une valeur scalaire égale au nombre de Wei à transférer au destinataire de l'appel de message ou, dans le cas d'une création de contrat, comme une dotation pour le nouveau compte à créer; $T_v$.
 \item[v, r, s] Les valeurs correspondantes à la signature de la transaction et utilisées pour déterminer l'emetteur de la transaction; formellement $T_w$, $T_r$ and $T_s$. Cela est détaillé dans l'annexe \ref{app:signing}.
 \end{description}
 
 De plus, une transaction de création de contrat contient:
 
 \begin{description}
-\item[init] Un tableau d'octets de taille infinie contenant le code EVM pour la procédure d'initialisation du compte, $T_\mathbf{i}$.
+\item[init] Un tableau d'octets de taille illimitée contenant le code EVM pour la procédure d'initialisation du compte, $T_\mathbf{i}$.
 \end{description}
 
 \textbf{init} est un fragment de code EVM; il retourne le \textbf{body}, un second fragment de code qui s'exécute à chaque fois que le compte reçoit un appel de message (soit au travers d'une transaction, soit par l'exécution interne de code). \textbf{init} est exécuté une seule fois à la création du compte et reste écarté immédiatement après.
@@ -272,9 +272,6 @@ En revanche, une transaction d'appel de message contient:
 \item[data] Un tableau d'octets illimité spécifiant la donnée entrante de l'appel de message, $T_\mathbf{d}$.
 \end{description}
 
-
-Appendix \ref{app:signing} specifies the function, $S$, which maps transactions to the sender, and happens through the ECDSA of the SECP-256k1 curve, using the hash of the transaction (excepting the latter three signature fields) as the datum to sign. For the present we simply assert that the sender of a given transaction $T$ can be represented with $S(T)$.
-
 L'annexe \ref{app:signing} décrit la fonction, $S$, qui fait correspondre les transactions au destinataire, et s'exécute à travers l'ECDSA de la courbe SECP-256k1, utilisant le hash de la transaction (excepté les trois derniers champs de signature) en tant que datum à signer. Pour le moment nous nous assurons seulement que l'émetteur d'une transaction donnée peut être représenté par $S(T)$.
 
 \begin{equation}
@@ -284,7 +281,7 @@ L_T(T) \equiv \begin{cases}
 \end{cases}
 \end{equation}
 
-Ici, nous supposons que tous les composants sont interprétés par le RPL comme des valeurs entières, avec l'exception d'octets de longueur arbitraire $T_\mathbf{i}$ et $T_\mathbf{d}$.
+Ici, nous supposons que tous les composants sont interprétés par le RLP comme des valeurs entières, avec l'exception des tableaux d'octets de longueur arbitraire $T_\mathbf{i}$ et $T_\mathbf{d}$.
 
 \begin{equation}
 \begin{array}[t]{lclclc}
@@ -298,7 +295,7 @@ où
 \mathbb{P}_n = \{ P: P \in \mathbb{P} \wedge P < 2^n \}
 \end{equation}
 
-Le hash de l'adresse $T_\mathbf{t}$ est légèrement différent: c'est soit le hash d'une adresse de 20 octets, ou, dans le cas d'une création de contrat (et ainsi formellement égal à $\varnothing$), c'est la série RPL d'octets vides et ainsi le membre de $\mathbb{B}_0$:
+Le hash de l'adresse $T_\mathbf{t}$ est légèrement différent: c'est soit le hash de 20 octets d'une adresse, ou, dans le cas d'une création de contrat (et ainsi formellement égal à $\varnothing$), c'est la série RLP d'octets vides et ainsi le membre de $\mathbb{B}_0$:
 
 \begin{equation}
 T_t \in \begin{cases} \mathbb{B}_{20} & \text{if} \quad T_t \neq \varnothing \\
