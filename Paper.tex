@@ -302,20 +302,22 @@ T_t \in \begin{cases} \mathbb{B}_{20} & \text{if} \quad T_t \neq \varnothing \\
 \mathbb{B}_{0} & \text{otherwise}\end{cases}
 \end{equation}
 
-\subsection{The Block} \label{ch:block}
+\subsection{Le Bloc} \label{ch:block}
 
-The block in Ethereum is the collection of relevant pieces of information (known as the block \textit{header}), $H$, together with information corresponding to the comprised transactions, $\mathbf{T}$, and a set of other block headers $\mathbf{U}$ that are known to have a parent equal to the present block's parent's parent (such blocks are known as \textit{ommers}\footnote{\textit{ommer} is the most prevalent (not saying much) gender-neutral term to mean ``sibling of parent''; see \url{http://nonbinary.org/wiki/Gender_neutral_language#Family_Terms}}). The block header contains several pieces of information:
 
-%\textit{TODO: Introduce logs}
+Le bloc dans Ethereum est l'ensemble de morceaux d'information pertinents (connu comme \textit{l'en-tête} du bloc), $H$, ainsi que l'information correspondant aux transactions incluses, $\mathbf{T}$, et un ensemble d'autres en-têtes $\mathbf{U}$ qui sont connus pour avoir un parent égal au parent du parent du bloc actuel  (ce genre de blocs sont connus en tant que (TODO : traduire ommer, dans la suite du doc aussi) \textit{ommers}\footnote{\textit{ommer} est le terme, neutre au niveau du genre, le plus répandu pour représenter ``la fraternité du parent''; voir \url{http://nonbinary.org/wiki/Gender_neutral_language#Family_Terms}}). L'en-tête du bloc contient plusieurs parties d'information:
+
+
+%\textit{TODO: Introduire les logs}
 
 \begin{description}
-\item[parentHash] The Keccak 256-bit hash of the parent block's header, in its entirety; formally $H_p$.
-\item[ommersHash] The Keccak 256-bit hash of the ommers list portion of this block; formally $H_o$.
-\item[beneficiary] The 160-bit address to which all fees collected from the successful mining of this block be transferred; formally $H_c$.
-\item[stateRoot] The Keccak 256-bit hash of the root node of the state trie, after all transactions are executed and finalisations applied; formally $H_r$.
-\item[transactionsRoot] The Keccak 256-bit hash of the root node of the trie structure populated with each transaction in the transactions list portion of the block; formally $H_t$.
-\item[receiptsRoot] The Keccak 256-bit hash of the root node of the trie structure populated with the receipts of each transaction in the transactions list portion of the block; formally $H_e$.
-\item[logsBloom] The Bloom filter composed from indexable information (logger address and log topics) contained in each log entry from the receipt of each transaction in the transactions list; formally $H_b$.
+\item[parentHash] Le hash Keccak de 256 bits de l'en-tête du bloc parent, dans son entièreté; $H_p$.
+\item[ommersHash] Le hash Keccak de 256 bits de la section de liste de (TODO) ommers de ce bloc; $H_o$.
+\item[beneficiary] L'addresse de 160 bits à laquelle seront envoyés tous les frais collectés par le minage réussi de ce bloc; $H_c$.
+\item[stateRoot]  Le hash Keccak de 256 bits du noeud racine du (TODO : trie) trie d'état, après que toutes les transactions soient exécutées et que les finalisations soient appliquées; $H_r$.
+\item[transactionsRoot] Le hash Keccak de 256 bits du noeud racine de la structure du trie (TODO:trie), peuplé avec chaque transactions dans la section de la liste de transactions du bloc; $H_t$.
+\item[receiptsRoot] Le hash Keccak de 256 bits du noeud racine de la structure de  (TODO : trie) trie, peuplée avec les reçus de chaque transaction dans la section de la liste de transactions du bloc; $H_e$.
+\item[logsBloom] Le filtre de Bloom composé de l'information indexable (l'adresse du logger et les sujets de log) contenu dans chaque entrée de log depuis le reçu de chaque transaction dans la liste de transactions; $H_b$.
 \item[difficulty] A scalar value corresponding to the difficulty level of this block. This can be calculated from the previous block's difficulty level and the timestamp; formally $H_d$.
 \item[number] A scalar value equal to the number of ancestor blocks. The genesis block has a number of zero; formally $H_i$.
 \item[gasLimit] A scalar value equal to the current limit of gas expenditure per block; formally $H_l$.
