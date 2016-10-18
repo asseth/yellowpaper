@@ -52,9 +52,9 @@
 %\pagecolor{lightpink}
 
 \begin{abstract}
-Le paradigme de la blockchain, lorsqu'il est couplé à un mécanisme de transaction sécurisé par la cryptographie, a prouvé son utilité dans nombre de projets, Bitcoin non des moindres. Chacun de ces projets peut être vu comme une simple application basée sur une ressource de calcul décentralisée mais unitaire. Nous pouvons appeler ce paradigme une machine transactionnelle unique à état partagé.
+Le paradigme de la blockchain, lorsqu'il est couplé à un mécanisme de transaction sécurisé par la cryptographie, a prouvé son utilité non seulement avec Bitcoin mais aussi dans de nombreux de projets. Chacun de ces projets peut être vu comme une simple application basée sur une ressource de calcul décentralisée mais unitaire. Nous pouvons appeler ce paradigme une machine transactionnelle unique à état partagé.
 
-Ethereum implémente ce paradigme de façon généraliste. Ethereum fournit un grand nombre de telles ressources, chacune possédant un état distinct et un code fonctionnel, mais aussi susceptibles d'intéragir au travers d'un framework d'échange de messages. Nous discuterons de sa conception, des problèmes d'implémentation, des opportunités que cela fournit et des obstacles que nous anticipons.
+Ethereum implémente ce paradigme de façon généraliste. De plus, Ethereum permet une pluralité de telles ressources, chacune possédant un état distinct et un code fonctionnel, mais néanmoins susceptibles d'interagir via un framework d'échange de messages. Nous discuterons de sa conception, des problèmes d'implémentation, des opportunités que cela fournit et des obstacles que nous anticipons.
 \end{abstract}
 
 \maketitle
@@ -64,9 +64,9 @@ Ethereum implémente ce paradigme de façon généraliste. Ethereum fournit un g
 
 \section{Introduction}\label{sec:introduction}
 
-Internet étant présent dans les plupart des endroits de la planète, la transmission de l'information globale est devenue incroyablement bon marché. Les innovations technologiques telles que Bitcoin ont démontré, par le pouvoir d'un mécanisme de consensus et de respect volontaire d'un contrat social, qu'il était possible d'utiliser Internet pour créer un système décentralisé de transfert de valeurs, partagé à travers le monde et quasiment gratuit à utiliser. Ce système peut être décrit comme une version très spécifique d'une machine a états basée sur des transactions et sécurisée par la cryptographie. Des système de suivi tels que Namecoin ont adapté ce système d' ``application monétaire'' en d'autres applications, aussi simples soient-elles.
+Internet étant présent dans les plupart des endroits de la planète, la transmission de l'information est globalement devenue incroyablement bon marché. Les innovations technologiques telles que Bitcoin ont démontré, par le pouvoir d'un mécanisme de consensus et de respect volontaire d'un contrat social, qu'il était possible d'utiliser Internet pour créer un système décentralisé de transfert de valeurs, partagé à travers le monde et quasiment gratuit à utiliser. Ce système peut être décrit comme une version très spécifique d'une machine a états basée sur des transactions et sécurisée par la cryptographie. Des systèmes de suivi tels que Namecoin ont adapté ce système original d' « application monétaire »  à d'autres applications quoiqu’elles furent plutôt simples.
 
-Ethereum est un projet qui cherche à créer une version généraliste de cette technologie; technologie sur laquelle tous les concepts de machine transactionnelle à états pourraient être construits. De plus Ethereum a pour but de fournir au développeur final un système intégré de bout en bout afin de construire des logiciels basés sur un paradigme de calcul jusque-là inexploré : un framework certifié d'objets de confiance.
+Ethereum est un projet qui cherche à créer une version généraliste de cette technologie; technologie sur laquelle tous les concepts de machine transactionnelle à états pourraient être construits. De plus Ethereum a pour but de fournir au développeur final un système intégré de bout en bout afin de construire des logiciels basés sur un paradigme de calcul jusque-là inexploré : un framework de messagerie et de calcul d’objets de confiance.
 
 \subsection{Principes directeurs} \label{ch:driving}
 
