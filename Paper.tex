@@ -314,21 +314,21 @@ Le bloc dans Ethereum est l'ensemble de morceaux d'information pertinents (connu
 \item[parentHash] Le hash Keccak de 256 bits de l'en-tête du bloc parent, dans son entièreté; $H_p$.
 \item[ommersHash] Le hash Keccak de 256 bits de la section de liste de (TODO) ommers de ce bloc; $H_o$.
 \item[beneficiary] L'addresse de 160 bits à laquelle seront envoyés tous les frais collectés par le minage réussi de ce bloc; $H_c$.
-\item[stateRoot]  Le hash Keccak de 256 bits du noeud racine du (TODO : trie) trie d'état, après que toutes les transactions soient exécutées et que les finalisations soient appliquées; $H_r$.
-\item[transactionsRoot] Le hash Keccak de 256 bits du noeud racine de la structure du trie (TODO:trie), peuplé avec chaque transactions dans la section de la liste de transactions du bloc; $H_t$.
+\item[stateRoot]  Le hash Keccak de 256 bits du noeud racine du trie d'état, après que toutes les transactions sont exécutées et que les finalisations sont appliquées; $H_r$.
+\item[transactionsRoot] Le hash Keccak de 256 bits du noeud racine de la structure du trie, peuplé avec chaque transaction dans la section de la liste de transactions du bloc; $H_t$.
 \item[receiptsRoot] Le hash Keccak de 256 bits du noeud racine de la structure de  (TODO : trie) trie, peuplée avec les reçus de chaque transaction dans la section de la liste de transactions du bloc; $H_e$.
 \item[logsBloom] Le filtre de Bloom composé de l'information indexable (l'adresse du logger et les sujets de log) contenu dans chaque entrée de log depuis le reçu de chaque transaction dans la liste de transactions; $H_b$.
-\item[difficulty] A scalar value corresponding to the difficulty level of this block. This can be calculated from the previous block's difficulty level and the timestamp; formally $H_d$.
-\item[number] A scalar value equal to the number of ancestor blocks. The genesis block has a number of zero; formally $H_i$.
-\item[gasLimit] A scalar value equal to the current limit of gas expenditure per block; formally $H_l$.
-\item[gasUsed] A scalar value equal to the total gas used in transactions in this block; formally $H_g$.
-\item[timestamp] A scalar value equal to the reasonable output of Unix's time() at this block's inception; formally $H_s$.
-\item[extraData] An arbitrary byte array containing data relevant to this block. This must be 32 bytes or fewer; formally $H_x$.
-\item[mixHash] A 256-bit hash which proves combined with the nonce that a sufficient amount of computation has been carried out on this block; formally $H_m$.
-\item[nonce] A 64-bit hash which proves combined with the mix-hash that a sufficient amount of computation has been carried out on this block; formally $H_n$.
+\item[difficulty] Une valeur scalaire correspondant au niveau de difficulté de ce bloc. Il peut être calculé à partir de la difficulté précédente et du timestamp; formally $H_d$.
+\item[number] Une valeur scalaire égale au nombre de blocs ancêtre. Le bloc origine a un number de zéro; $H_i$.
+\item[gasLimit] Une valeur scalaire égale à la limite courante d'usage de gaz par bloc; $H_l$.
+\item[gasUsed] Une valeur scalaire égale au gaz total utilisé par les transactions dans ce bloc; $H_g$.
+\item[timestamp] Une valeur scalaire égale à un timestamp Unix raisonnable (time()) pour la naissance de ce bloc; $H_s$.
+\item[extraData] Un tableau d'octets de longueur arbitraire contenant des données relatives à ce bloc. Il doit être de 32 octets ou moins; $H_x$.
+\item[mixHash] Un hash de 256 bits qui prouve, combiné avec le nonce, qu'une quantité suffisante de calcul informatique a été consacré à ce bloc; $H_m$.
+\item[nonce] Un hash de 64 bits qui prouve, combiné avec mix-hash, qu'une quantité suffisante de calcul informatique a été consacré à ce bloc; $H_n$.
 \end{description}
 
-The other two components in the block are simply a list of ommer block headers (of the same format as above) and a series of the transactions. Formally, we can refer to a block $B$:
+Les deux derniers composants dans le bloc sont simplement une liste d'en-têtes de blocs ommer (du même format que ci-dessus) et une liste des transactions. Formellement, on peut noter le bloc $B$:
 \begin{equation}
 B \equiv (B_H, B_\mathbf{T}, B_\mathbf{U})
 \end{equation}
