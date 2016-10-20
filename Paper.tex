@@ -189,23 +189,23 @@ Ayant introduit les concepts de base d'Ethereum, nous allons discuter de la sign
 
 \subsection{L'état du monde} \label{ch:state}
 
-L'état du monde (\textit{l'état}), est un mapping entre les adresses (identifiants de 160-bit) et l'état des comptes (une structure de données serialisée comme RLP, voir annexe \ref{app:rlp}). Bien que non stockée sur la blockchain, on suppose que l'implémentation va maintenir ce mapping dans un arbre radix merkle (\textit{trie}, voir annexe \ref{app:trie}). Le trie nécessite une base de donnée en arrière-plan qui maintienne un mapping de tableau de bytes à tableau de bytes; nous nommons cette base de donnée sous jacente la base de donnée d'état. Elle a un grand nombre d'avantages; premièrement le noeud racine de cette structure est cryptographiquement dépendant de toute les données interne et son hash peut être utilisé comme une identité sécurisée pour l'état du système entier. Deuxièmement, étant une structure de donnée immutable, elle permet à n'importe quel état précédent (dont le hash racine est connu) à être appelé à nouveau en altérant simplement le hash racine en fonction. Comme nous stockons tous ces hashs racines dans la blockchain, nous sommes capables de revenir aux anciens états de manière triviale.
+L'état du monde (\textit{l'état}), est une mise en correspondance (mapping) entre les adresses (identifiants de 160-bit) et l'état des comptes (une structure de données serialisée comme RLP (Recursive Length Prefix - Préfixe de Longueur Récursive), voir annexe \ref{app:rlp}). Bien que non stockée sur la blockchain, on suppose que l'implémentation va maintenir ce mapping dans un arbre radix merkle modifié (\textit{trie}, voir annexe \ref{app:trie}). Le trie nécessite une base de données en arrière-plan qui maintienne un mapping de tableau de bytes à tableau de bytes; nous nommons cette base de données sous jacente la base de données d'état. Elle a un grand nombre d'avantages; premièrement le n\oe{}uds racine de cette structure est cryptographiquement dépendant de toute les données internes et son haché peut être utilisé comme une identité sécurisée pour l'état du système entier. Deuxièmement, étant une structure de données immutable, elle permet à n'importe quel état précédent (dont le haché racine est connu) d’être appelé à nouveau en altérant simplement le haché racine en fonction. Comme nous stockons tous ces hachés racines dans la blockchain, nous sommes capables de revenir aux anciens états de manière triviale.
 
 L'état d'un compte comprend les quatre champs suivants:	
 
 \begin{description}
 \item[nonce] Une valeur scalaire égale au nombre de transactions envoyées depuis cette adresse, ou, dans le cas d'un compte contenant du code, le nombre de contrats créés par ce compte. Pour les comptes ou les adresses $a$ dans l'état $\boldsymbol{\sigma}$, cela sera représenté par $\boldsymbol{\sigma}[a]_n$.
-\item[balance] Une valeur scalaire égale au nombre de Wei possédés par cette adresse. Représenté par $\boldsymbol{\sigma}[a]_b$.
-\item[storageRoot] Un hash de 256-bit du noeud racine d'un arbre radix merkle qui encode le stockage des contenus du compte (un mapping entre des valeurs entières de 256 bits), encodés dans le trie comme un mapping entre le hash Keccak 256 bits des clés entières de 256 bits et les valeurs entières encodées par RLP de 256 bits. Le hash est noté $\boldsymbol{\sigma}[a]_s$.
-\item[codeHash] Le hash du code EVM du compte---c'est le code qui est exécuté lorsque cette adresse reçoit un appel de message; il est immutable et ainsi, contrairement à tous les autres champs, ne peut pas être changé après construction. Tous ces fragments de code sont contenus dans la base de donnée d'état sous leur hash correspondant pour les récupérer plus tard. Ce hash est noté $\boldsymbol{\sigma}[a]_c$, et ainsi le code peut petre représenté par $\mathbf{b}$, sachant que $\texttt{\small KEC}(\mathbf{b}) = \boldsymbol{\sigma}[a]_c$.
+\item[balance] Une valeur scalaire égale au nombre de Wei possédés par cette adresse. Représentée par $\boldsymbol{\sigma}[a]_b$.
+\item[storageRoot] Un haché de 256-bit du n\oe{}uds racine d'un arbre radix merkle qui encode le stockage des contenus du compte (un mapping entre des valeurs entières de 256 bits), encodés dans le trie comme un mapping entre le haché Keccak 256 bits des clés entières de 256 bits et les valeurs entières encodées par RLP de 256 bits. Le haché est noté $\boldsymbol{\sigma}[a]_s$.
+\item[codeHash] Le haché du code EVM du compte---c'est le code qui est exécuté lorsque cette adresse reçoit un appel de message; il est immutable et ainsi, contrairement à tous les autres champs, ne peut pas être changé après construction. Tous ces fragments de code sont contenus dans la base de données d'état sous leur haché correspondant pour les récupérer plus tard. Ce haché est noté $\boldsymbol{\sigma}[a]_c$, et ainsi le code peut être représenté par $\mathbf{b}$, sachant que $\texttt{\small KEC}(\mathbf{b}) = \boldsymbol{\sigma}[a]_c$.
 \end{description}
 
-Comme je souhaite typiquement faire référence, non pas au hash racine du trie mais à l'ensemble des paires clé/valeur stocké à l'intérieur, je définis une équivalence pratique: 
+Comme je souhaite typiquement faire référence, non pas au haché racine du trie mais à l'ensemble des paires clé/valeur stockées à l'intérieur, je définis une équivalence pratique: 
 \begin{equation}
 \texttt{\small TRIE}\big(L_I^*(\boldsymbol{\sigma}[a]_\mathbf{s})\big) \equiv \boldsymbol{\sigma}[a]_s
 \end{equation}
 
-la fonction d'effondrement (ordinale?) pour l'ensemble de paires de clé/valeur dans le trie, $L_I^*$, est définie comme la transformation élément par élément de la fonction de base $L_I$, définie par:
+la fonction d'effondrement ordinale pour l'ensemble de paires de clé/valeur dans le trie, $L_I^*$, est définie comme la transformation élément par élément de la fonction de base $L_I$, définie par:
 \begin{equation}
 L_I\big( (k, v) \big) \equiv \big(\texttt{\small KEC}(k), \texttt{\small RLP}(v)\big)
 \end{equation}
@@ -215,11 +215,11 @@ où:
 k \in \mathbb{B}_{32} \quad \wedge \quad v \in \mathbb{P}
 \end{equation}
 
-Il doit être compris que $\boldsymbol{\sigma}[a]_\mathbf{s}$ n'est pas un membre `physique' du compte et ne contribue pas a sa sérialisation ultérieure.
+Il faut comprendre ici que $\boldsymbol{\sigma}[a]_\mathbf{s}$ n'est pas un membre `physique' du compte et ne contribue pas a sa sérialisation ultérieure.
 
-Si le champ \textbf{codeHash} est le hash Keccak-256 de la string vide, i.e. $\boldsymbol{\sigma}[a]_c = \texttt{\small KEC}\big(()\big)$, alors le noeud représente un simple compte, parfois dénommé compte ``non-contrat''.
+Si le champ \textbf{codeHash} est le haché Keccak-256 de la chaîne (de caractères) vide, i.e. $\boldsymbol{\sigma}[a]_c = \texttt{\small KEC}\big(()\big)$, alors le n\oe{}uds représente un simple compte, parfois dénommé compte ``non-contrat''.
 
-Ainsi nous pouvons définir une fonction d'effondrement de l'état du monde $L_S$:
+Ainsi nous pouvons définir une fonction d'effondrement ordinale de l'état du monde $L_S$:
 \begin{equation}
 L_S(\boldsymbol{\sigma}) \equiv \{ p(a): \boldsymbol{\sigma}[a] \neq \varnothing \}
 \end{equation}
