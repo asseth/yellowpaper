@@ -152,30 +152,30 @@ Le schéma que nous utilisons pour générer un consensus est une version simpli
 
 \section{Conventions}\label{ch:conventions}
 
-J'utilise un nombre de conventions typographiques pour les notations formelles, quelques unes sont un peu particulières au document présent:
+J'utilise un nombre de conventions typographiques pour les notations formelles, quelques-unes sont un peu particulières au document présent:
 
-Les deux ensembles de haut niveau, hautement structurés, des valeurs d'état, sont notés en minuscules grecques, graissées. Ces valeurs relèvent de la catégorie de l'état-monde noté $\boldsymbol{\sigma}$ (ou une variante de celui-ci) ou de celle de l'état-machine, $\boldsymbol{\mu}$.
+Les deux ensembles de haut niveau, hautement structurés, des valeurs d'état, sont notés en minuscules grecques en gras. Ces valeurs relèvent de la catégorie de l'état du monde noté $\boldsymbol{\sigma}$ (ou une variante de celui-ci) ou de celle de l'état de la machine, $\boldsymbol{\mu}$.
 
-Les fonctions opérant sur ces valeurs hautement structurées sont notés en lettre Grecque majuscule, par exemple $\Upsilon$, la fonction de transition d'état d'Ethereum.
+Les fonctions opérant sur ces valeurs hautement structurées sont notés en lettre Grecque majuscule, par exemple $\Upsilon$, la fonction de changement d'état d'Ethereum.
 
-Pour la plupart des fonctions, une lettre majuscule est utilisée, par exemple $C$, la fonction de coût général. Elles peuvent être indicées pour dénoter des variantes spécialisées, par exemple $C_\text{\tiny SSTORE}$,
-la fonction de coût pour l'opération {\tiny SSTORE}. Pour les fonctions spécialisées et éventuellement définies de manière externe, je peux formater en style typewriter, par exemple la fonction de hachage Keccak-256 (celle-là même qui fut gagnante pour le concours SHA-3) est dénotée $\texttt{KEC}$ (et généralement référencée comme simple Keccak). Aussi, $\texttt{KEC512}$ fait référence à une fonction de hachage Keccak 512.
+Pour la plupart des fonctions, une lettre majuscule est utilisée, par exemple $C$, la fonction de coût général. Elles peuvent être indicées pour dénoter des variantes spécifiée, par exemple $C_\text{\tiny SSTORE}$,
+la fonction de coût pour l'opération {\tiny SSTORE}. Pour certaines fonctions spécialisées et éventuellement définies de manière externe, je peux utiliser une typographie particulière, par exemple la fonction de hachage Keccak-256 (la gagnante du concours SHA-3) est dénotée $\texttt{KEC}$ (et généralement référencée comme simple Keccak). Aussi, $\texttt{KEC512}$ fait référence à une fonction de hachage Keccak 512.
 
-Les tuples sont typiquement notés en lettres majuscules, par exemple $T$ est utilisé pour noter une transaction Ethereum. Ce symbole peut, si il est défini en conséquence, être indicée pour faire référence à un composant individuel, \eg $T_n$, dénote le nonce de ladite transaction. la forme de l'indice est utilisée pour dénoter son type; par exemple des indices en majuscule font référence a des tuples avec des composants subscriptables.
+Les tuples sont typiquement notés en lettres majuscules, par exemple $T$ est utilisé pour noter une transaction Ethereum. Ce symbole peut, s’il est défini en conséquence, être indicée pour faire référence à un composant individuel, \eg $T_n$, dénote le nonce de ladite transaction. la forme de l'indice est utilisée pour dénoter son type; par exemple des indices en majuscule font référence à des tuples avec des composants indiçables.
 
-Les scalaires et les séquences d'octets de taille fixe (analogue, les tableaux), sont notés avec une lettre normale minuscule, par exemple $n$ est utilisée pour représenter le nonce de telle transaction. Ceux qui ont une signification spéciale peuvent être grecs, par exemple $\delta$, le nombre d'éléments requis dans la pile pour une opération donnée.
+Les scalaires et les séquences d'octets de taille fixe (analogue, les tableaux), sont notés avec une lettre normale minuscule, par exemple $n$ est utilisée pour représenter le nonce de telle transaction. Ceux qui ont une signification particulière peuvent être grecs, par exemple $\delta$, le nombre d'éléments requis dans la pile pour une opération donnée.
 
-Des séquences de longueur arbitraire sont typiquement notés en lettre minuscule et en gras, par exemple $\mathbf{o}$ est utilisé pour représenter la séquence d'octets en sortie d'un appel de message. Pour les valeurs particulièrement importantes, une lettre en majuscule et en gras peut-être utilisée.
+Des séquences de longueur arbitraire sont typiquement notés en lettre minuscule et en gras, par exemple $\mathbf{o}$ est utilisé pour représenter la séquence d'octets en sortie d'un appel de message. Pour les valeurs particulièrement importantes, une lettre en majuscule et en gras peut être utilisée.
 
-Tout au long du document nous supposons que les valeurs scalaires sont des entiers positifs, et qu'elles appartiennent a l'ensemble $\mathbb{P}$. L'ensemble de toutes les séquences d'octets est $\mathbb{B}$, formellement défini dans l'annexe \ref{app:rlp}. Si un tel ensemble de séquences est restreint à celles d'une longueur particulière, cela est dénoté avec un indice, ainsi, l'ensemble de toutes les séquences d'octets de longueur $32$  est nommé $\mathbb{B}_{32}$ et l'ensemble de tous les entiers positifs plus petits que $2^{256}$ est nommé $\mathbb{P}_{256}$. Cela formalisé dans la section \ref{ch:block}.
+Tout au long du document nous supposons que les valeurs scalaires sont des entiers positifs, et qu'elles appartiennent à l'ensemble $\mathbb{P}$. L'ensemble de toutes les séquences d'octets est $\mathbb{B}$, formellement défini dans l'annexe \ref{app:rlp}. Si un tel ensemble de séquences est restreint à celles d'une longueur particulière, cela est dénoté avec un indice, ainsi, l'ensemble de toutes les séquences d'octets de longueur $32$  est nommé $\mathbb{B}_{32}$ et l'ensemble de tous les entiers positifs plus petits que $2^{256}$ est nommé $\mathbb{P}_{256}$. Cela formalisé dans la section \ref{ch:block}.
 
-Les crochets sont utilisés pour indexer et référencer les composants individuels ou les sous-séquences de séquences, par exemple $\boldsymbol{\mu}_\mathbf{s}[0]$ représente le premier objet dans la pile de la machine. Pour les sous-séqueces, les ellipses sont utilisées pour spécifier la tranche attendue en incluant les éléments limite, par exemple $\boldsymbol{\mu}_\mathbf{m}[0..31]$ représente les 32 premiers objets de la mémoire de la machine.
+Les crochets sont utilisés pour indexer et référencer les composants individuels ou les sous-séquences de séquences, par exemple $\boldsymbol{\mu}_\mathbf{s}[0]$ représente le premier objet dans la pile de la machine. Pour les sous-séquences, les ellipses sont utilisées pour spécifier la tranche attendue en incluant les éléments au deux limites, par exemple $\boldsymbol{\mu}_\mathbf{m}[0..31]$ représente les 32 premiers objets de la mémoire de la machine.
 
 Dans le cas de l'état global $\boldsymbol{\sigma}$, qui est une séquence de comptes, eux-mêmes des tuples, les crochets sont utilisés pour référencer un compte individuel.
 
-En considérant les variantes des valeurs existantes, je suis la règle qu'au sein d'un périmètre donné comme définition, si nous supposons que la valeur d'`input' non modifiée est désignée par le signe $\Box$ alors la valeur modifiée et utilisable est représentée comme $\Box'$, et les valeurs intermédiaires seraient $\Box^*$, $\Box^{**}$ etc. Lors d'occasions vraiment particulières, dans le but de maximiser la lisibilité et seulement si c'est d'un sens non ambigu, je peux utiliser des indices alphanumériques pour représenter des valeurs intermédiaires.		 
+En considérant les variantes des valeurs existantes, je suis la règle qu'au sein d'un périmètre donné comme définition, si nous supposons que la valeur d'`input' non modifiée est désignée par le signe $\Box$ alors la valeur modifiée et utilisable est représentée comme $\Box'$, et les valeurs intermédiaires seraient alors $\Box^*$, $\Box^{**}$ etc. Dans des cas vraiment très particuliers, dans le but de maximiser la lisibilité et seulement si c'est d'un sens non ambigu, je peux utiliser des indices alphanumériques pour représenter des valeurs intermédiaires.		 
 
-En considérant l'utilisation de fonctions existantes, une fonction $f$ étant donnée, la fonction $f^*$ représente une version similaire élément par élément, d'un mapping de la fonction plutôt qu'entre les séquences. Cela est précisément décrit dans la section \ref{ch:block}.
+En considérant l'utilisation de fonctions existantes, une fonction $f$ étant donnée, la fonction $f^*$ représente une version similaire élément par élément, de la mise en correspondance (mapping) des éléments de la fonction plutôt qu'entre les séquences d’élements. Cela est précisément décrit dans la section \ref{ch:block}.
 
 Je définis un nombre de fonctions utiles à travers ce document. Une des plus communes est $\ell$, qui évalue le dernier objet de la séquence donnée:
 
@@ -185,7 +185,7 @@ Je définis un nombre de fonctions utiles à travers ce document. Une des plus c
 
 \section{Blocs, état et transactions} \label{ch:bst}
 
-Ayant introduit les concepts de base d'Ethereum, nous allons dicuter du sens d'une transaction, d'un bloc et de l'état de manière plus détaillée.
+Ayant introduit les concepts de base d'Ethereum, nous allons discuter de la signification d'une transaction, d'un bloc et de l'état de manière plus détaillée.
 
 \subsection{L'état du monde} \label{ch:state}
 
