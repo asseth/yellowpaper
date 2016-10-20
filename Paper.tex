@@ -124,12 +124,12 @@ Ceci est la base du paradigme de la blockchain, un modèle qui forme la colonne 
 \subsection{Valeur}
 
 
-Dans le but d'inciter au calcul à l'intérieur du réseau, il y a besoin de convenir d'une méthode pour transmettre la valeur. Pour régler ce problème, Ethereum a une monnaie intrinsèque, l'Ether, aussi connue comme {\small ETH}, et parfois en référence à l'Anglais Ancien \DH{}. La plus petite sous-unité de l'Ether, et celle dans laquelle toutes les valeurs entières de la monnaie sont comptées est le Wei. Un Ether représente $10^{18}$ Wei. il existe d'autres multiplicateurs du Wei:
+Dans le but d'inciter à l’affectation de puissance de calcul à l'intérieur du réseau, il y a besoin de convenir d'une méthode pour transmettre la valeur. Pour régler ce problème, Ethereum a une monnaie intrinsèque, l'Ether, aussi connue comme {\small ETH}, et parfois en référence à l'Anglais Ancien \DH{} (prononcé Eth). La plus petite sous-unité de l'Ether, et celle dans laquelle toutes les valeurs entières de la monnaie sont comptées est le Wei. Un Ether représente $10^{18}$ Wei. Il existe d'autres unités dérivées de l'Ether:
 \par
 \begin{center}
 \begin{tabular}{rl}
 \toprule
-Multiplicateur & Nom \\
+Ordre de grandeur & Nom \\
 \midrule
 $10^0$ & Wei \\
 $10^{12}$ & Szabo \\
@@ -140,13 +140,13 @@ $10^{18}$ & Ether \\
 \end{center}
 \par
 
-Tout au long du présent document, chaque référence à la valeur, dans un contexte d'Ether, comme monnaie, balance ou paiement, sera exprimée en Wei.
+Tout au long du présent document, toute référence à une valeur ou à l'Ether, comme monnaie, balance ou paiement, sera exprimée en Wei.
 
 \subsection{Quel historique?}
 
-Puisque le système est décentralisé et que toutes les parties ont une opportunité de créer un nouveau bloc sur un bloc préexistant, la structure résultante est nécessairement un arbre de blocs. De façon à former un consensus sur quel chemin depuis la racine (le bloc originel) jusqu'à la feuille (le bloc contenant les transactions les plus récentes), à travers cette structure d'arbre connue sous le nom de blockchain, il doit y avoir un schema consensuel. Si jamais il y avait un désaccord entre les noeuds sur quel chemin de l'arbre des blocs est la `meilleure' blockchain, alors il y a divergence (fork).  
+Puisque le système est décentralisé et que toutes les parties ont une opportunité de créer un nouveau bloc sur un bloc préexistant, la structure résultante est nécessairement un arbre de blocs. Il est nécessaire de disposer d’un schéma de passage consensuelle dans cette structure, c’est-à-dire un chemin depuis la racine (le bloc originel) jusqu'à la feuille (le bloc contenant les transactions les plus récentes) qui fasse consensus à travers cette structure d'arbre connue sous le nom de blockchain. Si jamais il y avait un désaccord entre les n\oe{}uds sur quel des chemins de l'arbre des blocs constitue la `meilleure' blockchain, alors il y a fourche (fork en anglais).  
 
-Cela voudrait dire que passé un point donné dans le temps (bloc), plusieurs états du système peuvent coexister: certains noeuds croyant qu'un bloc contient les transactions canoniques, d'autres noeuds croyant un autre bloc être canonique, contenant potentiellement des transactions radicalement différentes ou incompatibles. Ceci est à éviter à tout prix, tout comme l'incertitude qui s'ensuivrait et qui pourrait tuer la confiance dans le système entier. 
+Cela voudrait dire que passé un point donné dans le temps (bloc), plusieurs états du système peuvent coexister: certains n\oe{}uds croyant qu'un bloc contient les transactions canoniques, tandis que d'autres n\oe{}uds croyant être canonique un autre bloc, celui-ci contenant potentiellement des transactions radicalement différentes ou incompatibles. Ceci est à éviter à tout prix, tout comme l'incertitude qui s'ensuivrait et qui pourrait tuer la confiance dans le système entier. 
 
 Le schéma que nous utilisons pour générer un consensus est une version simplifiée du protocole GHOST, introduit par \cite{cryptoeprint:2013:881}. Ce processus est décrit en détail dans la section \ref{ch:ghost}.
 
