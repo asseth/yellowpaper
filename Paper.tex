@@ -333,9 +333,9 @@ Les deux derniers composants dans le bloc sont simplement une liste d'en-têtes 
 B \equiv (B_H, B_\mathbf{T}, B_\mathbf{U})
 \end{equation}
 
-\subsubsection{Transaction Receipt}
+\subsubsection{Quittance de transaction}
 
-In order to encode information about a transaction concerning which it may be useful to form a zero-knowledge proof, or index and search, we encode a receipt of each transaction containing certain information from concerning its execution. Each receipt, denoted $B_\mathbf{R}[i]$ for the $i$th transaction) is placed in an index-keyed trie and the root recorded in the header as $H_e$.
+De façon à pouvoir stocker l'information concernant une transaction, pour laquelle il peut être utile de fournir une preuve à divulgation nulle de connaissance, ou l'indexer à fins de recherche, nous encodons un récépissé de chaque transaction contenant des informations à propos de son exécution. Chaque récépissé, noté $B_\mathbf{R}[i]$ pour la $i$ème transaction, est placé dans un trie indexé et la racine est encodée dans son en-tête comme $H_e$.
 
 The transaction receipt is a tuple of four items comprising the post-transaction state, $R_{\boldsymbol{\sigma}}$, the cumulative gas used in the block containing the transaction receipt as of immediately after the transaction has happened, $R_u$, the set of logs created through execution of the transaction, $R_\mathbf{l}$ and the Bloom filter composed from information in those logs, $R_b$:
 \begin{equation}
