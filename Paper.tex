@@ -337,25 +337,25 @@ B \equiv (B_H, B_\mathbf{T}, B_\mathbf{U})
 
 De façon à pouvoir stocker l'information concernant une transaction, pour laquelle il peut être utile de fournir une preuve à divulgation nulle de connaissance, ou l'indexer à fins de recherche, nous encodons un récépissé de chaque transaction contenant des informations à propos de son exécution. Chaque récépissé, noté $B_\mathbf{R}[i]$ pour la $i$ème transaction, est placé dans un trie indexé et la racine est encodée dans son en-tête comme $H_e$.
 
-The transaction receipt is a tuple of four items comprising the post-transaction state, $R_{\boldsymbol{\sigma}}$, the cumulative gas used in the block containing the transaction receipt as of immediately after the transaction has happened, $R_u$, the set of logs created through execution of the transaction, $R_\mathbf{l}$ and the Bloom filter composed from information in those logs, $R_b$:
+Le récépissé de transaction est un tuple de quatre items comprenant l'état post-transaction $R_{\boldsymbol{\sigma}}$, la totalité du gaz consommé par le bloc contenant le récépissé de transaction comme celle usée immédiatement après sa ratification $R_u$, l'ensemble des journaux créés durant la transaction $R_\mathbf{l}$, et le filtre de Bloom constitué par l'information dans ces journaux $R_b$:
 \begin{equation}
 R \equiv (R_{\boldsymbol{\sigma}}, R_u, R_b, R_\mathbf{l})
 \end{equation}
 
-The function $L_R$ trivially prepares a transaction receipt for being transformed into an RLP-serialised byte array:
+La fonction $L_R$ prépare simplement le récépissé de transaction à être transformé en un tableau d'octets ordonné RLP:
 \begin{equation}
 L_R(R) \equiv (\mathtt{\small TRIE}(L_S(R_{\boldsymbol{\sigma}})), R_u, R_b, R_\mathbf{l})
 \end{equation}
-thus the post-transaction state, $R_{\boldsymbol{\sigma}}$ is encoded into a trie structure, the root of which forms the first item.
+ainsi l'état post-transaction $R_{\boldsymbol{\sigma}}$ est encodé dans une structure de trie, dont la racine est le premier item.
 
-We assert $R_u$, the cumulative gas used is a positive integer and that the logs Bloom, $R_b$, is a hash of size 2048 bits (256 bytes):
+On définit $R_u$, le gaz consommé comme un entier positif et les journaux Bloom $R_b$, comme hash de taille 2048 bits (256 octets):
 \begin{equation}
 R_u \in \mathbb{P} \quad \wedge \quad R_b \in \mathbb{B}_{256}
 \end{equation}
 
 %Notably $B_\mathbf{T}$ does not get serialised into the block by the block preparation function $L_B$; it is merely a convenience equivalence.
 
-The log entries, $R_\mathbf{l}$, is a series of log entries, termed, for example, $(O_0, O_1, ...)$. A log entry, $O$, is a tuple of a logger's address, $O_a$, a series of 32-bytes log topics, $O_\mathbf{t}$ and some number of bytes of data, $O_\mathbf{d}$:
+Les rubriques de journalisation, $R_\mathbf{l}$, sont une série de traces, dénotées, par exemple, $(O_0, O_1, ...)$. Une trace $O$, est un tuple d'une adresse d'enregistreur $O_a$, d'une série de sujets de 32-octets de long $O_\mathbf{t}$, et d'un certain nombre d'octets de data, $O_\mathbf{d}$:
 \begin{equation}
 O \equiv (O_a, ({O_\mathbf{t}}_0, {O_\mathbf{t}}_1, ...), O_\mathbf{d})
 \end{equation}
@@ -363,20 +363,20 @@ O \equiv (O_a, ({O_\mathbf{t}}_0, {O_\mathbf{t}}_1, ...), O_\mathbf{d})
 O_a \in \mathbb{B}_{20} \quad \wedge \quad \forall_{t \in O_\mathbf{t}}: t \in \mathbb{B}_{32} \quad \wedge \quad O_\mathbf{d} \in \mathbb{B}
 \end{equation}
 
-We define the Bloom filter function, $M$, to reduce a log entry into a single 256-byte hash:
+On définit la fonction filtre de Bloom $M$, comme réduction d'une rubrique de journal en une empreinte de 256 octets:
 \begin{equation}
 M(O) \equiv \bigvee_{t \in \{O_a\} \cup O_\mathbf{t}} \big( M_{3:2048}(t) \big)
 \end{equation}
 
-where $M_{3:2048}$ is a specialised Bloom filter that sets three bits out of 2048, given an arbitrary byte series. It does this through taking the low-order 11 bits of each of the first three pairs of bytes in a Keccak-256 hash of the byte series. Formally:
+où $M_{3:2048}$ un filtre de Bloom spécialisé qui extrait trois bits de 2048, une série d'octets arbitraire étant donnée. Cela est fait en prenant les 11 bits de poids faible de chacune des trois premières paires d'octets dans une empreinte Keccak-256 de la série d'octets. Formellement:
 \begin{eqnarray}
-M_{3:2048}(\mathbf{x}: \mathbf{x} \in \mathbb{B}) & \equiv & \mathbf{y}: \mathbf{y} \in \mathbb{B}_{256} \quad \text{where:}\\
-\mathbf{y} & = & (0, 0, ..., 0) \quad \text{except:}\\
+M_{3:2048}(\mathbf{x}: \mathbf{x} \in \mathbb{B}) & \equiv & \mathbf{y}: \mathbf{y} \in \mathbb{B}_{256} \quad \text{où:}\\
+\mathbf{y} & = & (0, 0, ..., 0) \quad \text{excepté:}\\
 \forall_{i \in \{0, 2, 4\}}&:& \mathcal{B}_{m(\mathbf{x}, i)}(\mathbf{y}) = 1\\
 m(\mathbf{x}, i) &\equiv& \mathtt{\tiny KEC}(\mathbf{x})[i, i + 1] \bmod 2048
 \end{eqnarray}
 
-where $\mathcal{B}$ is the bit reference function such that $\mathcal{B}_j(\mathbf{x})$ equals the bit of index $j$ (indexed from 0) in the byte array $\mathbf{x}$.
+Où $\mathcal{B}$ est la fonction binaire telle que $\mathcal{B}_j(\mathbf{x})$ égale le bit d'index $j$ (indexé depuis 0) dans le tableau d'octets $\mathbf{x}$.
 
 \subsubsection{Holistic Validity}
 
