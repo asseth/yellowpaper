@@ -96,17 +96,17 @@ Antérieurement un travail sur les smart contracts a été effectué par \cite{s
 
 \section{Le paradigme de la blockchain} \label{ch:overview}
 
-Ethereum, pris dans son ensemble, peut être vu comme une machine a états basée sur des transactions: nous commençons avec un état originel, et exécutons des transactions de manière incrémentale pour le transformer en un état final. C'est cet état final que nous acceptons comme la ``version'' canonique du monde d'Ethereum. L'état peut inclure des informations tels que les soldes de comptes, la réputation, des accords de confiance, de la donnée portant sur l'information du monde physique; en résumé, tout ce qui peut actuellement être représenté par un ordinateur est admissible. Les transactions représentent ainsi une passerelle valide entre deux états; la partie `valide' est importante---il existe beaucoup plus de changements d'état invalides que de changements d'état valides. Les changements d'état invalides pourraient par exemple être des choses telles que réduire le solde d'un compte sans compenser ailleurs d'un montant équivalent. Un changement d'état valide l'est au travers d'une transaction. Concrètement: 
+Ethereum, pris dans son ensemble, peut être vu comme une machine à état basée sur des transactions: nous commençons avec un état originel, et exécutons des transactions de manière incrémentale pour le transformer en un état final. C'est cet état final que nous acceptons comme la ``version'' canonique du monde d'Ethereum. L'état peut inclure des informations telles que les soldes de comptes, la réputation, des accords de confiance, des données portant sur l'information du monde physique; en résumé, tout ce qui peut actuellement être représenté par un ordinateur est admissible. Les transactions représentent ainsi une passerelle valide entre deux états; l’aspect `valide' est importante---il existe beaucoup plus de changements d'état invalides que de changements d'état valides. Les changements d'état invalides pourraient par exemple être des choses telles que réduire le solde d'un compte sans compenser ailleurs d'un montant équivalent. Un changement d'état valide est un changement produit par le truchement d’une transaction. Formellement: 
 \begin{equation}
 \boldsymbol{\sigma}_{t+1} \equiv \Upsilon(\boldsymbol{\sigma}_t, T)
 \end{equation}
 
 
-où $\Upsilon$ est la fonction de transition d'état Ethereum. Dans Ethereum, $\Upsilon$, combiné avec $\boldsymbol{\sigma}$ sont considérablement plus puissants que tous les systèmes comparables existants; $\Upsilon$ autorise les composants à effectuer des calculs arbitraires, alors que $\boldsymbol{\sigma}$ autorise les composants à stocker des états arbitraires entre les transactions.
+où $\Upsilon$ est la fonction de transition d'état d’Ethereum. Dans Ethereum, $\Upsilon$, combiné avec $\boldsymbol{\sigma}$ sont considérablement plus puissants que tous les systèmes comparables existants; $\Upsilon$ autorise les composants à effectuer des calculs arbitraires, alors que $\boldsymbol{\sigma}$ autorise les composants à stocker des états arbitraires entre les transactions.
 
-Les transactions sont regroupées en blocs; les blocs sont chaînés les un aux autres en utilisant un hash cryptographique comme référence. Les blocs fonctionnent comme un journal, enregistrant ensemble une série de transactions avec le bloc précédant et un identifiant pour l'état final (l'état final n'est pas stocké lui-même---cela serait beaucoup trop volumineux). Ils ponctuent également la série de transaction avec une incitation pour les noeuds à \textit{miner}.
+Les transactions sont regroupées dans des blocs; les blocs sont chaînés les uns aux autres en utilisant un haché cryptographique comme technique de référencement. Les blocs fonctionnent comme un journal, enregistrant une série de transactions ainsi que le bloc précédant et un identifiant pour l'état final (l'état final n'est cependant pas stocké lui-même---cela serait beaucoup trop volumineux). Ils ponctuent également la série de transaction avec une incitation pour les n\oe{}uds à \textit{miner}.
 
-Miner est le processus de dédier de l'effort (travail) pour soutenir une série de transactions (un bloc) contre n'importe quel autre bloc compétiteur. Cela est mis en oeuvre grâce à une preuve cryptographique sécurisée. Ce schema est connu comme preuve de travail (proof-of-work), et est étudié en détail dans la section \ref{ch:pow}.
+Miner est le processus consistant à dédier de l'effort (du travail) pour soutenir une série de transactions (un bloc) contre n'importe quel autre bloc concurrent. Cela est mis en \oe{}uvre grâce à une preuve cryptographique sécurisée. Ce sch »ma est connu comme preuve de travail (proof-of-work), et est étudié en détail dans la section \ref{ch:pow}.
 
 
 Formellement, on développe ainsi:
@@ -117,19 +117,19 @@ B & \equiv & (..., (T_0, T_1, ...) ) \\
 \end{eqnarray}
 
 
-Où $\Omega$ est la fonction de changement d'état finalisant le bloc (une fonction qui récompense la partie élue); $B$ est ce bloc, qui inclut une série de transactions parmi d'autres composants; et $\Pi$ est la fonction de changement d'état au niveau du bloc.
+Où $\Omega$ est la fonction de changement d'état finalisant le bloc (une fonction qui récompense un ensemble désigné); $B$ est ce bloc, qui inclut une série de transactions parmi d'autres éléments; et $\Pi$ est la fonction de changement d'état au niveau du bloc.
 
-Ceci est la base du paradigme de la blockchain, un modèle qui forme la colonne vertébrale non seulement d'Ethereum, mais aussi de tous les systèmes de transactions décentralisées basés sur consensus à l'heure actuelle. 
+Ceci est la base du paradigme de la blockchain, un modèle qui forme la colonne vertébrale non seulement d'Ethereum, mais aussi de tous les systèmes de transactions décentralisés basés sur consensus à l'heure actuelle.
 
 \subsection{Valeur}
 
 
-Dans le but d'inciter au calcul à l'intérieur du réseau, il y a besoin de convenir d'une méthode pour transmettre la valeur. Pour régler ce problème, Ethereum a une monnaie intrinsèque, l'Ether, aussi connue comme {\small ETH}, et parfois en référence à l'Anglais Ancien \DH{}. La plus petite sous-unité de l'Ether, et celle dans laquelle toutes les valeurs entières de la monnaie sont comptées est le Wei. Un Ether représente $10^{18}$ Wei. il existe d'autres multiplicateurs du Wei:
+Dans le but d'inciter à l’affectation de puissance de calcul à l'intérieur du réseau, il y a besoin de convenir d'une méthode pour transmettre la valeur. Pour régler ce problème, Ethereum a une monnaie intrinsèque, l'Ether, aussi connue comme {\small ETH}, et parfois en référence à l'Anglais Ancien \DH{} (prononcé Eth). La plus petite sous-unité de l'Ether, et celle dans laquelle toutes les valeurs entières de la monnaie sont comptées est le Wei. Un Ether représente $10^{18}$ Wei. Il existe d'autres unités dérivées de l'Ether:
 \par
 \begin{center}
 \begin{tabular}{rl}
 \toprule
-Multiplicateur & Nom \\
+Ordre de grandeur & Nom \\
 \midrule
 $10^0$ & Wei \\
 $10^{12}$ & Szabo \\
@@ -140,42 +140,42 @@ $10^{18}$ & Ether \\
 \end{center}
 \par
 
-Tout au long du présent document, chaque référence à la valeur, dans un contexte d'Ether, comme monnaie, balance ou paiement, sera exprimée en Wei.
+Tout au long du présent document, toute référence à une valeur ou à l'Ether, comme monnaie, balance ou paiement, sera exprimée en Wei.
 
 \subsection{Quel historique?}
 
-Puisque le système est décentralisé et que toutes les parties ont une opportunité de créer un nouveau bloc sur un bloc préexistant, la structure résultante est nécessairement un arbre de blocs. De façon à former un consensus sur quel chemin depuis la racine (le bloc originel) jusqu'à la feuille (le bloc contenant les transactions les plus récentes), à travers cette structure d'arbre connue sous le nom de blockchain, il doit y avoir un schema consensuel. Si jamais il y avait un désaccord entre les noeuds sur quel chemin de l'arbre des blocs est la `meilleure' blockchain, alors il y a divergence (fork).  
+Puisque le système est décentralisé et que toutes les parties ont une opportunité de créer un nouveau bloc sur un bloc préexistant, la structure résultante est nécessairement un arbre de blocs. Il est nécessaire de disposer d’un schéma de passage consensuelle dans cette structure, c’est-à-dire un chemin depuis la racine (le bloc originel) jusqu'à la feuille (le bloc contenant les transactions les plus récentes) qui fasse consensus à travers cette structure d'arbre connue sous le nom de blockchain. Si jamais il y avait un désaccord entre les n\oe{}uds sur quel des chemins de l'arbre des blocs constitue la `meilleure' blockchain, alors il y a fourche (fork en anglais).  
 
-Cela voudrait dire que passé un point donné dans le temps (bloc), plusieurs états du système peuvent coexister: certains noeuds croyant qu'un bloc contient les transactions canoniques, d'autres noeuds croyant un autre bloc être canonique, contenant potentiellement des transactions radicalement différentes ou incompatibles. Ceci est à éviter à tout prix, tout comme l'incertitude qui s'ensuivrait et qui pourrait tuer la confiance dans le système entier. 
+Cela voudrait dire que passé un point donné dans le temps (bloc), plusieurs états du système peuvent coexister: certains n\oe{}uds croyant qu'un bloc contient les transactions canoniques, tandis que d'autres n\oe{}uds croyant être canonique un autre bloc, celui-ci contenant potentiellement des transactions radicalement différentes ou incompatibles. Ceci est à éviter à tout prix, tout comme l'incertitude qui s'ensuivrait et qui pourrait tuer la confiance dans le système entier. 
 
 Le schéma que nous utilisons pour générer un consensus est une version simplifiée du protocole GHOST, introduit par \cite{cryptoeprint:2013:881}. Ce processus est décrit en détail dans la section \ref{ch:ghost}.
 
 \section{Conventions}\label{ch:conventions}
 
-J'utilise un nombre de conventions typographiques pour les notations formelles, quelques unes sont un peu particulières au document présent:
+J'utilise un nombre de conventions typographiques pour les notations formelles, quelques-unes sont un peu particulières au document présent:
 
-Les deux ensembles de haut niveau, hautement structurés, des valeurs d'état, sont notés en minuscules grecques, graissées. Ces valeurs relèvent de la catégorie de l'état-monde noté $\boldsymbol{\sigma}$ (ou une variante de celui-ci) ou de celle de l'état-machine, $\boldsymbol{\mu}$.
+Les deux ensembles de haut niveau, hautement structurés, des valeurs d'état, sont notés en minuscules grecques en gras. Ces valeurs relèvent de la catégorie de l'état du monde noté $\boldsymbol{\sigma}$ (ou une variante de celui-ci) ou de celle de l'état de la machine, $\boldsymbol{\mu}$.
 
-Les fonctions opérant sur ces valeurs hautement structurées sont notés en lettre Grecque majuscule, par exemple $\Upsilon$, la fonction de transition d'état d'Ethereum.
+Les fonctions opérant sur ces valeurs hautement structurées sont notés en lettre Grecque majuscule, par exemple $\Upsilon$, la fonction de changement d'état d'Ethereum.
 
-Pour la plupart des fonctions, une lettre majuscule est utilisée, par exemple $C$, la fonction de coût général. Elles peuvent être indicées pour dénoter des variantes spécialisées, par exemple $C_\text{\tiny SSTORE}$,
-la fonction de coût pour l'opération {\tiny SSTORE}. Pour les fonctions spécialisées et éventuellement définies de manière externe, je peux formater en style typewriter, par exemple la fonction de hachage Keccak-256 (celle-là même qui fut gagnante pour le concours SHA-3) est dénotée $\texttt{KEC}$ (et généralement référencée comme simple Keccak). Aussi, $\texttt{KEC512}$ fait référence à une fonction de hachage Keccak 512.
+Pour la plupart des fonctions, une lettre majuscule est utilisée, par exemple $C$, la fonction de coût général. Elles peuvent être indicées pour dénoter des variantes spécifiée, par exemple $C_\text{\tiny SSTORE}$,
+la fonction de coût pour l'opération {\tiny SSTORE}. Pour certaines fonctions spécialisées et éventuellement définies de manière externe, je peux utiliser une typographie particulière, par exemple la fonction de hachage Keccak-256 (la gagnante du concours SHA-3) est dénotée $\texttt{KEC}$ (et généralement référencée comme simple Keccak). Aussi, $\texttt{KEC512}$ fait référence à une fonction de hachage Keccak 512.
 
-Les tuples sont typiquement notés en lettres majuscules, par exemple $T$ est utilisé pour noter une transaction Ethereum. Ce symbole peut, si il est défini en conséquence, être indicée pour faire référence à un composant individuel, \eg $T_n$, dénote le nonce de ladite transaction. la forme de l'indice est utilisée pour dénoter son type; par exemple des indices en majuscule font référence a des tuples avec des composants subscriptables.
+Les tuples sont typiquement notés en lettres majuscules, par exemple $T$ est utilisé pour noter une transaction Ethereum. Ce symbole peut, s’il est défini en conséquence, être indicée pour faire référence à un composant individuel, \eg $T_n$, dénote le nonce de ladite transaction. la forme de l'indice est utilisée pour dénoter son type; par exemple des indices en majuscule font référence à des tuples avec des composants indiçables.
 
-Les scalaires et les séquences d'octets de taille fixe (analogue, les tableaux), sont notés avec une lettre normale minuscule, par exemple $n$ est utilisée pour représenter le nonce de telle transaction. Ceux qui ont une signification spéciale peuvent être grecs, par exemple $\delta$, le nombre d'éléments requis dans la pile pour une opération donnée.
+Les scalaires et les séquences d'octets de taille fixe (analogue, les tableaux), sont notés avec une lettre normale minuscule, par exemple $n$ est utilisée pour représenter le nonce de telle transaction. Ceux qui ont une signification particulière peuvent être grecs, par exemple $\delta$, le nombre d'éléments requis dans la pile pour une opération donnée.
 
-Des séquences de longueur arbitraire sont typiquement notés en lettre minuscule et en gras, par exemple $\mathbf{o}$ est utilisé pour représenter la séquence d'octets en sortie d'un appel de message. Pour les valeurs particulièrement importantes, une lettre en majuscule et en gras peut-être utilisée.
+Des séquences de longueur arbitraire sont typiquement notés en lettre minuscule et en gras, par exemple $\mathbf{o}$ est utilisé pour représenter la séquence d'octets en sortie d'un appel de message. Pour les valeurs particulièrement importantes, une lettre en majuscule et en gras peut être utilisée.
 
-Tout au long du document nous supposons que les valeurs scalaires sont des entiers positifs, et qu'elles appartiennent a l'ensemble $\mathbb{P}$. L'ensemble de toutes les séquences d'octets est $\mathbb{B}$, formellement défini dans l'annexe \ref{app:rlp}. Si un tel ensemble de séquences est restreint à celles d'une longueur particulière, cela est dénoté avec un indice, ainsi, l'ensemble de toutes les séquences d'octets de longueur $32$  est nommé $\mathbb{B}_{32}$ et l'ensemble de tous les entiers positifs plus petits que $2^{256}$ est nommé $\mathbb{P}_{256}$. Cela formalisé dans la section \ref{ch:block}.
+Tout au long du document nous supposons que les valeurs scalaires sont des entiers positifs, et qu'elles appartiennent à l'ensemble $\mathbb{P}$. L'ensemble de toutes les séquences d'octets est $\mathbb{B}$, formellement défini dans l'annexe \ref{app:rlp}. Si un tel ensemble de séquences est restreint à celles d'une longueur particulière, cela est dénoté avec un indice, ainsi, l'ensemble de toutes les séquences d'octets de longueur $32$  est nommé $\mathbb{B}_{32}$ et l'ensemble de tous les entiers positifs plus petits que $2^{256}$ est nommé $\mathbb{P}_{256}$. Cela formalisé dans la section \ref{ch:block}.
 
-Les crochets sont utilisés pour indexer et référencer les composants individuels ou les sous-séquences de séquences, par exemple $\boldsymbol{\mu}_\mathbf{s}[0]$ représente le premier objet dans la pile de la machine. Pour les sous-séqueces, les ellipses sont utilisées pour spécifier la tranche attendue en incluant les éléments limite, par exemple $\boldsymbol{\mu}_\mathbf{m}[0..31]$ représente les 32 premiers objets de la mémoire de la machine.
+Les crochets sont utilisés pour indexer et référencer les composants individuels ou les sous-séquences de séquences, par exemple $\boldsymbol{\mu}_\mathbf{s}[0]$ représente le premier objet dans la pile de la machine. Pour les sous-séquences, les ellipses sont utilisées pour spécifier la tranche attendue en incluant les éléments au deux limites, par exemple $\boldsymbol{\mu}_\mathbf{m}[0..31]$ représente les 32 premiers objets de la mémoire de la machine.
 
 Dans le cas de l'état global $\boldsymbol{\sigma}$, qui est une séquence de comptes, eux-mêmes des tuples, les crochets sont utilisés pour référencer un compte individuel.
 
-En considérant les variantes des valeurs existantes, je suis la règle qu'au sein d'un périmètre donné comme définition, si nous supposons que la valeur d'`input' non modifiée est désignée par le signe $\Box$ alors la valeur modifiée et utilisable est représentée comme $\Box'$, et les valeurs intermédiaires seraient $\Box^*$, $\Box^{**}$ etc. Lors d'occasions vraiment particulières, dans le but de maximiser la lisibilité et seulement si c'est d'un sens non ambigu, je peux utiliser des indices alphanumériques pour représenter des valeurs intermédiaires.		 
+En considérant les variantes des valeurs existantes, je suis la règle qu'au sein d'un périmètre donné comme définition, si nous supposons que la valeur d'`input' non modifiée est désignée par le signe $\Box$ alors la valeur modifiée et utilisable est représentée comme $\Box'$, et les valeurs intermédiaires seraient alors $\Box^*$, $\Box^{**}$ etc. Dans des cas vraiment très particuliers, dans le but de maximiser la lisibilité et seulement si c'est d'un sens non ambigu, je peux utiliser des indices alphanumériques pour représenter des valeurs intermédiaires.		 
 
-En considérant l'utilisation de fonctions existantes, une fonction $f$ étant donnée, la fonction $f^*$ représente une version similaire élément par élément, d'un mapping de la fonction plutôt qu'entre les séquences. Cela est précisément décrit dans la section \ref{ch:block}.
+En considérant l'utilisation de fonctions existantes, une fonction $f$ étant donnée, la fonction $f^*$ représente une version similaire élément par élément, de la mise en correspondance (mapping) des éléments de la fonction plutôt qu'entre les séquences d’élements. Cela est précisément décrit dans la section \ref{ch:block}.
 
 Je définis un nombre de fonctions utiles à travers ce document. Une des plus communes est $\ell$, qui évalue le dernier objet de la séquence donnée:
 
@@ -185,7 +185,7 @@ Je définis un nombre de fonctions utiles à travers ce document. Une des plus c
 
 \section{Blocs, état et transactions} \label{ch:bst}
 
-Ayant introduit les concepts de base d'Ethereum, nous allons dicuter du sens d'une transaction, d'un bloc et de l'état de manière plus détaillée.
+Ayant introduit les concepts de base d'Ethereum, nous allons discuter de la signification d'une transaction, d'un bloc et de l'état de manière plus détaillée.
 
 \subsection{L'état du monde} \label{ch:state}
 
