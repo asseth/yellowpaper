@@ -413,12 +413,12 @@ Les fonctions $L_B$ et $L_H$ Sont les fonctions préparatoires pour un bloc et u
 \quad L_B(B) & \equiv & \big( L_H(B_H), L_T^*(B_\mathbf{T}), L_H^*(B_\mathbf{U}) \big)
 \end{eqnarray}
 
-With $L_T^*$ and $L_H^*$ being element-wise sequence transformations, thus:
+Avec $L_T^*$ et $L_H^*$ comme transformations élément par élément de la séquence, ainsi:
 \begin{equation}
-f^*\big( (x_0, x_1, ...) \big) \equiv \big( f(x_0), f(x_1), ... \big) \quad \text{for any function} \; f
+f^*\big( (x_0, x_1, ...) \big) \equiv \big( f(x_0), f(x_1), ... \big) \quad \text{pour toute fonction} \; f
 \end{equation}
 
-The component types are defined thus:
+Les composants type sont définis ainsi:
 \begin{equation}
 \begin{array}[t]{lclclcl}
 H_p \in \mathbb{B}_{32} & \wedge & H_o \in \mathbb{B}_{32} & \wedge & H_c \in \mathbb{B}_{20} & \wedge \\
@@ -429,12 +429,12 @@ H_x \in \mathbb{B} & \wedge & H_m \in \mathbb{B}_{32} & \wedge & H_n \in \mathbb
 \end{array}
 \end{equation}
 
-where
+où
 \begin{equation}
 \mathbb{B}_n = \{ B: B \in \mathbb{B} \wedge \lVert B \rVert = n \}
 \end{equation}
 
-We now have a rigorous specification for the construction of a formal block structure. The RLP function $\texttt{\small RLP}$ (see Appendix \ref{app:rlp}) provides the canonical method for transforming this structure into a sequence of bytes ready for transmission over the wire or storage locally.
+Nous avons maintenant une spécification rigoureuse pour la construction de la structure formelle d'un bloc. La fonction RLP $\texttt{\small RLP}$ (voir Appendice \ref{app:rlp}) fournit la méthode de référence pour transformer cette structure en une sequence d'octets prêts à la transmission ou au stockage local.
 
 \subsubsection{Block Header Validity}
 
