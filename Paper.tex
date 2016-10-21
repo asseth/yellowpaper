@@ -378,9 +378,9 @@ m(\mathbf{x}, i) &\equiv& \mathtt{\tiny KEC}(\mathbf{x})[i, i + 1] \bmod 2048
 
 Où $\mathcal{B}$ est la fonction binaire telle que $\mathcal{B}_j(\mathbf{x})$ égale le bit d'index $j$ (indexé depuis 0) dans le tableau d'octets $\mathbf{x}$.
 
-\subsubsection{Holistic Validity}
+\subsubsection{Validité synergique}
 
-We can assert a block's validity if and only if it satisfies several conditions: it must be internally consistent with the ommer and transaction block hashes and the given transactions $B_\mathbf{T}$ (as specified in sec \ref{ch:finalisation}), when executed in order on the base state $\boldsymbol{\sigma}$ (derived from the final state of the parent block), result in a new state of the identity $H_r$:
+On ne peut assurer la validité d'un bloc que s'il satisfait un certain nombre de conditions: il doit être cohérent avec le ommer et avec les empreintes de transactions du bloc, et les transactions données $B_\mathbf{T}$ (comme spécifié en section \ref{ch:finalisation}), exécutées dans l'ordre sur l'état de base $\boldsymbol{\sigma}$ (dérivé de l'état final du bloc parent), donnent comme résultat un nouvel état de l'identité $H_r$:
 \begin{equation}
 \begin{array}[t]{lclc}
 H_r &\equiv& \mathtt{\small TRIE}(L_S(\Pi(\boldsymbol{\sigma}, B))) & \wedge \\
@@ -391,19 +391,19 @@ H_b &\equiv& \bigvee_{\mathbf{r} \in B_\mathbf{R}} \big( \mathbf{r}_b \big)
 \end{array}
 \end{equation}
 
-where $p(k, v)$ is simply the pairwise RLP transformation, in this case, the first being the index of the transaction in the block and the second being the transaction receipt:
+où $p(k, v)$ est simplement la paire RLP de l'index de la transaction dans le bloc d'une part, et du récépissé de la transaction d'autre part:
 \begin{equation}
 p(k, v) \equiv \big( \mathtt{\small RLP}(k), \mathtt{\small RLP}(v) \big)
 \end{equation}
 
-Furthermore:
+En outre:
 \begin{equation}
 \mathtt{\small TRIE}(L_S(\boldsymbol{\sigma})) = {P(B_H)_H}_r
 \end{equation}
 
-Thus $\texttt{\small TRIE}(L_S(\boldsymbol{\sigma}))$ is the root node hash of the Merkle Patricia tree structure containing the key-value pairs of the state $\boldsymbol{\sigma}$ with values encoded using RLP, and $P(B_H)$ is the parent block of $B$, defined directly.
+Ainsi $\texttt{\small TRIE}(L_S(\boldsymbol{\sigma}))$ est l'empreinte du noeud racine de l'arbre merkle radix contenant les paires clé-valeur de l'état $\boldsymbol{\sigma}$ avec des valeurs encodées par RLP, et $P(B_H)$ est le bloc parent de $B$, défini directement.
 
-The values stemming from the computation of transactions, specifically the transaction receipts, $B_\mathbf{R}$, and that defined through the transactions state-accumulation function, $\Pi$, are formalised later in section \ref{sec:statenoncevalidation}.
+Les valeurs provenant du calcul des transactions, spécialement les récépissés de transaction $B_\mathbf{R}$, et ceux définis par la fonction d'aggrégation d'états $\Pi$, sont formalisés plus loin dans la section \ref{sec:statenoncevalidation}.
 
 \subsubsection{Serialisation}
 
