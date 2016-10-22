@@ -378,7 +378,7 @@ m(\mathbf{x}, i) &\equiv& \mathtt{\tiny KEC}(\mathbf{x})[i, i + 1] \bmod 2048
 
 Où $\mathcal{B}$ est la fonction binaire telle que $\mathcal{B}_j(\mathbf{x})$ égale le bit d'index $j$ (indexé depuis 0) dans le tableau d'octets $\mathbf{x}$.
 
-\subsubsection{Validité synergique}
+\subsubsection{Validation synergique}
 
 On ne peut assurer la validité d'un bloc que s'il satisfait un certain nombre de conditions: il doit être cohérent avec le ommer et avec les empreintes de transactions du bloc, et les transactions données $B_\mathbf{T}$ (comme spécifié en section \ref{ch:finalisation}), exécutées dans l'ordre sur l'état de base $\boldsymbol{\sigma}$ (dérivé de l'état final du bloc parent), donnent comme résultat un nouvel état de l'identité $H_r$:
 \begin{equation}
@@ -405,7 +405,7 @@ Ainsi $\texttt{\small TRIE}(L_S(\boldsymbol{\sigma}))$ est l'empreinte du noeud 
 
 Les valeurs provenant du calcul des transactions, spécialement les récépissés de transaction $B_\mathbf{R}$, et ceux définis par la fonction d'aggrégation d'états $\Pi$, sont formalisés plus loin dans la section \ref{sec:statenoncevalidation}.
 
-\subsubsection{Serialisation}
+\subsubsection{Sérialisation}
 
 Les fonctions $L_B$ et $L_H$ Sont les fonctions préparatoires pour un bloc et un en-tête de bloc respectivement. De façon très semblable à la fonction de préparation du récépissé de transaction $L_R$, nous assumons que les types et ordre de la structure pour la transformation RLP sont:
 \begin{eqnarray}
@@ -436,14 +436,14 @@ où
 
 Nous avons maintenant une spécification rigoureuse pour la construction de la structure formelle d'un bloc. La fonction RLP $\texttt{\small RLP}$ (voir Appendice \ref{app:rlp}) fournit la méthode de référence pour transformer cette structure en une sequence d'octets prêts à la transmission ou au stockage local.
 
-\subsubsection{Block Header Validity}
+\subsubsection{Validation de l'en-tête de bloc}
 
-We define $P(B_H)$ to be the parent block of $B$, formally:
+On définit $P(B_H)$ comme le bloc parent de $B$, formellement:
 \begin{equation}
 P(H) \equiv B': \mathtt{\tiny KEC}(\mathtt{\tiny RLP}(B'_H)) = H_p
 \end{equation}
 
-The block number is the parent's block number incremented by one:
+Le numéro de bloc est le numéro du bloc parent incrémenté de un:
 \begin{equation}
 H_i \equiv {{P(H)_H}_i} + 1
 \end{equation}
@@ -454,15 +454,15 @@ H_i \equiv {{P(H)_H}_i} + 1
 \newcommand{\expdiffsymb}{\ensuremath{\epsilon}}
 \newcommand{\diffadjustment}{x}
 
-The canonical difficulty of a block of header $H$ is defined as $D(H)$:
+La difficulté de référence d'un bloc d'en-tête $H$ est défini comme $D(H)$:
 \begin{equation}
 D(H) \equiv \begin{dcases}
-\mindifficulty & \text{if} \quad H_i = 0\\
-\text{max}\!\left(\mindifficulty, {P(H)_H}_d + \diffadjustment\times\frontiermod + \expdiffsymb \right) & \text{if} \quad H_i<\firsthomesteadblock\\
-\text{max}\!\left(\mindifficulty, {P(H)_H}_d + \diffadjustment\times\homesteadmod + \expdiffsymb \right) & \text{otherwise}\\
+\mindifficulty & \text{si} \quad H_i = 0\\
+\text{max}\!\left(\mindifficulty, {P(H)_H}_d + \diffadjustment\times\frontiermod + \expdiffsymb \right) & \text{si} \quad H_i<\firsthomesteadblock\\
+\text{max}\!\left(\mindifficulty, {P(H)_H}_d + \diffadjustment\times\homesteadmod + \expdiffsymb \right) & \text{sinon}\\
 \end{dcases}
 \end{equation}
-where:
+où:
 \begin{equation}
 \mindifficulty \equiv 131072
 \end{equation}
@@ -471,8 +471,8 @@ where:
 \end{equation}
 \begin{equation}
 \frontiermod \equiv \begin{cases}
-1 & \text{if} \quad H_s < {P(H)_H}_s + 13 \\
--1 & \text{otherwise} \\
+1 & \text{si} \quad H_s < {P(H)_H}_s + 13 \\
+-1 & \text{sinon} \\
 \end{cases}
 \end{equation}
 \begin{equation}
@@ -482,31 +482,31 @@ where:
 \expdiffsymb \equiv \left\lfloor 2^{ \left\lfloor H_i \div 100000 \right\rfloor - 2 } \right\rfloor
 \end{equation}
 
-The canonical gas limit $H_l$ of a block of header $H$ must fulfil the relation:
+la limite de reférence de gaz $H_l$ d'un bloc d'en-tête $H$ doit être conforme à la relation:
 \begin{eqnarray}
 & & H_l < {P(H)_H}_l + \left\lfloor\frac{{P(H)_H}_l}{1024}\right\rfloor \quad \wedge \\
 & & H_l > {P(H)_H}_l - \left\lfloor\frac{{P(H)_H}_l}{1024}\right\rfloor \quad \wedge \\
 & & H_l \geqslant 125000
 \end{eqnarray}
 
-$H_s$ is the timestamp of block $H$ and must fulfil the relation:
+$H_s$ est l'horodatage du bloc $H$ et doit être conforme à la relation:
 \begin{equation}
 H_s > {P(H)_H}_s
 \end{equation}
 
-This mechanism enforces a homeostasis in terms of the time between blocks; a smaller period between the last two blocks results in an increase in the difficulty level and thus additional computation required, lengthening the likely next period. Conversely, if the period is too large, the difficulty, and expected time to the next block, is reduced.
+Ce mécanisme renforce une homéostasie pour les intervalles de temps entre les blocs; une période de temps plus petite entre deux blocs entraîne une augmentation du niveau de difficulté et ainsi davantage de calcul, rallongeant d'autant la période suivante. inversement, si la période est trop large, la difficulté, et le temps attendu pour le bloc suivant, est réduit.
 
-The nonce, $H_n$, must satisfy the relations:
+Le nonce $H_n$, doit satisfaire aux relations:
 \begin{equation}
 n \leqslant \frac{2^{256}}{H_d} \quad \wedge \quad m = H_m
 \end{equation}
-with $(n, m) = \mathtt{PoW}(H_{\hcancel{n}}, H_n, \mathbf{d})$.
+avec $(n, m) = \mathtt{PoW}(H_{\hcancel{n}}, H_n, \mathbf{d})$.
 
-Where $H_{\hcancel{n}}$ is the new block's header $H$, but \textit{without} the nonce and mix-hash components, $\mathbf{d}$ being the current DAG, a large data set needed to compute the mix-hash, and $\mathtt{PoW}$ is the proof-of-work function (see section \ref{ch:pow}): this evaluates to an array with the first item being the mix-hash, to proof that a correct DAG has been used, and the second item being a pseudo-random number cryptographically dependent on $H$ and $\mathbf{d}$. Given an approximately uniform distribution in the range $[0, 2^{64})$, the expected time to find a solution is proportional to the difficulty, $H_d$.
+Où $H_{\hcancel{n}}$ est le nouvel en-tête de bloc $H$, mais \textit{sans} le nonce et le mixhash, $\mathbf{d}$ étant le DAG courant, un grand ensemble de données utilisé pour calculer le mixhash, et $\mathtt{PoW}$ étant la fonction de preuve-de-travail (voir section \ref{ch:pow}): ceci est évalué en un tableau dont le premier item est le mixhash, pour preuve qu'un DAG correct a été utilisé, et le second item est un nombre pseudo-aléatoire cryptographiquement dependant de $H$ et $\mathbf{d}$. Étant donnée une distribution approximativement uniforme sur l'intervalle $[0, 2^{64}]$, le temps estimé pour trouver une solution est proportionnel à la difficulté $H_d$.
 
-This is the foundation of the security of the blockchain and is the fundamental reason why a malicious node cannot propagate newly created blocks that would otherwise overwrite (``rewrite'') history. Because the nonce must satisfy this requirement, and because its satisfaction depends on the contents of the block and in turn its composed transactions, creating new, valid, blocks is difficult and, over time, requires approximately the total compute power of the trustworthy portion of the mining peers.
+Ceci est le fondement de la sécurité de la chaîne de blocs et est la raison fondamentale pour laquelle un code malicieux ne peut pas propager des blocs nouvellement forgés qui pourraient autrement écraser (``réécrire'') l'historique. Parce que le nonce doit satisfaire cette condition, et parce que cette satisfaction dépend du contenu du bloc et des transactions qui le composent, créer de nouveaux blocs valides est difficile et, avec le temps, demande  approximativement la puissance de calcul totale de la partie de confiance parmi les pairs mineurs.
 
-Thus we are able to define the block header validity function $V(H)$:
+Ainsi on est en mesure de définir la fonction de validation de l'entête de bloc $V(H)$:
 \begin{eqnarray}
 V(H) & \equiv &  n \leqslant \frac{2^{256}}{H_d} \wedge m = H_m \quad \wedge \\
 & & H_d = D(H) \quad \wedge \\
@@ -518,9 +518,9 @@ V(H) & \equiv &  n \leqslant \frac{2^{256}}{H_d} \wedge m = H_m \quad \wedge \\
 & & H_i = {P(H)_H}_i +1 \quad \wedge \\
 & & \lVert H_x \rVert \le 32
 \end{eqnarray}
-where $(n, m) = \mathtt{PoW}(H_{\hcancel{n}}, H_n, \mathbf{d})$
+où $(n, m) = \mathtt{PoW}(H_{\hcancel{n}}, H_n, \mathbf{d})$
 
-Noting additionally that \textbf{extraData} must be at most 32 bytes.
+Notons que \textbf{extraData} doit être au plus de 32 octets.
 
 \section{Gas and Payment} \label{ch:payment}
 
