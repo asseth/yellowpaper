@@ -40,7 +40,8 @@
 \newcommand*\ie{i.e.\@\xspace}
 %\renewcommand{\itemhook}{\setlength{\topsep}{0pt}  \setlength{\itemsep}{0pt}\setlength{\leftmargin}{15pt}}
 
-\title{Ethereum: Un registre de transactions généraliste, sécurisé et décentralisé\\ {\smaller \textbf{révision Homestead}}}
+\title{Ethereum: Un registre de transactions généraliste, sécurisé et décentralisé\\ {\smaller \textbf{révision EIP-150}}}
+
 \author{
     Dr. Gavin Wood\\
     Fondateur, Ethereum \& Ethcore\\
@@ -64,49 +65,49 @@ Ethereum implémente ce paradigme de façon généraliste. De plus, Ethereum per
 
 \section{Introduction}\label{sec:introduction}
 
-Internet étant présent dans les plupart des endroits de la planète, la transmission de l'information est globalement devenue incroyablement bon marché. Les innovations technologiques telles que Bitcoin ont démontré, par le pouvoir d'un mécanisme de consensus et de respect volontaire d'un contrat social, qu'il était possible d'utiliser Internet pour créer un système décentralisé de transfert de valeurs, partagé à travers le monde et quasiment gratuit à utiliser. Ce système peut être décrit comme une version très spécifique d'une machine a états basée sur des transactions et sécurisée par la cryptographie. Des systèmes de suivi tels que Namecoin ont adapté ce système original d' « application monétaire »  à d'autres applications quoiqu’elles furent plutôt simples.
+Internet étant présent dans les plupart des endroits de la planète, la transmission de l'information est globalement devenue incroyablement bon marché. Les innovations technologiques telles que Bitcoin ont démontré, par le pouvoir d'un mécanisme de consensus et de respect volontaire d'un contrat social, qu'il était possible d'utiliser Internet pour créer un système décentralisé de transfert de valeurs, partagé à travers le monde et quasiment gratuit à utiliser. Ce système peut être décrit comme une version très spécifique d'une machine a états basée sur des transactions et sécurisée par la cryptographie. Des systèmes de suivi tels que Namecoin ont adapté ce système original d' ``application monétaire’‘  à d'autres applications quoiqu’elles furent plutôt simples.
 
-Ethereum est un projet qui cherche à créer une version généraliste de cette technologie; technologie sur laquelle tous les concepts de machine transactionnelle à états pourraient être construits. De plus Ethereum a pour but de fournir au développeur final un système intégré de bout en bout afin de construire des logiciels basés sur un paradigme de calcul jusque-là inexploré : un framework de messagerie et de calcul d’objets de confiance.
+Ethereum est un projet qui cherche à créer une version généraliste de cette technologie; technologie sur laquelle tous les concepts de machine transactionnelle à états pourraient être construits. De plus Ethereum a pour but de fournir au développeur final un système intégré de bout en bout afin de construire des logiciels basés sur un paradigme de calcul jusque-là inexploré : un framework de confiance pour la messagerie, le calcul et les objets.
 
 \subsection{Principes directeurs} \label{ch:driving}
 
-Ce projet a beaucoup de buts; un des buts principaux est de faciliter les transactions entre deux individus consentants qui n'auraient sans cela aucun moyen de se faire confiance l'un à l'autre. Cela peut être dû à une séparation géographique, une difficulté d'intéraction, ou peut-être à l'incompatibilité, l'incompétence, la réticence, le coût, l'incertitude, la gêne ou encore la corruption des systèmes légaux existants. En définissant un système de changement d'états à travers un langage riche et non ambigu, et de plus en architecturant un système tel que nous pouvons raisonnablement en attendre qu'un accord soit assuré de manière autonome, nous pouvons fournir un moyen à cette fin.
+Ce projet a beaucoup d’objectifs; un des principaux est de faciliter les transactions entre deux individus consentants qui n'auraient sans cela aucun moyen de se faire confiance l'un à l'autre. Cela peut être dû à une séparation géographique, une difficulté d'interaction, ou peut-être à l'incompatibilité, l'incompétence, la réticence, le coût, l'incertitude, la gêne ou encore la corruption des systèmes légaux existants. En définissant un système de changement d'état à travers un langage riche et non ambigu, et de plus en architecturant un système tel que nous pouvons raisonnablement en attendre qu'un accord soit assuré de manière autonome, nous pouvons fournir un moyen à cette fin.
 
-Les opérations dans le système proposé pourraient avoir beaucoup d'attributs qui n'existent pas souvent dans le monde réel. L'incorruptibilité d'appréciation, souvent difficile à trouver, est naturelle lorsqu'elle vient d'un interpréteur algorithmique désintéressé. La transparence, ou capacité à voir exactement comment un état ou un jugement s'est produit au travers des journaux et règles d'une transaction ou des codes d'instructions, n'est jamais parfaitement atteinte dans les systèmes basés sur l'humain, parce que le langage naturel est nécéssairement vague, que de l'information manque souvent et que des préjudices antérieurs sont difficiles à démêler.
+Les opérations dans le système proposé pourraient avoir beaucoup d'attributs qui souvent n'existent pas dans le monde réel. L'incorruptibilité d'appréciation, souvent difficile à trouver, est naturelle lorsqu'elle vient d'un interpréteur algorithmique désintéressé. La transparence, ou capacité à voir exactement comment un état ou un jugement s'est produit au travers des journaux et règles d'une transaction ou des codes d'instructions, n'est jamais parfaitement atteinte dans les systèmes basés sur l'humain, parce que le langage naturel est nécessairement vague, que de l'information manque souvent et que des préjudices antérieurs sont difficiles à démêler.
 
 De manière générale, je souhaite fournir un système dans lequel les utilisateurs peuvent être sûrs que peu importe avec quels autres individus, systèmes ou organisations ils interagissent, ils peuvent le faire en ayant une confiance absolue dans les résultats possibles et les règles guidant l'obtention de ces résultats.
 
 \subsection{Travaux antérieurs} \label{ch:previous}
 
-\cite{buterin2013ethereum} a proposé initalement le noyau de ce travail fin Novembre 2013. Bien qu'elle ait maintenant évolué sur de nombreux points, la fonctionnalité clé d'une blockchain possédant un langage Turing-complet et une capacité illimitée de stockage inter-transaction fonctionnelle demeure inchangée.
+\cite{buterin2013ethereum} a proposé initialement le noyau de ce travail fin Novembre 2013. Bien qu'elle ait maintenant évolué sur de nombreux points, la fonctionnalité clé d'une blockchain possédant un langage Turing-complet et une capacité illimitée de stockage inter-transaction fonctionnelle demeure inchangée.
 
-\cite{dwork92pricingvia} a fourni la premier travail d'usage de preuve cryptographique de dépense (``proof-of-work, ou preuve de travail'') ayant pour but de  de transmettre un signal de valeur à travers Internet. Le signal de valeur était utilisé ici comme un mécanisme de dissuasion de spam plutôt que n'importe quelle sorte de monnaie, mais a démontré de manière décisive le potentiel d'un basique canal de données à porter un \textit{signal économique fort}, autorisant un récepteur à faire une vérification physique sans avoir à s'en remettre à de la \textit{confiance}. \cite{back2002hashcash} a plus tard produit un système dans la même veine.
+\cite{dwork92pricingvia} a fourni le premier travail d'usage de la preuve cryptographique d’effort de calcul (``proof-of-work, ou preuve de travail'') ayant pour but de transmettre un signal de valeur à travers Internet. Le signal de valeur était utilisé ici comme un mécanisme de dissuasion de spam plutôt que comme une forme de monnaie, mais a démontré de manière décisive le potentiel d'un canal de données basique à porter un \textit{signal économique fort}, autorisant un récepteur à faire une vérification physique sans avoir à s'en remettre à une forme de \textit{confiance}. \cite{back2002hashcash} a plus tard produit un système dans la même veine.
 
-Le premier exemple d'utilisation de la preuve de travail en tant que signal économique fort pour sécuriser une monnaie a été utilisé par \cite{vishnumurthy03karma:a}. Dans cet exemple, le jeton était utilisé pour contrôler l'échange de fichier en peer to peer, assurant que les ``consommateurs'' étaient capable de faire des micro-paiements aux ``fournisseurs'' pour leurs services. Le modèle de sécurité apporté par la preuve de travail était augmenté avec les signatures digitales et un registre, pour assurer que l'historique des enregistrements ne pouvait être corrompu, et que des acteurs malicieux ne pouvaient inventer des paiements ou se plaindre abusivement à propos du service délivré. Cinq ans plus tard, \cite{nakamoto2008bitcoin} introduisit un autre jeton de valeur basé sur une preuve de travail sécurisée, de plus large portée. Le fruit de ce projet, Bitcoin, est devenu le premier registre global décentralisé de transactions largement adopté.
+Le premier exemple d'utilisation de la preuve de travail en tant que signal économique fort pour sécuriser une monnaie a été utilisé par \cite{vishnumurthy03karma:a}. Dans cet exemple, le jeton était utilisé pour contrôler l'échange de fichiers en pair to pair et permettait aux ``consommateurs'' de procéder à des micro-paiements aux ``fournisseurs'' pour leurs services. Le modèle de sécurité apporté par la preuve de travail était augmenté avec les signatures digitales et un registre dans le but de protéger l'historique des enregistrements contre la corruption, et contre des actes malicieux tels que la falsification des paiements ou les plaintes abusives. Cinq ans plus tard, \cite{nakamoto2008bitcoin} introduisit un autre jeton de valeur basé sur une preuve de travail sécurisée avec une portée plus large. Le fruit de ce projet, Bitcoin, est devenu le premier registre global décentralisé de transactions à être largement adopté.
 
-D'autres projets construits sur Bitcoin ont réussi; les altcoins ont introduit de nombreuses autres monnaies en modifiant le protocole. Quelques-uns des plus connus sont Litecoin et Primecoin, cités par \cite{sprankel2013technical}. D'autres projets ont su prendre le coeur du contenu du mécanisme de valeur et le réappliquer; \cite{aron2012bitcoin} a parlé, par exemple, du projet Namecoin qui a pour but de fournir un système de résolution de nom décentralisé.
+D'autres projets construits à partir de Bitcoin ont réussi; les altcoins, ou monnaies alternatives, ont introduit de nombreuses autres monnaies en modifiant le protocole. Quelques-unes des plus connues sont Litecoin et Primecoin, citées par \cite{sprankel2013technical}. D'autres projets ont su prendre la valeur essentielle contenue dans le mécanisme du protocole et de la réappliquer; \cite{aron2012bitcoin} a décrit, par exemple, du projet Namecoin qui a pour but de fournir un système de résolution de nom décentralisé.
 
-D'autres projets visent toujours à construire par-dessus le réseau Bitcoin lui-même, augmentant le grand volume de valeur placé dans le système et la quantité de puissance de calcul destinée au mécanisme de consensus. Le projet Mastercoin, proposé initialement par \cite{mastercoin2013willett}, vise à construire un protocole plus riche, impliquant beaucoup de fonctionnalités de haut niveau par-dessus le protocole Bitcoin à travers l'utilisation d'un grand nombre de parties auxiliaires au protocole de base. Le projet Colored Coins, proposé par \cite{colouredcoins2012rosenfeld}, a une stratégie similaire mais plus simple, embellissant les règles d'une transaction afin de casser la fongibilité de la monnaie de base Bitcoin et autoriser la création  et le suivi des jetons à travers un ``chroma-wallet'', une surcouche logicielle fonctionnant avec le protocole.
+D'autres projets visent toujours à construire par-dessus le réseau Bitcoin lui-même, tirant profit de l’importante valeur placée dans le système et de la très grande puissance de calcul destinée au mécanisme de consensus. Le projet Mastercoin, proposé initialement par \cite{mastercoin2013willett}, vise à construire un protocole plus riche, impliquant beaucoup de fonctionnalités de haut niveau par-dessus le protocole Bitcoin à travers l'utilisation d'un grand nombre de parties auxiliaires au protocole de base. Le projet Colored Coins, proposé par \cite{colouredcoins2012rosenfeld}, a une stratégie similaire mais plus simple, agrémentant les règles d'une transaction afin de casser la fongibilité de la monnaie de base Bitcoin et autoriser la création  et le suivi des jetons à travers un ``chroma-wallet'', une surcouche logicielle fonctionnant avec le protocole.
 
-Des travaux supplémentaires ont été effecués avec pour idée d'écarter les fondations de la décentralisation; Ripple, décrit par \cite{boutellier2014pirates}, a cherché à créer un système fédéré pour l'échange de devises, en créant efficacement un nouveau système financier de compensation. Cela a démontré que de gros gains d'efficience peuvent être faits si le principe de la décentralisation est rejeté.
+Des travaux supplémentaires ont été effectués avec pour idée d'écarter les fondements de la décentralisation; Ripple, décrit par \cite{boutellier2014pirates}, a cherché à créer un système fédéré pour l'échange de devises constituant effectivement un nouveau système de compensation financière. Cela a démontré que de gros gains d'efficience peuvent être faits si le principe de la décentralisation est rejeté.
 
-Antérieurement un travail sur les smart contracts a été effectué par \cite{szabo1997formalizing} et \cite{miller1997future}. Autour des années 90 il est devenu clair qu'une mise en application algorithmique des accords pourrait devenir une force significative dans la coopération entre les humains. Bien qu'aucun système spécifique n'ait été proposé pour implémenter un tel système, il a été proposé que le futur du droit devrait être profondément atteint par ce genre de systèmes. Dans cette optique, Ethereum peut être vu comme une implémentation généraliste d'un tel système de \textit{droit cryptographique}.
+Antérieurement un travail sur les smart contracts a été effectué par \cite{szabo1997formalizing} et \cite{miller1997future}. Autour des années 90 il est devenu clair que la résolution par un algorithmique des accords entre humains pourrait devenir une force significative dans la coopération. Bien qu'aucun système spécifique n'ait été proposé pour implémenter un tel système, il a été présumé que le futur du droit soit profondément affecté par ce genre de résolution. Dans cette optique, Ethereum peut être vu comme une implémentation généraliste d'un tel système de \textit{droit cryptographique}.
 
 %E language?
 
 \section{Le paradigme de la blockchain} \label{ch:overview}
 
-Ethereum, pris dans son ensemble, peut être vu comme une machine a états basée sur des transactions: nous commençons avec un état originel, et exécutons des transactions de manière incrémentale pour le transformer en un état final. C'est cet état final que nous acceptons comme la ``version'' canonique du monde d'Ethereum. L'état peut inclure des informations tels que les soldes de comptes, la réputation, des accords de confiance, de la donnée portant sur l'information du monde physique; en résumé, tout ce qui peut actuellement être représenté par un ordinateur est admissible. Les transactions représentent ainsi une passerelle valide entre deux états; la partie `valide' est importante---il existe beaucoup plus de changements d'état invalides que de changements d'état valides. Les changements d'état invalides pourraient par exemple être des choses telles que réduire le solde d'un compte sans compenser ailleurs d'un montant équivalent. Un changement d'état valide l'est au travers d'une transaction. Concrètement: 
+Ethereum, pris dans son ensemble, peut être vu comme une machine à état basée sur des transactions: nous commençons avec un état originel, et exécutons des transactions de manière incrémentale pour le transformer en un état final. C'est cet état final que nous acceptons comme la ``version'' canonique du monde d'Ethereum. L'état peut inclure des informations telles que les soldes de comptes, la réputation, des accords de confiance, des données portant sur l'information du monde physique; en résumé, tout ce qui peut actuellement être représenté par un ordinateur est admissible. Les transactions représentent ainsi une passerelle valide entre deux états; l’aspect `valide' est importante---il existe beaucoup plus de changements d'état invalides que de changements d'état valides. Les changements d'état invalides pourraient par exemple être des choses telles que réduire le solde d'un compte sans compenser ailleurs d'un montant équivalent. Un changement d'état valide est un changement produit par le truchement d’une transaction. Formellement: 
 \begin{equation}
 \boldsymbol{\sigma}_{t+1} \equiv \Upsilon(\boldsymbol{\sigma}_t, T)
 \end{equation}
 
 
-où $\Upsilon$ est la fonction de transition d'état Ethereum. Dans Ethereum, $\Upsilon$, combiné avec $\boldsymbol{\sigma}$ sont considérablement plus puissants que tous les systèmes comparables existants; $\Upsilon$ autorise les composants à effectuer des calculs arbitraires, alors que $\boldsymbol{\sigma}$ autorise les composants à stocker des états arbitraires entre les transactions.
+où $\Upsilon$ est la fonction de transition d'état d’Ethereum. Dans Ethereum, $\Upsilon$, combiné avec $\boldsymbol{\sigma}$ sont considérablement plus puissants que tous les systèmes comparables existants; $\Upsilon$ autorise les composants à effectuer des calculs arbitraires, alors que $\boldsymbol{\sigma}$ autorise les composants à stocker des états arbitraires entre les transactions.
 
-Les transactions sont regroupées en blocs; les blocs sont chaînés les un aux autres en utilisant un hash cryptographique comme référence. Les blocs fonctionnent comme un journal, enregistrant ensemble une série de transactions avec le bloc précédant et un identifiant pour l'état final (l'état final n'est pas stocké lui-même---cela serait beaucoup trop volumineux). Ils ponctuent également la série de transaction avec une incitation pour les noeuds à \textit{miner}.
+Les transactions sont regroupées dans des blocs; les blocs sont chaînés les uns aux autres en utilisant un haché cryptographique comme technique de référencement. Les blocs fonctionnent comme un journal, enregistrant une série de transactions ainsi que le bloc précédant et un identifiant pour l'état final (l'état final n'est cependant pas stocké lui-même---cela serait beaucoup trop volumineux). Ils ponctuent également la série de transaction avec une incitation pour les n\oe{}uds à \textit{miner}.
 
-Miner est le processus de dédier de l'effort (travail) pour soutenir une série de transactions (un bloc) contre n'importe quel autre bloc compétiteur. Cela est mis en oeuvre grâce à une preuve cryptographique sécurisée. Ce schema est connu comme preuve de travail (proof-of-work), et est étudié en détail dans la section \ref{ch:pow}.
+Miner est le processus consistant à dédier de l'effort (du travail) pour soutenir une série de transactions (un bloc) contre n'importe quel autre bloc concurrent. Cela est mis en \oe{}uvre grâce à une preuve cryptographique sécurisée. Ce sch »ma est connu comme preuve de travail (proof-of-work), et est étudié en détail dans la section \ref{ch:pow}.
 
 
 Formellement, on développe ainsi:
@@ -117,19 +118,19 @@ B & \equiv & (..., (T_0, T_1, ...) ) \\
 \end{eqnarray}
 
 
-Où $\Omega$ est la fonction de changement d'état finalisant le bloc (une fonction qui récompense la partie élue); $B$ est ce bloc, qui inclut une série de transactions parmi d'autres composants; et $\Pi$ est la fonction de changement d'état au niveau du bloc.
+Où $\Omega$ est la fonction de changement d'état finalisant le bloc (une fonction qui récompense un ensemble désigné); $B$ est ce bloc, qui inclut une série de transactions parmi d'autres éléments; et $\Pi$ est la fonction de changement d'état au niveau du bloc.
 
-Ceci est la base du paradigme de la blockchain, un modèle qui forme la colonne vertébrale non seulement d'Ethereum, mais aussi de tous les systèmes de transactions décentralisées basés sur consensus à l'heure actuelle. 
+Ceci est la base du paradigme de la blockchain, un modèle qui forme la colonne vertébrale non seulement d'Ethereum, mais aussi de tous les systèmes de transactions décentralisés basés sur consensus à l'heure actuelle.
 
 \subsection{Valeur}
 
 
-Dans le but d'inciter au calcul à l'intérieur du réseau, il y a besoin de convenir d'une méthode pour transmettre la valeur. Pour régler ce problème, Ethereum a une monnaie intrinsèque, l'Ether, aussi connue comme {\small ETH}, et parfois en référence à l'Anglais Ancien \DH{}. La plus petite sous-unité de l'Ether, et celle dans laquelle toutes les valeurs entières de la monnaie sont comptées est le Wei. Un Ether représente $10^{18}$ Wei. il existe d'autres multiplicateurs du Wei:
+Dans le but d'inciter à l’affectation de puissance de calcul à l'intérieur du réseau, il y a besoin de convenir d'une méthode pour transmettre la valeur. Pour régler ce problème, Ethereum a une monnaie intrinsèque, l'Ether, aussi connue comme {\small ETH}, et parfois en référence à l'Anglais Ancien \DH{} (prononcé Eth). La plus petite sous-unité de l'Ether, et celle dans laquelle toutes les valeurs entières de la monnaie sont comptées est le Wei. Un Ether représente $10^{18}$ Wei. Il existe d'autres unités dérivées de l'Ether:
 \par
 \begin{center}
 \begin{tabular}{rl}
 \toprule
-Multiplicateur & Nom \\
+Ordre de grandeur & Nom \\
 \midrule
 $10^0$ & Wei \\
 $10^{12}$ & Szabo \\
@@ -140,42 +141,42 @@ $10^{18}$ & Ether \\
 \end{center}
 \par
 
-Tout au long du présent document, chaque référence à la valeur, dans un contexte d'Ether, comme monnaie, balance ou paiement, sera exprimée en Wei.
+Tout au long du présent document, toute référence à une valeur ou à l'Ether, comme monnaie, balance ou paiement, sera exprimée en Wei.
 
 \subsection{Quel historique?}
 
-Puisque le système est décentralisé et que toutes les parties ont une opportunité de créer un nouveau bloc sur un bloc préexistant, la structure résultante est nécessairement un arbre de blocs. De façon à former un consensus sur quel chemin depuis la racine (le bloc originel) jusqu'à la feuille (le bloc contenant les transactions les plus récentes), à travers cette structure d'arbre connue sous le nom de blockchain, il doit y avoir un schema consensuel. Si jamais il y avait un désaccord entre les noeuds sur quel chemin de l'arbre des blocs est la `meilleure' blockchain, alors il y a divergence (fork).  
+Puisque le système est décentralisé et que toutes les parties ont une opportunité de créer un nouveau bloc sur un bloc préexistant, la structure résultante est nécessairement un arbre de blocs. Il est nécessaire de disposer d’un schéma de passage consensuelle dans cette structure, c’est-à-dire un chemin depuis la racine (le bloc originel) jusqu'à la feuille (le bloc contenant les transactions les plus récentes) qui fasse consensus à travers cette structure d'arbre connue sous le nom de blockchain. Si jamais il y avait un désaccord entre les n\oe{}uds sur quel des chemins de l'arbre des blocs constitue la `meilleure' blockchain, alors il y a fourche (fork en anglais).  
 
-Cela voudrait dire que passé un point donné dans le temps (bloc), plusieurs états du système peuvent coexister: certains noeuds croyant qu'un bloc contient les transactions canoniques, d'autres noeuds croyant un autre bloc être canonique, contenant potentiellement des transactions radicalement différentes ou incompatibles. Ceci est à éviter à tout prix, tout comme l'incertitude qui s'ensuivrait et qui pourrait tuer la confiance dans le système entier. 
+Cela voudrait dire que passé un point donné dans le temps (bloc), plusieurs états du système peuvent coexister: certains n\oe{}uds croyant qu'un bloc contient les transactions canoniques, tandis que d'autres n\oe{}uds croyant être canonique un autre bloc, celui-ci contenant potentiellement des transactions radicalement différentes ou incompatibles. Ceci est à éviter à tout prix, tout comme l'incertitude qui s'ensuivrait et qui pourrait tuer la confiance dans le système entier. 
 
 Le schéma que nous utilisons pour générer un consensus est une version simplifiée du protocole GHOST, introduit par \cite{cryptoeprint:2013:881}. Ce processus est décrit en détail dans la section \ref{ch:ghost}.
 
 \section{Conventions}\label{ch:conventions}
 
-J'utilise un nombre de conventions typographiques pour les notations formelles, quelques unes sont un peu particulières au document présent:
+J'utilise un nombre de conventions typographiques pour les notations formelles, quelques-unes sont un peu particulières au document présent:
 
-Les deux ensembles de haut niveau, hautement structurés, des valeurs d'état, sont notés en minuscules grecques, graissées. Ces valeurs relèvent de la catégorie de l'état-monde noté $\boldsymbol{\sigma}$ (ou une variante de celui-ci) ou de celle de l'état-machine, $\boldsymbol{\mu}$.
+Les deux ensembles de haut niveau, hautement structurés, des valeurs d'état, sont notés en minuscules grecques en gras. Ces valeurs relèvent de la catégorie de l'état du monde noté $\boldsymbol{\sigma}$ (ou une variante de celui-ci) ou de celle de l'état de la machine, $\boldsymbol{\mu}$.
 
-Les fonctions opérant sur ces valeurs hautement structurées sont notés en lettre Grecque majuscule, par exemple $\Upsilon$, la fonction de transition d'état d'Ethereum.
+Les fonctions opérant sur ces valeurs hautement structurées sont notés en lettre Grecque majuscule, par exemple $\Upsilon$, la fonction de changement d'état d'Ethereum.
 
-Pour la plupart des fonctions, une lettre majuscule est utilisée, par exemple $C$, la fonction de coût général. Elles peuvent être indicées pour dénoter des variantes spécialisées, par exemple $C_\text{\tiny SSTORE}$,
-la fonction de coût pour l'opération {\tiny SSTORE}. Pour les fonctions spécialisées et éventuellement définies de manière externe, je peux formater en style typewriter, par exemple la fonction de hachage Keccak-256 (celle-là même qui fut gagnante pour le concours SHA-3) est dénotée $\texttt{KEC}$ (et généralement référencée comme simple Keccak). Aussi, $\texttt{KEC512}$ fait référence à une fonction de hachage Keccak 512.
+Pour la plupart des fonctions, une lettre majuscule est utilisée, par exemple $C$, la fonction de coût général. Elles peuvent être indicées pour dénoter des variantes spécifiée, par exemple $C_\text{\tiny SSTORE}$,
+la fonction de coût pour l'opération {\tiny SSTORE}. Pour certaines fonctions spécialisées et éventuellement définies de manière externe, je peux utiliser une typographie particulière, par exemple la fonction de hachage Keccak-256 (la gagnante du concours SHA-3) est dénotée $\texttt{KEC}$ (et généralement référencée comme simple Keccak). Aussi, $\texttt{KEC512}$ fait référence à une fonction de hachage Keccak 512.
 
-Les tuples sont typiquement notés en lettres majuscules, par exemple $T$ est utilisé pour noter une transaction Ethereum. Ce symbole peut, si il est défini en conséquence, être indicée pour faire référence à un composant individuel, \eg $T_n$, dénote le nonce de ladite transaction. la forme de l'indice est utilisée pour dénoter son type; par exemple des indices en majuscule font référence a des tuples avec des composants subscriptables.
+Les tuples sont typiquement notés en lettres majuscules, par exemple $T$ est utilisé pour noter une transaction Ethereum. Ce symbole peut, s’il est défini en conséquence, être indicée pour faire référence à un composant individuel, \eg $T_n$, dénote le nonce de ladite transaction. la forme de l'indice est utilisée pour dénoter son type; par exemple des indices en majuscule font référence à des tuples avec des composants indiçables.
 
-Les scalaires et les séquences d'octets de taille fixe (analogue, les tableaux), sont notés avec une lettre normale minuscule, par exemple $n$ est utilisée pour représenter le nonce de telle transaction. Ceux qui ont une signification spéciale peuvent être grecs, par exemple $\delta$, le nombre d'éléments requis dans la pile pour une opération donnée.
+Les scalaires et les séquences d'octets de taille fixe (analogue, les tableaux), sont notés avec une lettre normale minuscule, par exemple $n$ est utilisée pour représenter le nonce de telle transaction. Ceux qui ont une signification particulière peuvent être grecs, par exemple $\delta$, le nombre d'éléments requis dans la pile pour une opération donnée.
 
-Des séquences de longueur arbitraire sont typiquement notés en lettre minuscule et en gras, par exemple $\mathbf{o}$ est utilisé pour représenter la séquence d'octets en sortie d'un appel de message. Pour les valeurs particulièrement importantes, une lettre en majuscule et en gras peut-être utilisée.
+Des séquences de longueur arbitraire sont typiquement notés en lettre minuscule et en gras, par exemple $\mathbf{o}$ est utilisé pour représenter la séquence d'octets en sortie d'un appel de message. Pour les valeurs particulièrement importantes, une lettre en majuscule et en gras peut être utilisée.
 
-Tout au long du document nous supposons que les valeurs scalaires sont des entiers positifs, et qu'elles appartiennent a l'ensemble $\mathbb{P}$. L'ensemble de toutes les séquences d'octets est $\mathbb{B}$, formellement défini dans l'annexe \ref{app:rlp}. Si un tel ensemble de séquences est restreint à celles d'une longueur particulière, cela est dénoté avec un indice, ainsi, l'ensemble de toutes les séquences d'octets de longueur $32$  est nommé $\mathbb{B}_{32}$ et l'ensemble de tous les entiers positifs plus petits que $2^{256}$ est nommé $\mathbb{P}_{256}$. Cela formalisé dans la section \ref{ch:block}.
+Tout au long du document nous supposons que les valeurs scalaires sont des entiers positifs, et qu'elles appartiennent à l'ensemble $\mathbb{P}$. L'ensemble de toutes les séquences d'octets est $\mathbb{B}$, formellement défini dans l'annexe \ref{app:rlp}. Si un tel ensemble de séquences est restreint à celles d'une longueur particulière, cela est dénoté avec un indice, ainsi, l'ensemble de toutes les séquences d'octets de longueur $32$  est nommé $\mathbb{B}_{32}$ et l'ensemble de tous les entiers positifs plus petits que $2^{256}$ est nommé $\mathbb{P}_{256}$. Cela formalisé dans la section \ref{ch:block}.
 
-Les crochets sont utilisés pour indexer et référencer les composants individuels ou les sous-séquences de séquences, par exemple $\boldsymbol{\mu}_\mathbf{s}[0]$ représente le premier objet dans la pile de la machine. Pour les sous-séqueces, les ellipses sont utilisées pour spécifier la tranche attendue en incluant les éléments limite, par exemple $\boldsymbol{\mu}_\mathbf{m}[0..31]$ représente les 32 premiers objets de la mémoire de la machine.
+Les crochets sont utilisés pour indexer et référencer les composants individuels ou les sous-séquences de séquences, par exemple $\boldsymbol{\mu}_\mathbf{s}[0]$ représente le premier objet dans la pile de la machine. Pour les sous-séquences, les ellipses sont utilisées pour spécifier la tranche attendue en incluant les éléments au deux limites, par exemple $\boldsymbol{\mu}_\mathbf{m}[0..31]$ représente les 32 premiers objets de la mémoire de la machine.
 
 Dans le cas de l'état global $\boldsymbol{\sigma}$, qui est une séquence de comptes, eux-mêmes des tuples, les crochets sont utilisés pour référencer un compte individuel.
 
-En considérant les variantes des valeurs existantes, je suis la règle qu'au sein d'un périmètre donné comme définition, si nous supposons que la valeur d'`input' non modifiée est désignée par le signe $\Box$ alors la valeur modifiée et utilisable est représentée comme $\Box'$, et les valeurs intermédiaires seraient $\Box^*$, $\Box^{**}$ etc. Lors d'occasions vraiment particulières, dans le but de maximiser la lisibilité et seulement si c'est d'un sens non ambigu, je peux utiliser des indices alphanumériques pour représenter des valeurs intermédiaires.		 
+En considérant les variantes des valeurs existantes, je suis la règle qu'au sein d'un périmètre donné comme définition, si nous supposons que la valeur d'`input' non modifiée est désignée par le signe $\Box$ alors la valeur modifiée et utilisable est représentée comme $\Box'$, et les valeurs intermédiaires seraient alors $\Box^*$, $\Box^{**}$ etc. Dans des cas vraiment très particuliers, dans le but de maximiser la lisibilité et seulement si c'est d'un sens non ambigu, je peux utiliser des indices alphanumériques pour représenter des valeurs intermédiaires.		 
 
-En considérant l'utilisation de fonctions existantes, une fonction $f$ étant donnée, la fonction $f^*$ représente une version similaire élément par élément, d'un mapping de la fonction plutôt qu'entre les séquences. Cela est précisément décrit dans la section \ref{ch:block}.
+En considérant l'utilisation de fonctions existantes, une fonction $f$ étant donnée, la fonction $f^*$ représente une version similaire élément par élément, de la mise en correspondance (mapping) des éléments de la fonction plutôt qu'entre les séquences d’élements. Cela est précisément décrit dans la section \ref{ch:block}.
 
 Je définis un nombre de fonctions utiles à travers ce document. Une des plus communes est $\ell$, qui évalue le dernier objet de la séquence donnée:
 
@@ -185,27 +186,27 @@ Je définis un nombre de fonctions utiles à travers ce document. Une des plus c
 
 \section{Blocs, état et transactions} \label{ch:bst}
 
-Ayant introduit les concepts de base d'Ethereum, nous allons dicuter du sens d'une transaction, d'un bloc et de l'état de manière plus détaillée.
+Ayant introduit les concepts de base d'Ethereum, nous allons discuter de la signification d'une transaction, d'un bloc et de l'état de manière plus détaillée.
 
 \subsection{L'état du monde} \label{ch:state}
 
-L'état du monde (\textit{l'état}), est un mapping entre les adresses (identifiants de 160-bit) et l'état des comptes (une structure de données serialisée comme RLP, voir annexe \ref{app:rlp}). Bien que non stockée sur la blockchain, on suppose que l'implémentation va maintenir ce mapping dans un arbre radix merkle (\textit{trie}, voir annexe \ref{app:trie}). Le trie nécessite une base de donnée en arrière-plan qui maintienne un mapping de tableau de bytes à tableau de bytes; nous nommons cette base de donnée sous jacente la base de donnée d'état. Elle a un grand nombre d'avantages; premièrement le noeud racine de cette structure est cryptographiquement dépendant de toute les données interne et son hash peut être utilisé comme une identité sécurisée pour l'état du système entier. Deuxièmement, étant une structure de donnée immutable, elle permet à n'importe quel état précédent (dont le hash racine est connu) à être appelé à nouveau en altérant simplement le hash racine en fonction. Comme nous stockons tous ces hashs racines dans la blockchain, nous sommes capables de revenir aux anciens états de manière triviale.
+L'état du monde (\textit{l'état}), est une mise en correspondance (mapping) entre les adresses (identifiants de 160-bit) et l'état des comptes (une structure de données serialisée comme RLP (Recursive Length Prefix - Préfixe de Longueur Récursive), voir annexe \ref{app:rlp}). Bien que non stockée sur la blockchain, on suppose que l'implémentation va maintenir ce mapping dans un arbre radix merkle modifié (\textit{trie}, voir annexe \ref{app:trie}). Le trie nécessite une base de données en arrière-plan qui maintienne un mapping de tableau de bytes à tableau de bytes; nous nommons cette base de données sous jacente la base de données d'état. Elle a un grand nombre d'avantages; premièrement le n\oe{}uds racine de cette structure est cryptographiquement dépendant de toute les données internes et son haché peut être utilisé comme une identité sécurisée pour l'état du système entier. Deuxièmement, étant une structure de données immutable, elle permet à n'importe quel état précédent (dont le haché racine est connu) d’être appelé à nouveau en altérant simplement le haché racine en fonction. Comme nous stockons tous ces hachés racines dans la blockchain, nous sommes capables de revenir aux anciens états de manière triviale.
 
 L'état d'un compte comprend les quatre champs suivants:	
 
 \begin{description}
 \item[nonce] Une valeur scalaire égale au nombre de transactions envoyées depuis cette adresse, ou, dans le cas d'un compte contenant du code, le nombre de contrats créés par ce compte. Pour les comptes ou les adresses $a$ dans l'état $\boldsymbol{\sigma}$, cela sera représenté par $\boldsymbol{\sigma}[a]_n$.
-\item[balance] Une valeur scalaire égale au nombre de Wei possédés par cette adresse. Représenté par $\boldsymbol{\sigma}[a]_b$.
-\item[storageRoot] Un hash de 256-bit du noeud racine d'un arbre radix merkle qui encode le stockage des contenus du compte (un mapping entre des valeurs entières de 256 bits), encodés dans le trie comme un mapping entre le hash Keccak 256 bits des clés entières de 256 bits et les valeurs entières encodées par RLP de 256 bits. Le hash est noté $\boldsymbol{\sigma}[a]_s$.
-\item[codeHash] Le hash du code EVM du compte---c'est le code qui est exécuté lorsque cette adresse reçoit un appel de message; il est immutable et ainsi, contrairement à tous les autres champs, ne peut pas être changé après construction. Tous ces fragments de code sont contenus dans la base de donnée d'état sous leur hash correspondant pour les récupérer plus tard. Ce hash est noté $\boldsymbol{\sigma}[a]_c$, et ainsi le code peut petre représenté par $\mathbf{b}$, sachant que $\texttt{\small KEC}(\mathbf{b}) = \boldsymbol{\sigma}[a]_c$.
+\item[balance] Une valeur scalaire égale au nombre de Wei possédés par cette adresse. Représentée par $\boldsymbol{\sigma}[a]_b$.
+\item[storageRoot] Un haché de 256-bit du n\oe{}uds racine d'un arbre radix merkle qui encode le stockage des contenus du compte (un mapping entre des valeurs entières de 256 bits), encodés dans le trie comme un mapping entre le haché Keccak 256 bits des clés entières de 256 bits et les valeurs entières encodées par RLP de 256 bits. Le haché est noté $\boldsymbol{\sigma}[a]_s$.
+\item[codeHash] Le haché du code EVM du compte---c'est le code qui est exécuté lorsque cette adresse reçoit un appel de message; il est immutable et ainsi, contrairement à tous les autres champs, ne peut pas être changé après construction. Tous ces fragments de code sont contenus dans la base de données d'état sous leur haché correspondant pour les récupérer plus tard. Ce haché est noté $\boldsymbol{\sigma}[a]_c$, et ainsi le code peut être représenté par $\mathbf{b}$, sachant que $\texttt{\small KEC}(\mathbf{b}) = \boldsymbol{\sigma}[a]_c$.
 \end{description}
 
-Comme je souhaite typiquement faire référence, non pas au hash racine du trie mais à l'ensemble des paires clé/valeur stocké à l'intérieur, je définis une équivalence pratique: 
+Comme je souhaite typiquement faire référence, non pas au haché racine du trie mais à l'ensemble des paires clé/valeur stockées à l'intérieur, je définis une équivalence pratique: 
 \begin{equation}
 \texttt{\small TRIE}\big(L_I^*(\boldsymbol{\sigma}[a]_\mathbf{s})\big) \equiv \boldsymbol{\sigma}[a]_s
 \end{equation}
 
-la fonction d'effondrement (ordinale?) pour l'ensemble de paires de clé/valeur dans le trie, $L_I^*$, est définie comme la transformation élément par élément de la fonction de base $L_I$, définie par:
+la fonction d'effondrement ordinale pour l'ensemble de paires de clé/valeur dans le trie, $L_I^*$, est définie comme la transformation élément par élément de la fonction de base $L_I$, définie par:
 \begin{equation}
 L_I\big( (k, v) \big) \equiv \big(\texttt{\small KEC}(k), \texttt{\small RLP}(v)\big)
 \end{equation}
@@ -215,11 +216,11 @@ où:
 k \in \mathbb{B}_{32} \quad \wedge \quad v \in \mathbb{P}
 \end{equation}
 
-Il doit être compris que $\boldsymbol{\sigma}[a]_\mathbf{s}$ n'est pas un membre `physique' du compte et ne contribue pas a sa sérialisation ultérieure.
+Il faut comprendre ici que $\boldsymbol{\sigma}[a]_\mathbf{s}$ n'est pas un membre `physique' du compte et ne contribue pas a sa sérialisation ultérieure.
 
-Si le champ \textbf{codeHash} est le hash Keccak-256 de la string vide, i.e. $\boldsymbol{\sigma}[a]_c = \texttt{\small KEC}\big(()\big)$, alors le noeud représente un simple compte, parfois dénommé compte ``non-contrat''.
+Si le champ \textbf{codeHash} est le haché Keccak-256 de la chaîne (de caractères) vide, i.e. $\boldsymbol{\sigma}[a]_c = \texttt{\small KEC}\big(()\big)$, alors le n\oe{}uds représente un simple compte, parfois dénommé compte ``non-contrat''.
 
-Ainsi nous pouvons définir une fonction d'effondrement de l'état du monde $L_S$:
+Ainsi nous pouvons définir une fonction d'effondrement ordinale de l'état du monde $L_S$:
 \begin{equation}
 L_S(\boldsymbol{\sigma}) \equiv \{ p(a): \boldsymbol{\sigma}[a] \neq \varnothing \}
 \end{equation}
@@ -1162,7 +1163,7 @@ Providing random numbers within a deterministic system is, naturally, an impossi
 
 The state database won't be forced to maintain all past state trie structures into the future. It should maintain an age for each node and eventually discard nodes that are neither recent enough nor checkpoints; checkpoints, or a set of nodes in the database that allow a particular block's state trie to be traversed, could be used to place a maximum limit on the amount of computation needed in order to retrieve any state throughout the blockchain.
 
-Blockchain consolidation could be used in order to reduce the amount of blocks a client would need to download to act as a full, mining, node. A compressed archive of the trie structure at given points in time (perhaps one in every 10000th block) could be maintained by the peer network, effectively recasting the genesis block. This would reduce the amount to be downloaded to a single archive plus a hard maximum limit  of blocks.
+Blockchain consolidation could be used in order to reduce the amount of blocks a client would need to download to act as a full, mining, node. A compressed archive of the trie structure at given points in time (perhaps one in every 10,000th block) could be maintained by the peer network, effectively recasting the genesis block. This would reduce the amount to be downloaded to a single archive plus a hard maximum limit  of blocks.
 
 Finally, blockchain compression could perhaps be conducted: nodes in state trie that haven't sent/received a transaction in some constant amount of blocks could be thrown out, reducing both Ether-leakage and the growth of the state database.
 
@@ -1180,7 +1181,7 @@ I have introduced, discussed and formally defined the protocol of Ethereum. Thro
 
 \section{Acknowledgements}
 
-Important maintenance, useful corrections and suggestions were provided by a number of others from the Ethereum DEV organisation and Ethereum community at large including Christoph Jentzsch, Gustav Simonsson, Aeron Buchanan, Pawe\l{} Bylica, Jutta Steiner, Nick Savers, Viktor Tr\'{o}n, Marko Simovic and, of course, Vitalik Buterin.
+Many thanks to Aeron Buchanan for authoring the Homestead revisions, Christoph Jentzsch for authoring the Ethash algorithm and Yoichi Hirai for doing most of the EIP-150 changes. Important maintenance, useful corrections and suggestions were provided by a number of others from the Ethereum DEV organisation and Ethereum community at large including Gustav Simonsson, Pawe\l{} Bylica, Jutta Steiner, Nick Savers, Viktor Tr\'{o}n, Marko Simovic, Giacomo Tazzari and, of course, Vitalik Buterin.
 
 \bibliography{Biblio}
 \bibliographystyle{plainnat}
@@ -1502,19 +1503,21 @@ $G_{verylow}$ & 3 & Amount of gas to pay for operations of the set {\small $W_{v
 $G_{low}$ & 5 & Amount of gas to pay for operations of the set {\small $W_{low}$}. \\
 $G_{mid}$ & 8 & Amount of gas to pay for operations of the set {\small $W_{mid}$}. \\
 $G_{high}$ & 10 & Amount of gas to pay for operations of the set {\small $W_{high}$}. \\
-$G_{ext}$ & 20 & Amount of gas to pay for operations of the set {\small $W_{ext}$}. \\
-$G_{sload}$ & 50 & Paid for a {\small SLOAD} operation. \\
+$G_{extcode}$ & 700 & Amount of gas to pay for operations of the set {\small $W_{extcode}$}. \\
+$G_{balance}$ & 400 & Amount of gas to pay for a {\small BALANCE} operation. \\
+$G_{sload}$ & 200 & Paid for a {\small SLOAD} operation. \\
 $G_{jumpdest}$ & 1 & Paid for a {\small JUMPDEST} operation. \\
 $G_{sset}$ & 20000 & Paid for an {\small SSTORE} operation when the storage value is set to non-zero from zero. \\
 $G_{sreset}$ & 5000 & Paid for an {\small SSTORE} operation when the storage value's zeroness remains unchanged or is set to zero. \\
 $R_{sclear}$ & 15000 & Refund given (added into refund counter) when the storage value is set to zero from non-zero. \\
 $R_{suicide}$ & 24000 & Refund given (added into refund counter) for suiciding an account. \\
+$G_{suicide}$ & 5000 & Amount of gas to pay for a {\small SUICIDE} operation. \\
 $G_{create}$ & 32000 & Paid for a {\small CREATE} operation. \\
 $G_{codedeposit}$ & 200 & Paid per byte for a {\small CREATE} operation to succeed in placing code into state. \\
-$G_{call}$ & 40 & Paid for a {\small CALL} operation. \\
+$G_{call}$ & 700 & Paid for a {\small CALL} operation. \\
 $G_{callvalue}$ & 9000 & Paid for a non-zero value transfer as part of the {\small CALL} operation. \\
 $G_{callstipend}$ & 2300 & A stipend for the called contract subtracted from $G_{callvalue}$ for a non-zero value transfer. \\
-$G_{callnewaccount}$ & 25000 & Paid for a {\small CALL} operation to a not previously existing account. \\
+$G_{newaccount}$ & 25000 & Paid for a {\small CALL} or {\small SUICIDE} operation which creates an account. \\
 $G_{exp}$ & 10 & Partial payment for an {\small EXP} operation. \\
 $G_{expbyte}$ & 10 & Partial payment when multiplied by $\lceil\log_{256}(exponent)\rceil$ for the {\small EXP} operation. \\
 $G_{memory}$ & 3 & Paid for every additional word when expanding memory. \\
@@ -1528,6 +1531,7 @@ $G_{logtopic}$ & 375 & Paid for each topic of a {\small LOG} operation. \\
 $G_{sha3}$ & 30 & Paid for each {\small SHA3} operation. \\
 $G_{sha3word}$ & 6 & Paid for each word (rounded up) for input data to a {\small SHA3} operation. \\
 $G_{copy}$ & 3 & Partial payment for {\small *COPY} operations, multiplied by words copied, rounded up. \\
+$G_{blockhash}$ & 20 & Payment for {\small BLOCKHASH} operation. \\
 
 %extern u256 const c_copyGas;			///< Multiplied by the number of 32-byte words that are copied (round up) for any *COPY operation and added.
 \bottomrule
@@ -1544,18 +1548,19 @@ When a 256-bit machine datum is converted to and from a 160-bit address or hash,
 The general gas cost function, $C$, is defined as:
 
 \begin{equation}
-C(\boldsymbol{\sigma}, \boldsymbol{\mu}, I) \equiv C_{memory}(\boldsymbol{\mu}'_i)-C_{memory}(\boldsymbol{\mu}_i) + \begin{cases}
+C(\boldsymbol{\sigma}, \boldsymbol{\mu}, I) \equiv C_{mem}(\boldsymbol{\mu}'_i)-C_{mem}(\boldsymbol{\mu}_i) + \begin{cases}
 C_\text{\tiny SSTORE}(\boldsymbol{\sigma}, \boldsymbol{\mu}) & \text{if} \quad w = \text{\small SSTORE} \\
 G_{exp} & \text{if} \quad w = \text{\small EXP} \wedge \boldsymbol{\mu}_\mathbf{s}[1] = 0 \\
 G_{exp} + G_{expbyte}\times(1+\lfloor\log_{256}(\boldsymbol{\mu}_\mathbf{s}[1])\rfloor) & \text{if} \quad w = \text{\small EXP} \wedge \boldsymbol{\mu}_\mathbf{s}[1] > 0 \\
 G_{verylow} + G_{copy}\times\lceil\boldsymbol{\mu}_\mathbf{s}[2] \div 32\rceil & \text{if} \quad w = \text{\small CALLDATACOPY} \lor \text{\small CODECOPY} \\
-G_{ext} + G_{copy}\times\lceil\boldsymbol{\mu}_\mathbf{s}[3] \div 32\rceil & \text{if} \quad w = \text{\small EXTCODECOPY} \\
+G_{extcode} + G_{copy}\times\lceil\boldsymbol{\mu}_\mathbf{s}[3] \div 32\rceil & \text{if} \quad w = \text{\small EXTCODECOPY} \\
 G_{log}+G_{logdata}\times\boldsymbol{\mu}_\mathbf{s}[1] & \text{if} \quad w = \text{\small LOG0} \\
 G_{log}+G_{logdata}\times\boldsymbol{\mu}_\mathbf{s}[1]+G_{logtopic} & \text{if} \quad w = \text{\small LOG1} \\
 G_{log}+G_{logdata}\times\boldsymbol{\mu}_\mathbf{s}[1]+2G_{logtopic} & \text{if} \quad w = \text{\small LOG2} \\
 G_{log}+G_{logdata}\times\boldsymbol{\mu}_\mathbf{s}[1]+3G_{logtopic} & \text{if} \quad w = \text{\small LOG3} \\
 G_{log}+G_{logdata}\times\boldsymbol{\mu}_\mathbf{s}[1]+4G_{logtopic} & \text{if} \quad w = \text{\small LOG4} \\
 C_\text{\tiny CALL}(\boldsymbol{\sigma}, \boldsymbol{\mu}) & \text{if} \quad w = \text{\small CALL} \lor \text{\small CALLCODE} \lor \text{\small DELEGATECALL} \\
+C_\text{\tiny SUICIDE}(\boldsymbol{\sigma}, \boldsymbol{\mu}) & \text{if} \quad w = \text{\small SUICIDE} \\
 G_{create} & \text{if} \quad w = \text{\small CREATE}\\
 G_{sha3}+G_{sha3word} \lceil \mathbf{s}[1] \div 32 \rceil & \text{if} \quad w = \text{\small SHA3}\\
 G_{jumpdest} & \text{if} \quad w = \text{\small JUMPDEST}\\
@@ -1566,7 +1571,9 @@ G_{verylow} & \text{if} \quad w \in W_{verylow}\\
 G_{low} & \text{if} \quad w \in W_{low}\\
 G_{mid} & \text{if} \quad w \in W_{mid}\\
 G_{high} & \text{if} \quad w \in W_{high}\\
-G_{ext} & \text{if} \quad w \in W_{ext}
+G_{extcode} & \text{if} \quad w \in W_{extcode}\\
+G_{balance} & \text{if} \quad w = \text{\small BALANCE}\\
+G_{blockhash} & \text{if} \quad w = \text{\small BLOCKHASH}\\
 \end{cases}
 \end{equation}
 \begin{equation}
@@ -1577,12 +1584,12 @@ w \equiv \begin{cases} I_\mathbf{b}[\boldsymbol{\mu}_{pc}] & \text{if} \quad \bo
 
 where:
 \begin{equation}
-C_{memory}(a) \equiv G_{memory} \cdot a + \Big\lfloor \dfrac{a^2}{512} \Big\rfloor
+C_{mem}(a) \equiv G_{memory} \cdot a + \Big\lfloor \dfrac{a^2}{512} \Big\rfloor
 \end{equation}
 
-with $C_\text{\tiny CALL}$ and $C_\text{\tiny SSTORE}$ as specified in the appropriate section below. We define the following subsets of instructions:
+with $C_\text{\tiny CALL}$, $C_\text{\tiny SUICIDE}$ and $C_\text{\tiny SSTORE}$ as specified in the appropriate section below. We define the following subsets of instructions:
 
-$W_{zero}$ = \{{\small STOP}, {\small SUICIDE}, {\small RETURN}\}
+$W_{zero}$ = \{{\small STOP}, {\small RETURN}\}
 
 $W_{base}$ = \{{\small ADDRESS}, {\small ORIGIN}, {\small CALLER}, {\small CALLVALUE}, {\small CALLDATASIZE}, {\small CODESIZE}, {\small GASPRICE}, {\small COINBASE},\newline \noindent\hspace*{1cm} {\small TIMESTAMP}, {\small NUMBER}, {\small DIFFICULTY}, {\small GASLIMIT}, {\small POP}, {\small PC}, {\small MSIZE}, {\small GAS}\}
 
@@ -1594,13 +1601,13 @@ $W_{mid}$ = \{{\small ADDMOD}, {\small MULMOD}, {\small JUMP}\}
 
 $W_{high}$ = \{{\small JUMPI}\}
 
-$W_{ext}$ = \{{\small BALANCE}, {\small EXTCODESIZE}, {\small BLOCKHASH}\}
+$W_{extcode}$ = \{{\small EXTCODESIZE}\}
 
 Note the memory cost component, given as the product of $G_{memory}$ and the maximum of 0 \& the ceiling of the number of words in size that the memory must be over the current number of words, $\boldsymbol{\mu}_i$ in order that all accesses reference valid memory whether for read or write. Such accesses must be for non-zero number of bytes.
 
 Referencing a zero length range (e.g. by attempting to pass it as the input range to a CALL) does not require memory to be extended to the beginning of the range. $\boldsymbol{\mu}'_i$ is defined as this new maximum number of words of active memory; special-cases are given where these two are not equal.
 
-Note also that $C_{memory}$ is the memory cost function (the expansion function being the difference between the cost before and after). It is a polynomial, with the higher-order coefficient divided and floored, and thus linear up to 724B of memory used, after which it costs substantially more.
+Note also that $C_{mem}$ is the memory cost function (the expansion function being the difference between the cost before and after). It is a polynomial, with the higher-order coefficient divided and floored, and thus linear up to 724B of memory used, after which it costs substantially more.
 
 While defining the instruction set, we defined the memory-expansion for range function, $M$, thus:
 
@@ -1609,6 +1616,12 @@ M(s, f, l) \equiv \begin{cases}
 s & \text{if} \quad l = 0 \\
 \max(s, \ceil{ (f + l) \div 32 }) & \text{otherwise}
 \end{cases}
+\end{equation}
+
+Another useful function is ``all but one 64th'' function~$L$ defined as:
+
+\begin{equation}
+L(n) \equiv n - \lfloor n / 64 \rfloor
 \end{equation}
 
 \subsection{Instruction Set}
@@ -1752,6 +1765,7 @@ Here given are the various exceptions to the state transition rules given in sec
 0x37 & {\small CALLDATACOPY} & 3 & 0 & Copy input data in current environment to memory. \\
 &&&& $\forall_{i \in \{ 0 \dots \boldsymbol{\mu}_\mathbf{s}[2] - 1\} } \boldsymbol{\mu}'_\mathbf{m}[\boldsymbol{\mu}_\mathbf{s}[0] + i ] \equiv
 \begin{cases} I_\mathbf{d}[\boldsymbol{\mu}_\mathbf{s}[1] + i] & \text{if} \quad \boldsymbol{\mu}_\mathbf{s}[1] + i < \lVert I_\mathbf{d} \rVert \\ 0 & \text{otherwise} \end{cases}$\\
+&&&& $\boldsymbol{\mu}'_i \equiv M(\boldsymbol{\mu}_i, \boldsymbol{\mu}_\mathbf{s}[0], \boldsymbol{\mu}_\mathbf{s}[2])$ \\
 &&&& This pertains to the input data passed with the message call instruction or transaction. \\
 \midrule
 0x38 & {\small CODESIZE} & 0 & 1 & Get size of code running in current environment. \\
@@ -1760,6 +1774,7 @@ Here given are the various exceptions to the state transition rules given in sec
 0x39 & {\small CODECOPY} & 3 & 0 & Copy code running in current environment to memory. \\
 &&&& $\forall_{i \in \{ 0 \dots \boldsymbol{\mu}_\mathbf{s}[2] - 1\} } \boldsymbol{\mu}'_\mathbf{m}[\boldsymbol{\mu}_\mathbf{s}[0] + i ] \equiv
 \begin{cases} I_\mathbf{b}[\boldsymbol{\mu}_\mathbf{s}[1] + i] & \text{if} \quad \boldsymbol{\mu}_\mathbf{s}[1] + i < \lVert I_\mathbf{b} \rVert \\ \text{\small STOP} & \text{otherwise} \end{cases}$\\
+&&&& $\boldsymbol{\mu}'_i \equiv M(\boldsymbol{\mu}_i, \boldsymbol{\mu}_\mathbf{s}[0], \boldsymbol{\mu}_\mathbf{s}[1])$ \\
 \midrule
 0x3a & {\small GASPRICE} & 0 & 1 & Get price of gas in current environment. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv I_p$ \\
@@ -1772,6 +1787,7 @@ Here given are the various exceptions to the state transition rules given in sec
 &&&& $\forall_{i \in \{ 0 \dots \boldsymbol{\mu}_\mathbf{s}[3] - 1\} } \boldsymbol{\mu}'_\mathbf{m}[\boldsymbol{\mu}_\mathbf{s}[1] + i ] \equiv
 \begin{cases} \mathbf{c}[\boldsymbol{\mu}_\mathbf{s}[2] + i] & \text{if} \quad \boldsymbol{\mu}_\mathbf{s}[2] + i < \lVert \mathbf{c} \rVert \\ \text{\small STOP} & \text{otherwise} \end{cases}$\\
 &&&& where $\mathbf{c} \equiv \boldsymbol{\sigma}[\boldsymbol{\mu}_s[0] \mod 2^{160}]_c$ \\
+&&&& $\boldsymbol{\mu}'_i \equiv M(\boldsymbol{\mu}_i, \boldsymbol{\mu}_\mathbf{s}[1], \boldsymbol{\mu}_\mathbf{s}[3])$ \\
 \bottomrule
 \end{tabular*}
 
@@ -1952,7 +1968,7 @@ R_{sclear} & \text{if} \quad \boldsymbol{\mu}_\mathbf{s}[1] = 0 \; \wedge \; \bo
 \textbf{Value} & \textbf{Mnemonic} & $\delta$ & $\alpha$ & \textbf{Description} \vspace{5pt} \\
 0xf0 & {\small CREATE} & 3 & 1 & Create a new account with associated code. \\
 &&&& $\mathbf{i} \equiv \boldsymbol{\mu}_\mathbf{m}[ \boldsymbol{\mu}_\mathbf{s}[1] \dots (\boldsymbol{\mu}_\mathbf{s}[1] + \boldsymbol{\mu}_\mathbf{s}[2] - 1) ]$ \\
-&&&& $(\boldsymbol{\sigma}', \boldsymbol{\mu}'_g, A^+) \equiv \begin{cases}\Lambda(\boldsymbol{\sigma}^*, I_a, I_o, \boldsymbol{\mu}_g, I_p, \boldsymbol{\mu}_\mathbf{s}[0], \mathbf{i}, I_e + 1) & \text{if} \quad \boldsymbol{\mu}_\mathbf{s}[0] \leqslant \boldsymbol{\sigma}[I_a]_b \;\wedge\; I_e < 1024\\ \big(\boldsymbol{\sigma}, \boldsymbol{\mu}_g, \varnothing\big) & \text{otherwise} \end{cases}$ \\
+&&&& $(\boldsymbol{\sigma}', \boldsymbol{\mu}'_g, A^+) \equiv \begin{cases}\Lambda(\boldsymbol{\sigma}^*, I_a, I_o, L(\boldsymbol{\mu}_g), I_p, \boldsymbol{\mu}_\mathbf{s}[0], \mathbf{i}, I_e + 1) & \text{if} \quad \boldsymbol{\mu}_\mathbf{s}[0] \leqslant \boldsymbol{\sigma}[I_a]_b \;\wedge\; I_e < 1024\\ \big(\boldsymbol{\sigma}, \boldsymbol{\mu}_g, \varnothing\big) & \text{otherwise} \end{cases}$ \\
 &&&& $\boldsymbol{\sigma}^* \equiv \boldsymbol{\sigma} \quad \text{except} \quad \boldsymbol{\sigma}^*[I_a]_n = \boldsymbol{\sigma}[I_a]_n + 1$ \\
 &&&& $A' \equiv A \Cup A^+$ which implies: $A'_\mathbf{s} \equiv A_\mathbf{s} \cup A^+_\mathbf{s} \quad \wedge \quad A'_\mathbf{l} \equiv A_\mathbf{l} \cdot A^+_\mathbf{l} \quad \wedge \quad A'_\mathbf{r} \equiv A_\mathbf{r} + A^+_\mathbf{r}$ \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv x$ \\
@@ -1979,18 +1995,23 @@ R_{sclear} & \text{if} \quad \boldsymbol{\mu}_\mathbf{s}[1] = 0 \; \wedge \; \bo
 &&&& otherwise. \\
 &&&& $\boldsymbol{\mu}'_i \equiv M(M(\boldsymbol{\mu}_i, \boldsymbol{\mu}_\mathbf{s}[3], \boldsymbol{\mu}_\mathbf{s}[4]), \boldsymbol{\mu}_\mathbf{s}[5], \boldsymbol{\mu}_\mathbf{s}[6])$ \\
 &&&& Thus the operand order is: gas, to, value, in offset, in size, out offset, out size. \\
-&&&& $C_{\text{\tiny CALL}}(\boldsymbol{\sigma}, \boldsymbol{\mu}) \equiv G_{call} + \boldsymbol{\mu}_\mathbf{s}[0] + C_{\text{\tiny CALLXFER}}(\boldsymbol{\mu}) + C_{\text{\tiny CALLNEW}}(\boldsymbol{\sigma}, \boldsymbol{\mu})$ \\
-&&&& $C_{\text{\tiny CALLXFER}}(\boldsymbol{\mu}) \equiv \begin{cases}
+&&&& $C_{\text{\tiny CALL}}(\boldsymbol{\sigma}, \boldsymbol{\mu}) \equiv C_{\text{\tiny GASCAP}}(\boldsymbol{\sigma}, \boldsymbol{\mu}) + C_{\text{\tiny EXTRA}}(\boldsymbol{\sigma}, \boldsymbol{\mu})$ \\
+&&&& $C_{\text{\tiny CALLGAS}}(\boldsymbol{\sigma}, \boldsymbol{\mu}) \equiv  \begin{cases}
+C_{\text{\tiny GASCAP}}(\boldsymbol{\sigma}, \boldsymbol{\mu}) + G_{callstipend} & \text{if} \quad \boldsymbol{\mu}_\mathbf{s}[2] \neq 0 \\
+C_{\text{\tiny GASCAP}}(\boldsymbol{\sigma}, \boldsymbol{\mu}) & \text{otherwise}
+\end{cases}$ \\
+&&&& $C_{\text{\tiny GASCAP}}(\boldsymbol{\sigma}, \boldsymbol{\mu}) \equiv \begin{cases}
+\min\{ L(\boldsymbol{\mu}_g - C_{\text{\tiny EXTRA}}(\boldsymbol{\sigma}, \boldsymbol{\mu})), \boldsymbol{\mu}_{\mathbf{s}}[0] \} & \text{if} \quad \boldsymbol{\mu}_g \ge C_{\text{\tiny EXTRA}}(\boldsymbol{\sigma}, \boldsymbol{\mu})\\
+\boldsymbol{\mu}_{\mathbf{s}}[0] & \text{otherwise}
+\end{cases}$\\
+&&&& $C_{\text{\tiny EXTRA}}(\boldsymbol{\sigma}, \boldsymbol{\mu}) \equiv G_{call} + C_{\text{\tiny XFER}}(\boldsymbol{\mu}) + C_{\text{\tiny NEW}}(\boldsymbol{\sigma}, \boldsymbol{\mu})$\\
+&&&& $C_{\text{\tiny XFER}}(\boldsymbol{\mu}) \equiv \begin{cases}
 G_{callvalue} & \text{if} \quad \boldsymbol{\mu}_\mathbf{s}[2] \neq 0 \\
 0 & \text{otherwise}
 \end{cases}$ \\
-&&&& $C_{\text{\tiny CALLNEW}}(\boldsymbol{\sigma}, \boldsymbol{\mu}) \equiv \begin{cases}
-G_{callnewaccount} & \text{if} \quad \boldsymbol{\sigma}[\boldsymbol{\mu}_\mathbf{s}[1] \mod 2^{160}] = \varnothing \\
+&&&& $C_{\text{\tiny NEW}}(\boldsymbol{\sigma}, \boldsymbol{\mu}) \equiv \begin{cases}
+G_{newaccount} & \text{if} \quad \boldsymbol{\sigma}[\boldsymbol{\mu}_\mathbf{s}[1] \mod 2^{160}] = \varnothing \\
 0 & \text{otherwise}
-\end{cases}$ \\
-&&&& $C_{\text{\tiny CALLGAS}}(\boldsymbol{\mu}) \equiv  \begin{cases}
-\boldsymbol{\mu}_\mathbf{s}[0] + G_{callstipend} & \text{if} \quad \boldsymbol{\mu}_\mathbf{s}[2] \neq 0 \\
-\boldsymbol{\mu}_\mathbf{s}[0] & \text{otherwise}
 \end{cases}$ \\
 \midrule
 0xf2 & {\small CALLCODE} & 7 & 1 & Message-call into this account with an alternative account's code. \\
@@ -2011,10 +2032,20 @@ G_{callnewaccount} & \text{if} \quad \boldsymbol{\sigma}[\boldsymbol{\mu}_\mathb
 \midrule
 0xf4 & {\small DELEGATECALL} & 6 & 1 & Message-call into this account with an alternative account's code, but persisting\\
 &&&& the current values for {\it sender} and {\it value}. \\
+<<<<<<< HEAD
 &&&& Exactly equivalent to {\small CALL} except: \\
 &&&& $(\boldsymbol{\sigma}', g', A^+, \mathbf{o}) \equiv \begin{cases}\begin{array}{l}\Theta(\boldsymbol{\sigma}^*, I_s, I_o, I_a, t,\\\quad \boldsymbol{\mu}_\mathbf{s}[0], I_p, 0, \boldsymbol{\mu}_\mathbf{s}[2], \mathbf{i}, I_e + 1)\end{array} & \text{if} \quad \boldsymbol{\mu}_\mathbf{s}[2] \leqslant \boldsymbol{\sigma}[I_a]_b \;\wedge\; I_e < 1024 \\ (\boldsymbol{\sigma}, g, \varnothing, \mathbf{o}) & \text{otherwise} \end{cases}$ \\
 &&&& Note the changes (in addition to that of the fourth parameter) to the second and eighth\\
 &&&& parameters to the call $\Theta$.\\
+=======
+&&&& Compared with {\small CALL}, {\small DELEGATECALL} takes one fewer arguments.  The omitted\\
+&&&& argument is $\boldsymbol{\mu}_\mathbf{s}[2]$. As a result, $\boldsymbol{\mu}_\mathbf{s}[3]$, $\boldsymbol{\mu}_\mathbf{s}[4]$, $\boldsymbol{\mu}_\mathbf{s}[5]$ and $\boldsymbol{\mu}_\mathbf{s}[6]$ in the definition of {\small CALL} \\
+&&&& should respectively be replaced with $\boldsymbol{\mu}_\mathbf{s}[2]$, $\boldsymbol{\mu}_\mathbf{s}[3]$, $\boldsymbol{\mu}_\mathbf{s}[4]$ and $\boldsymbol{\mu}_\mathbf{s}[5]$. \\
+&&&& Otherwise exactly equivalent to {\small CALL} except: \\
+&&&& $(\boldsymbol{\sigma}', g', A^+, \mathbf{o}) \equiv \begin{cases}\begin{array}{l}\Theta(\boldsymbol{\sigma}^*, I_s, I_o, I_a, t,\\\quad \boldsymbol{\mu}_\mathbf{s}[0], I_p, 0, I_v, \mathbf{i}, I_e + 1)\end{array} & \text{if} \quad I_v \leqslant \boldsymbol{\sigma}[I_a]_b \;\wedge\; I_e < 1024 \\ (\boldsymbol{\sigma}, g, \varnothing, \mathbf{o}) & \text{otherwise} \end{cases}$ \\
+&&&& Note the changes (in addition to that of the fourth parameter) to the second \\
+&&&& and ninth parameters to the call $\Theta$.\\
+>>>>>>> upstream/master
 &&&& This means that the recipient is in fact the same account as at present, simply\\
 &&&& that the code is overwritten {\it and} the context is almost entirely identical.\\
 \midrule
@@ -2024,6 +2055,10 @@ G_{callnewaccount} & \text{if} \quad \boldsymbol{\sigma}[\boldsymbol{\mu}_\mathb
 &&&& $\boldsymbol{\sigma}'[I_a]_b \equiv 0$ \\
 &&&& $A'_{r} \equiv A_{r} + \begin{cases}
 R_{suicide} & \text{if} \quad I_a \notin A_\mathbf{s} \\
+0 & \text{otherwise}
+\end{cases}$ \\
+&&&& $C_{\text{\tiny SUICIDE}}(\boldsymbol{\sigma}, \boldsymbol{\mu}) \equiv G_{suicide} + \begin{cases}
+G_{newaccount} & \text{if} \quad \boldsymbol{\sigma}[\boldsymbol{\mu}_\mathbf{s}[1] \mod 2^{160}] = \varnothing \\
 0 & \text{otherwise}
 \end{cases}$ \\
 \bottomrule
