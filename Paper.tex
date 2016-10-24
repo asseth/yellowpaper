@@ -533,12 +533,12 @@ En général, l'Ether utilisé pour acheter du gaz qui n'est pas rendu est déli
 
 %\subsubsection{Determining Computation Costs}
 
-\section{Exécution des transactions} \label{ch:transactions}
+\section{Exécution de transaction} \label{ch:transactions}
 
 L'exécution d'une transaction est la partie la plus complexe du protocole Ethereum: il définit la fonction de transition d'état $\Upsilon$. On suppose que toutes transactions exécutées passent d'abord les tests de validité intrinsèques. Les voici:
 
 \begin{enumerate}
-\item La transaction est un RLP bien formé sans octets additionnels en fin;
+\item La transaction est un RLP bien formé sans octets additionnels à la fin;
 \item La signature de transaction est valide;
 \item Le nonce de transaction est valide (équivalent au nonce courant du compte de l'expéditeur);
 \item La limite de gaz n'est pas plus petite que le gaz intrinsèque, $g_0$, utilisé par la transaction;
@@ -568,8 +568,8 @@ A^0 \equiv (\varnothing, (), 0)
 \subsection{Exécution}
 Nous définissons le gaz $g_0$, le montant de gaz que cette transaction demande pour être payée avant exécution, comme suit:
 \begin{align}
-g_0 \equiv {} & \sum_{i \in T_\mathbf{i}, T_\mathbf{d}} \begin{cases} G_{txdatazero} & \text{if} \quad i = 0 \\ G_{txdatanonzero} & \text{otherwise} \end{cases} \\
-{} & + \begin{cases} G_\text{txcreate} & \text{if} \quad T_t = \varnothing \wedge H_i \geq \firsthomesteadblock \\ 0 & \text{otherwise} \end{cases} \\
+g_0 \equiv {} & \sum_{i \in T_\mathbf{i}, T_\mathbf{d}} \begin{cases} G_{txdatazero} & \text{si} \quad i = 0 \\ G_{txdatanonzero} & \text{sinon} \end{cases} \\
+{} & + \begin{cases} G_\text{txcreate} & \text{si} \quad T_t = \varnothing \wedge H_i \geq \firsthomesteadblock \\ 0 & \text{sinon} \end{cases} \\
 {} & + G_{transaction}
 \end{align}
 
@@ -600,7 +600,7 @@ L'exécution d'une transaction valide commence par un changement irrévocable de
 
 Nous définissons l'état au point de contrôle $\boldsymbol{\sigma}_0$:
 \begin{eqnarray}
-\boldsymbol{\sigma}_0 & \equiv & \boldsymbol{\sigma} \quad \text{except:} \\
+\boldsymbol{\sigma}_0 & \equiv & \boldsymbol{\sigma} \quad \text{sauf\,:} \\
 \boldsymbol{\sigma}_0[S(T)]_b & \equiv & \boldsymbol{\sigma}[S(T)]_b - T_g T_p \\
 \boldsymbol{\sigma}_0[S(T)]_n & \equiv & \boldsymbol{\sigma}[S(T)]_n + 1
 \end{eqnarray}
@@ -608,8 +608,8 @@ Nous définissons l'état au point de contrôle $\boldsymbol{\sigma}_0$:
 L'évaluation de $\boldsymbol{\sigma}_P$ à partir de $\boldsymbol{\sigma}_0$ dépend du type de la transaction, création de contrat ou appel de message; nous définissons le tuple: état provisionnel de post-exécution $\boldsymbol{\sigma}_P$, gaz restant $g'$ et sous-état $A$:
 \begin{equation}
 (\boldsymbol{\sigma}_P, g', A) \equiv \begin{cases}
-\Lambda(\boldsymbol{\sigma}_0, S(T), T_o, &\\ \quad\quad g, T_p, T_v, T_\mathbf{i}, 0) & \text{if} \quad T_t = \varnothing \\
-\Theta_{3}(\boldsymbol{\sigma}_0, S(T), T_o, &\\ \quad\quad T_t, T_t, g, T_p, T_v, T_v, T_\mathbf{d}, 0) & \text{otherwise}
+\Lambda(\boldsymbol{\sigma}_0, S(T), T_o, &\\ \quad\quad g, T_p, T_v, T_\mathbf{i}, 0) & \text{si} \quad T_t = \varnothing \\
+\Theta_{3}(\boldsymbol{\sigma}_0, S(T), T_o, &\\ \quad\quad T_t, T_t, g, T_p, T_v, T_v, T_\mathbf{d}, 0) & \text{sinon}
 \end{cases}
 \end{equation}
 
@@ -630,7 +630,7 @@ Le montant total à rembourser est le gaz légitimement restant $g'$, ajouté à
 
 L'Ether du gaz est donné au mineur dont l'adresse est spécifiée comme bénéficiaire du bloc présent $B$. Nous définissons donc l'état pré-final $\boldsymbol{\sigma}^*$ en termes d'état provisionnel  $\boldsymbol{\sigma}_P$:
 \begin{eqnarray}
-\boldsymbol{\sigma}^* & \equiv & \boldsymbol{\sigma}_P \quad \text{except} \\
+\boldsymbol{\sigma}^* & \equiv & \boldsymbol{\sigma}_P \quad \text{sauf} \\
 \boldsymbol{\sigma}^*[S(T)]_b & \equiv & \boldsymbol{\sigma}_P[S(T)]_b + g^* T_p \\
 \boldsymbol{\sigma}^*[m]_b & \equiv & \boldsymbol{\sigma}_P[m]_b + (T_g - g^*) T_p \\
 m & \equiv & {B_H}_c
@@ -638,7 +638,7 @@ m & \equiv & {B_H}_c
 
 L'état final, $\boldsymbol{\sigma}'$, est atteint après la suppression de tous les comptes qui apparaissent dans la liste de suicide:
 \begin{eqnarray}
-\boldsymbol{\sigma}' & \equiv & \boldsymbol{\sigma}^* \quad \text{except} \\
+\boldsymbol{\sigma}' & \equiv & \boldsymbol{\sigma}^* \quad \text{sauf} \\
 \forall i \in A_\mathbf{s}: \boldsymbol{\sigma}'[i] & \equiv & \varnothing
 \end{eqnarray}
 
