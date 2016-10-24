@@ -533,34 +533,34 @@ En général, l'Ether utilisé pour acheter du gaz qui n'est pas rendu est déli
 
 %\subsubsection{Determining Computation Costs}
 
-\section{Transaction Execution} \label{ch:transactions}
+\section{Exécution des transactions} \label{ch:transactions}
 
-The execution of a transaction is the most complex part of the Ethereum protocol: it defines the state transition function $\Upsilon$. It is assumed that any transactions executed first pass the initial tests of intrinsic validity. These include:
+L'exécution d'une transaction est la partie la plus complexe du protocole Ethereum: il définit la fonction de transition d'état $\Upsilon$. On suppose que toutes transactions exécutées passent d'abord les tests de validité intrinsèques. Les voici:
 
 \begin{enumerate}
-\item The transaction is well-formed RLP, with no additional trailing bytes;
-\item the transaction signature is valid;
-\item the transaction nonce is valid (equivalent to the sender account's current nonce);
-\item the gas limit is no smaller than the intrinsic gas, $g_0$, used by the transaction;
-\item the sender account balance contains at least the cost, $v_0$, required in up-front payment.
+\item La transaction est un RLP bien formé sans octets additionnels en fin;
+\item La signature de transaction est valide;
+\item Le nonce de transaction est valide (équivalent au nonce courant du compte de l'expéditeur);
+\item La limite de gaz n'est pas plus petite que le gaz intrinsèque, $g_0$, utilisé par la transaction;
+\item Le solde du compte de l'expéditeur contient au moins le coût, $v_0$, demandé comme paiement de départ.
 \end{enumerate}
 
-Formally, we consider the function $\Upsilon$, with $T$ being a transaction and $\boldsymbol{\sigma}$ the state:
+Formellement, nous considérons la fonction $\Upsilon$, $T$ étant une transaction et $\boldsymbol{\sigma}$ l'état:
 \begin{equation}
 \boldsymbol{\sigma}' = \Upsilon(\boldsymbol{\sigma}, T)
 \end{equation}
 
-Thus $\boldsymbol{\sigma}'$ is the post-transactional state. We also define $\Upsilon^g$ to evaluate to the amount of gas used in the execution of a transaction and $\Upsilon^\mathbf{l}$ to evaluate to the transaction's accrued log items, both to be formally defined later.
+$\boldsymbol{\sigma}'$ est donc l'état post-transactionnel. Nous définissons également $\Upsilon^g$ pour évaluer le montant de gaz utilisé dans l'exécution d'une transaction et $\Upsilon^\mathbf{l}$ pour évaluer les items de logs ajoutés, les deux étant formellement définis plus loin.
 
-\subsection{Substate}
-Throughout transaction execution, we accrue certain information that is acted upon immediately following the transaction. We call this \textit{transaction substate}, and represent it as $A$, which is a tuple:
+\subsection{Sous-état}
+Au long de l'exécution d'une transaction, nous voyons s'accroître certaines informations sur lesquelles on agit immédiatement à la suite de la transaction. Nous appelons ceci \textit{sous-état de transaction} et le représentons par $A$, qui est un tuple:
 \begin{equation}
 A \equiv (A_\mathbf{s}, A_\mathbf{l}, A_r)
 \end{equation}
 
-The tuple contents include $A_\mathbf{s}$, the suicide set: a set of accounts that will be discarded following the transaction's completion. $A_\mathbf{l}$ is the log series: this is a series of archived and indexable `checkpoints' in VM code execution that allow for contract-calls to be easily tracked by onlookers external to the Ethereum world (such as decentralised application front-ends). Finally there is $A_r$, the refund balance, increased through using the {\small SSTORE} instruction in order to reset contract storage to zero from some non-zero value. Though not immediately refunded, it is allowed to partially offset the total execution costs.
+Le contenu du tuple comprend $A_\mathbf{s}$, l'ensemble de suicide: un ensemble de comptes qui sera mis au rebut après la fin de la transaction. $A_\mathbf{l}$ est la série de logs: il s'agit d'une série de `points de contrôles' dans l'exécution du code de la VM qui permet de facilement tracer les appels de contrats par des observateurs extérieurs au monde Ethereum (comme des frontaux d'applications décentralisées). Enfin, il y a $A_r$, le solde de remboursement, accru par l'utilisation de l'instruction {\small SSTORE} afin de remettre la mémoire de stockage à zéro à partir d'une valeur différente de zéro. Bien qu'il ne soit pas immédiatement remboursé, il lui est permis de compenser partiellement les coûts totaux d'exécution.
 
-For brevity, we define the empty substate $A^0$ to have no suicides, no logs and a zero refund balance:
+Dans un souci de concision, nous définissons le sous-état vide $A^0$ comme n'ayant pas de suicide, pas de logs et un solde de remboursement à zéro:
 \begin{equation}
 A^0 \equiv (\varnothing, (), 0)
 \end{equation}
