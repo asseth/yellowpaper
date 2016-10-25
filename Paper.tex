@@ -553,7 +553,7 @@ Formellement, nous considérons la fonction $\Upsilon$, $T$ étant une transacti
 $\boldsymbol{\sigma}'$ est donc l'état post-transactionnel. Nous définissons également $\Upsilon^g$ pour évaluer le montant de gaz utilisé dans l'exécution d'une transaction et $\Upsilon^\mathbf{l}$ pour évaluer les items de logs ajoutés, les deux étant formellement définis plus loin.
 
 \subsection{Sous-état}
-Au long de l'exécution d'une transaction, nous voyons s'accroître certaines informations sur lesquelles on agit immédiatement à la suite de la transaction. Nous appelons ceci \textit{sous-état de transaction} et le représentons par $A$, qui est un tuple:
+Pendant l'exécution d'une transaction, nous voyons s'accroître certaines informations sur lesquelles on agit immédiatement à la suite de la transaction. Nous appelons ceci \textit{sous-état de transaction} et le représentons par $A$, qui est un tuple:
 \begin{equation}
 A \equiv (A_\mathbf{s}, A_\mathbf{l}, A_r)
 \end{equation}
@@ -600,7 +600,7 @@ L'exécution d'une transaction valide commence par un changement irrévocable de
 
 Nous définissons l'état au point de contrôle $\boldsymbol{\sigma}_0$:
 \begin{eqnarray}
-\boldsymbol{\sigma}_0 & \equiv & \boldsymbol{\sigma} \quad \text{sauf\,:} \\
+\boldsymbol{\sigma}_0 & \equiv & \boldsymbol{\sigma} \quad \text{except\,:} \\
 \boldsymbol{\sigma}_0[S(T)]_b & \equiv & \boldsymbol{\sigma}[S(T)]_b - T_g T_p \\
 \boldsymbol{\sigma}_0[S(T)]_n & \equiv & \boldsymbol{\sigma}[S(T)]_n + 1
 \end{eqnarray}
@@ -630,7 +630,7 @@ Le montant total à rembourser est le gaz légitimement restant $g'$, ajouté à
 
 L'Ether du gaz est donné au mineur dont l'adresse est spécifiée comme bénéficiaire du bloc présent $B$. Nous définissons donc l'état pré-final $\boldsymbol{\sigma}^*$ en termes d'état provisionnel  $\boldsymbol{\sigma}_P$:
 \begin{eqnarray}
-\boldsymbol{\sigma}^* & \equiv & \boldsymbol{\sigma}_P \quad \text{sauf} \\
+\boldsymbol{\sigma}^* & \equiv & \boldsymbol{\sigma}_P \quad \text{except} \\
 \boldsymbol{\sigma}^*[S(T)]_b & \equiv & \boldsymbol{\sigma}_P[S(T)]_b + g^* T_p \\
 \boldsymbol{\sigma}^*[m]_b & \equiv & \boldsymbol{\sigma}_P[m]_b + (T_g - g^*) T_p \\
 m & \equiv & {B_H}_c
@@ -638,7 +638,7 @@ m & \equiv & {B_H}_c
 
 L'état final, $\boldsymbol{\sigma}'$, est atteint après la suppression de tous les comptes qui apparaissent dans la liste de suicide:
 \begin{eqnarray}
-\boldsymbol{\sigma}' & \equiv & \boldsymbol{\sigma}^* \quad \text{sauf} \\
+\boldsymbol{\sigma}' & \equiv & \boldsymbol{\sigma}^* \quad \text{except} \\
 \forall i \in A_\mathbf{s}: \boldsymbol{\sigma}'[i] & \equiv & \varnothing
 \end{eqnarray}
 
@@ -655,23 +655,23 @@ Ils sont utilisés pour aider à définir le reçu de la transaction qui sera d�
 %\boldsymbol{\sigma}'[s]_b & \equiv & \boldsymbol{\sigma}_P[s]_b + g
 %\end{eqnarray}
 
-\section{Contract Creation} \label{ch:create}
+\section{Création de contrat} \label{ch:create}
 
-There are a number of intrinsic parameters used when creating an account: sender ($s$), original transactor ($o$), available gas ($g$), gas price ($p$), endowment ($v$) together with an arbitrary length byte array, $\mathbf{i}$, the initialisation EVM code and finally the present depth of the message-call/contract-creation stack ($e$).
+Il existe un certain nombre de paramètres intrinsèques utilisés quand on crée un compte: expéditeur ($s$), \textbf{\textit{transactor}} originel ($o$), prix du gaz ($p$), dotation ($v$) assemblés avec un tableau d'octets de longueur variable, $\mathbf{i}$, le code EVM d'initialisation et enfin la profondeur actuelle de la pile d'appel de message/création de contrat ($e$)
 
-We define the creation function formally as the function $\Lambda$, which evaluates from these values, together with the state $\boldsymbol{\sigma}$ to the tuple containing the new state, remaining gas and accrued transaction substate $(\boldsymbol{\sigma}', g', A)$, as in section \ref{ch:transactions}:
+Nous définissons formellement la fonction de création comme la fonction $\Lambda$ qui évalue, à partir de ces valeurs et de l'état $\boldsymbol{\sigma}$, le tuple contenant le nouvel état, le gaz restant et le substrat de transaction augmenté $(\boldsymbol{\sigma}', g', A)$, comme en section  \ref{ch:transactions}:
 \begin{equation}
 (\boldsymbol{\sigma}', g', A) \equiv \Lambda(\boldsymbol{\sigma}, s, o, g, p, v, \mathbf{i}, e)
 \end{equation}
 
-The address of the new account is defined as being the rightmost 160 bits of the Keccak hash of the RLP encoding of the structure containing only the sender and the nonce. Thus we define the resultant address for the new account $a$:
+L'adresse du nouveau compte est défini comme étant les 160 bits de droite de l'empreinte Keccak de l'encodage RLP de la structure ne contenant que l'expéditeur et le nonce. Nous définissons donc l'adresse résultante pour le nouveau compte $a$:
 \begin{equation}
 a \equiv \mathcal{B}_{96..255}\Big(\mathtt{\tiny KEC}\Big(\mathtt{\tiny RLP}\big(\;(s, \boldsymbol{\sigma}[s]_n - 1)\;\big)\Big)\Big)
 \end{equation}
 
-where $\mathtt{\tiny KEC}$ is the Keccak 256-bit hash function, $\mathtt{\tiny RLP}$ is the RLP encoding function, $\mathcal{B}_{a..b}(X)$ evaluates to binary value containing the bits of indices in the range $[a, b]$ of the binary data $X$ and $\boldsymbol{\sigma}[x]$ is the address state of $x$ or $\varnothing$ if none exists. Note we use one fewer than the sender's nonce value; we assert that we have incremented the sender account's nonce prior to this call, and so the value used is the sender's nonce at the beginning of the responsible transaction or VM operation.
+où $\mathtt{\tiny KEC}$ est la fonction de hachage Keccak sur 256 bits, $\mathtt{\tiny RLP}$ est la fonction d'encodage RLP, $\mathcal{B}_{a..b}(X)$ donne une valeur binaire contenant les bits des indices dans l'intervalle $[a, b]$ des données binaires $X$ et $\boldsymbol{\sigma}[x]$ est l'état de l'adresse de $x$ ou $\varnothing$ si aucun n'existe. Notons que nous utilisons un de moins que la valeur du nonce de l'expéditeur; nous alléguons que nous avons incrémenté le nonce du compte de l'expéditeur avant cet appel et la valeur utilisée est donc celle du début de la transaction ou de l'opération de VM responsable.
 
-The account's nonce is initially defined as zero, the balance as the value passed, the storage as empty and the code hash as the Keccak 256-bit hash of the empty string; the sender's balance is also reduced by the value passed. Thus the mutated state becomes $\boldsymbol{\sigma}^*$:
+Le nonce du compte est initialement défini à zéro, le solde à la valeur passée, la mémoire de stockage à vide et l'empreinte du code à l'empreinte Keccak sur 256 bits de la chaîne vide; la valeur passée est également défalquée du solde de l'expéditeur. Donc, l'état modifié devient $\boldsymbol{\sigma}^*$:
 \begin{equation}
 \boldsymbol{\sigma}^* \equiv \boldsymbol{\sigma} \quad \text{except:}
 \end{equation}
@@ -680,22 +680,22 @@ The account's nonce is initially defined as zero, the balance as the value passe
 \boldsymbol{\sigma}^*[s]_b &\equiv& \boldsymbol{\sigma}[s]_b - v
 \end{eqnarray}
 
-where $v'$ is the account's pre-existing value, in the event it was previously in existence:
+où $v'$ est la valeur préexistante du compte le cas échéant:
 \begin{equation}
 v' \equiv \begin{cases}
-0 & \text{if} \quad \boldsymbol{\sigma}[a] = \varnothing\\
-\boldsymbol{\sigma}[a]_b & \text{otherwise}
+0 & \text{si} \quad \boldsymbol{\sigma}[a] = \varnothing\\
+\boldsymbol{\sigma}[a]_b & \text{sinon}
 \end{cases}
 \end{equation}
 
 %It is asserted that the state database will also change such that it defines the pair $(\mathtt{\tiny KEC}(\mathbf{b}), \mathbf{b})$.
 
-Finally, the account is initialised through the execution of the initialising EVM code $\mathbf{i}$ according to the execution model (see section \ref{ch:model}). Code execution can effect several events that are not internal to the execution state: the account's storage can be altered, further accounts can be created and further message calls can be made. As such, the code execution function $\Xi$ evaluates to a tuple of the resultant state $\boldsymbol{\sigma}^{**}$, available gas remaining $g^{**}$, the accrued substate $A$ and the body code of the account $\mathbf{o}$.
+Enfin, le compte est initialisé par l'exécution du code EVM d'initialisation $\mathbf{i}$ d'après le modèle d'exécution (voir la section \ref{ch:model}). L'exécution du code peut engendre plusieurs événements qui ne sont pas internes à l'état d'exécution: la mémoire de stockage peut être altérée, des comptes supplémentaires peuvent être créé et d'autres appels de message peuvent être lancés. En tant que telle, la fonction d'exécution de code $\Xi$ donne un tuple de l'état résultant $\boldsymbol{\sigma}^{**}$, du gaz disponible restant $g^{**}$, du substrat accru $A$ et du code du corps du compte $\mathbf{o}$.
 
 \begin{equation}
 (\boldsymbol{\sigma}^{**}, g^{**}, A, \mathbf{o}) \equiv \Xi(\boldsymbol{\sigma}^*, g, I) \\
 \end{equation}
-where $I$ contains the parameters of the execution environment as defined in section \ref{ch:model}, that is:
+où $I$ contient les paramètres de l'environnement d'exécution tels que définis en section \ref{ch:model}, c'est-à-dire:
 \begin{eqnarray}
 I_a & \equiv & a \\
 I_o & \equiv & o \\
@@ -707,41 +707,41 @@ I_\mathbf{b} & \equiv & \mathbf{i} \\
 I_e & \equiv & e
 \end{eqnarray}
 
-$I_\mathbf{d}$ evaluates to the empty tuple as there is no input data to this call. $I_H$ has no special treatment and is determined from the blockchain.
+$I_\mathbf{d}$ donne le tuple vide puisqu'il n'y a pas de données en entrée de cet appel. $I_H$ n'a pas de traitement spécial et est déterminé à partir de la blockchain.
 
-Code execution depletes gas, and gas may not go below zero, thus execution may exit before the code has come to a natural halting state. In this (and several other) exceptional cases we say an Out-of-Gas exception has occurred: The evaluated state is defined as being the empty set, $\varnothing$, and the entire create operation should have no effect on the state, effectively leaving it as it was immediately prior to attempting the creation.
+L'exécution du code diminue le gaz, lequel ne peut pas descendre en-dessous de zéro, donc l'exécution peut sortir avant que le code ne soit arrivé à un état d'arrêt. Dans ces cas exceptionnel (et dans plusieurs autres), nous disons qu'une exception \textit{Out-of-Gas} (panne d'essence) s'est produite: l'état évalué est défini comme étant l'ensemble vide, $\varnothing$, et l'opération de création dans son intégralité ne doit avoir aucun effet sur l'état, le laissant dans les faits tel qu'il était immédiatement avant la tentative de création.
 
-If the initialization code completes successfully, a final contract-creation cost is paid, the code-deposit cost, $c$, proportional to the size of the created contract's code:
+Si le code d'initialisation se termine avec succès, un coût final de création de contrat est payé, le coût de dépôt du code, $c$, étant proportionnel à la taille du code du contrat créé:
 \begin{equation}
 c \equiv G_{codedeposit} \times |\mathbf{o}|
 \end{equation}
 
-If there is not enough gas remaining to pay this, \ie $g^{**} < c$, then we also declare an Out-of-Gas exception.
+S'il n'y a pas assez de gaz restant pour payer ceci, c'est-à-dire $g^{**} < c$, alors nous déclarons également une exception Out-of-Gas.
 
-The gas remaining will be zero in any such exceptional condition, \ie if the creation was conducted as the reception of a transaction, then this doesn't affect payment of the intrinsic cost of contract creation; it is paid regardless. However, the value of the transaction is not transferred to the aborted contract's address when we are Out-of-Gas.
+Le gaz restant sera à zéro dans ces circonstances exceptionnelles, c'est-à-dire que si la création a été conduite à la réception d'une transaction, alors cela n'affecte pas le paiement du coût intrinsèque de la création du contrat; celui-ci est payé de toute manière. Cependant, la valeur de la transaction n'est pas transférée à l'adresse du contrat avorté quand nous somme Out-of-Gas.
 
-If such an exception does not occur, then the remaining gas is refunded to the originator and the now-altered state is allowed to persist. Thus formally, we may specify the resultant state, gas and substate as $(\boldsymbol{\sigma}', g', A)$ where:
+Si ce type d'exception ne se produit pas, alors le gaz restant est renvoyé à l'\textbf{\textit{originator}} et l'état maintenant altéré a le droit de persister. Nous pouvons donc formellement spécifier l'état, le gaz et le sous-état résultants par $(\boldsymbol{\sigma}', g', A)$ où:
 
 \begin{align}
 \quad g' &\equiv \begin{cases}
-0 & \text{if} \quad \boldsymbol{\sigma}^{**} = \varnothing \\
-g^{**} & \text{if} \quad g^{**}<c \wedge H_i<\firsthomesteadblock \\
-g^{**} - c & \text{otherwise} \\
+0 & \text{si} \quad \boldsymbol{\sigma}^{**} = \varnothing \\
+g^{**} & \text{si} \quad g^{**}<c \wedge H_i<\firsthomesteadblock \\
+g^{**} - c & \text{sinon} \\
 \end{cases} \\
 \quad \boldsymbol{\sigma}' &\equiv  \begin{cases}
 \boldsymbol{\sigma} & \text{if} \quad \boldsymbol{\sigma}^{**} = \varnothing \\
 \boldsymbol{\sigma}^{**} & \text{if} \quad g^{**}<c \wedge H_i<\firsthomesteadblock \\
 \boldsymbol{\sigma}^{**} \quad \text{except:} & \\
-\quad\boldsymbol{\sigma}'[a]_c = \texttt{\small KEC}(\mathbf{o}) & \text{otherwise}
+\quad\boldsymbol{\sigma}'[a]_c = \texttt{\small KEC}(\mathbf{o}) & \text{sinon}
 \end{cases}
 \end{align}
 
-The exception in the determination of $\boldsymbol{\sigma}'$ dictates that $\mathbf{o}$, the resultant byte sequence from the execution of the initialisation code, specifies the final body code for the newly-created account.
+L'exception dans la détermination de $\boldsymbol{\sigma}'$ dicte que $\mathbf{o}$, la séquence d'octets résultant de l'exécution du code d'initialisation, spécifie le code final du corps du compte nouvellement créé.
 
-Note that the intention from block \firsthomesteadblock\ onwards ({\it Homestead}) is that the result is either a successfully created new contract with its endowment, or no new contract with no transfer of value. Before {\it Homestead}, if there is not enough gas to pay $c$, an account at the new contract's address is created, along with all the initialisation side-effects, and the value is transferred, but no contract code is deployed.
+On remarque que l'intention à partir du bloc \firsthomesteadblock\  ({\it Homestead}) est que le résultat est soit un nouveau contrat créé avec succès avec sa dotation, soit aucun contrat et aucun transfert de valeur. Avant {\it Homestead}, s'il n'y avait pas assez de gaz pour payer $c$, un compte était créé à l'adresse du nouveau contrat, en même temps que tous les effets secondaires de l'initialisation, et la valeur était transférée mais aucun code de contrat n'était déployé.
 
-\subsection{Subtleties}
-Note that while the initialisation code is executing, the newly created address exists but with no intrinsic body code. Thus any message call received by it during this time causes no code to be executed. If the initialisation execution ends with a {\small SUICIDE} instruction, the matter is moot since the account will be deleted before the transaction is completed. For a normal {\small STOP} code, or if the code returned is otherwise empty, then the state is left with a zombie account, and any remaining balance will be locked into the account forever.
+\subsection{Subtilités}
+Notons qu'alors que le code d'initialisation est en train de s'exécuter, l'adresse nouvellement crééee existe mais sans code de corps intrinsèque. Un appel de message qu'il reçoit pendant ce temps n'engendre donc aucune exécution de code. Si l'exécution de l'initialisation se termine par une instruction {\small SUICIDE}, cela importe peu puisque le compte est supprimé avant la fin de la transaction. Pour un code {\small STOP}, ou si le code renvoyé est vide, alors l'état reste avec un compte zombie et tout solde résiduel reste à jamais verrouillé dans ce compte.
 
 \section{Message Call} \label{ch:call}
 In the case of executing a message call, several parameters are required: sender ($s$), transaction originator ($o$), recipient ($r$), the account whose code is to be executed ($c$, usually the same as recipient), available gas ($g$), value ($v$) and gas price ($p$) together with an arbitrary length byte array, $\mathbf{d}$, the input data of the call and finally the present depth of the message-call/contract-creation stack ($e$).
