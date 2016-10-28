@@ -435,7 +435,7 @@ où
 \mathbb{B}_n = \{ B: B \in \mathbb{B} \wedge \lVert B \rVert = n \}
 \end{equation}
 
-Nous avons maintenant une spécification rigoureuse pour la construction de la structure formelle d'un bloc. La fonction RLP $\texttt{\small RLP}$ (voir Appendice \ref{app:rlp}) fournit la méthode de référence pour transformer cette structure en une sequence d'octets prêts à la transmission ou au stockage local.
+Nous avons maintenant une spécification rigoureuse pour la construction de la structure formelle d'un bloc. La fonction RLP $\texttt{\small RLP}$ (voir Annexe \ref{app:rlp}) fournit la méthode de référence pour transformer cette structure en une sequence d'octets prêts à la transmission ou au stockage local.
 
 \subsubsection{Validation de l'en-tête de bloc}
 
@@ -525,7 +525,7 @@ Notons que \textbf{extraData} doit être au plus de 32 octets.
 
 \section{Gaz et paiement} \label{ch:payment}
 
-Pour éviter d'avoir des problèmes d'abus du réseau et pour contourner les inévitables questions découlant de la complétude au sens de Turing, tout calcul programmable dans Ethereum est sujet à des frais. Le barème des frais est spécifié en unités de \textit{gas} (voir Appendice \ref{app:fees} pour les frais associés avec divers calculs). Ainsi tout fragment donné de calcul programmable (ceci inclut créer des contrats, lancer des messages d'appel, accéder et utiliser les données associées aux comptes, et exécuter des opérations sur la machine virtuelle) a un coût en gaz universellement approuvé.
+Pour éviter d'avoir des problèmes d'abus du réseau et pour contourner les inévitables questions découlant de la complétude au sens de Turing, tout calcul programmable dans Ethereum est sujet à des frais. Le barème des frais est spécifié en unités de \textit{gas} (voir Annexe \ref{app:fees} pour les frais associés avec divers calculs). Ainsi tout fragment donné de calcul programmable (ceci inclut créer des contrats, lancer des messages d'appel, accéder et utiliser les données associées aux comptes, et exécuter des opérations sur la machine virtuelle) a un coût en gaz universellement approuvé.
 
 Toute transaction a un montant spécifique de gaz qui lui est associé: \textbf{gasLimit}. C'est le montant en gaz qui est implicitement prélevé sur le compte de l'expéditeur. L'achat est fait à la valeur de \textbf{gasPrice}, également spécifié dans la transaction. La transaction est considérée comme invalide si le solde du compte ne peut assurer l'achat. Il est nommé \textbf{gasLimit} parce que toute quantité de gaz non utilisée est rendue (au même taux d'achat) au compte de l'expéditeur. Le gaz n'existe pas en dehors de l'exécution d'une transaction. Ainsi pour des comptes avec du code de confiance associé, une limite relativement haute de gaz peut être ainsi réservée.
 
@@ -573,7 +573,7 @@ g_0 \equiv {} & \sum_{i \in T_\mathbf{i}, T_\mathbf{d}} \begin{cases} G_{txdataz
 {} & + G_{transaction}
 \end{align}
 
-où $T_\mathbf{i},T_\mathbf{d}$ signifie la série d'octets des données et du code EVM associés à la transaction, selon que la transaction sert à une création de contrat ou un a un appel de message. $G_\text{txcreate}$ est ajouté si la transaction crée un message mais ce n'est pas le cas s'il s'agit d'un résultat de code EVM ou avant la {\it transition Homestead}. $G$ est totalement défini à l'Appendice  \ref{app:fees}.
+où $T_\mathbf{i},T_\mathbf{d}$ signifie la série d'octets des données et du code EVM associés à la transaction, selon que la transaction sert à une création de contrat ou un a un appel de message. $G_\text{txcreate}$ est ajouté si la transaction crée un message mais ce n'est pas le cas s'il s'agit d'un résultat de code EVM ou avant la {\it transition Homestead}. $G$ est totalement défini à l'Annexe  \ref{app:fees}.
 
 %todo Explain g_d reason?
 
@@ -743,21 +743,21 @@ On remarque que l'intention à partir du bloc \firsthomesteadblock\  ({\it Homes
 \subsection{Subtilités}
 Notons qu'alors que le code d'initialisation est en train de s'exécuter, l'adresse nouvellement crééee existe mais sans code de corps intrinsèque. Un appel de message qu'il reçoit pendant ce temps n'engendre donc aucune exécution de code. Si l'exécution de l'initialisation se termine par une instruction {\small SUICIDE}, cela importe peu puisque le compte est supprimé avant la fin de la transaction. Pour un code {\small STOP}, ou si le code renvoyé est vide, alors l'état reste avec un compte zombie et tout solde résiduel reste à jamais verrouillé dans ce compte.
 
-\section{Message Call} \label{ch:call}
-In the case of executing a message call, several parameters are required: sender ($s$), transaction originator ($o$), recipient ($r$), the account whose code is to be executed ($c$, usually the same as recipient), available gas ($g$), value ($v$) and gas price ($p$) together with an arbitrary length byte array, $\mathbf{d}$, the input data of the call and finally the present depth of the message-call/contract-creation stack ($e$).
+\section{Appel de message} \label{ch:call}
+Lors de l'exécution d'un appel de message, plusieurs paramètres sont requis: émetteur ($s$), créateur de la transaction ($o$), récepteur ($r$), le compte dont le code doit être exécuté ($c$, habituellement le même que le récepteur), le gaz disponible ($g$), valeur ($v$) et prix du gaz ($p$) ensemble avec un tableau d'octets de longueur arbitraire, $\mathbf{d}$, les données d'entrée de l'appel de message et finalement la hauteur actuelle de la pile du appel de message ou de la création de contrat ($e$).
 
-Aside from evaluating to a new state and transaction substate, message calls also have an extra component---the output data denoted by the byte array $\mathbf{o}$. This is ignored when executing transactions, however message calls can be initiated due to VM-code execution and in this case this information is used.
+À part l'évaluation de nouveaux états et de leurs sous-états, un appel de message a aussi un autre composant---les données de sortie désignées par le tableau d'octets $\mathbf{o}$. Il est ignoré durant les exécutions de transactions, cependant les appels de message peuvent être lancés par l'exécution de code dans la VM et dans ce cas cette information est utilisée.
 \begin{equation}
 (\boldsymbol{\sigma}', g', A, \mathbf{o}) \equiv \Theta(\boldsymbol{\sigma}, s, o, r, c, g, p, v, \tilde{v}, \mathbf{d}, e)
 \end{equation}
-Note that we need to differentiate between the value that is to be transferred, $v$, from the value apparent in the execution context, $\tilde{v}$, for the {\small DELEGATECALL} instruction.
+Notons que nous devons différencier la valeur qui doit être transférée $v$, de la valeur apparente dans le contexte d'execution $\tilde{v}$, pour l'instruction {\small DELEGATECALL}.
 
-We define $\boldsymbol{\sigma}_1$, the first transitional state as the original state but with the value transferred from sender to recipient:
+On définit $\boldsymbol{\sigma}_1$, le premier état de transition comme l'état original mais avec la valeur transférée de l'émetteur au récepteur:
 \begin{equation}
 \boldsymbol{\sigma}_1[r]_b \equiv \boldsymbol{\sigma}[r]_b + v \quad\wedge\quad \boldsymbol{\sigma}_1[s]_b \equiv \boldsymbol{\sigma}[s]_b - v
 \end{equation}
 
-Throughout the present work, it is assumed that if $\boldsymbol{\sigma}_1[r]$ was originally undefined, it will be created as an account with no code or state and zero balance and nonce. Thus the previous equation should be taken to mean:
+Au long du présent travail, il est admis que $\boldsymbol{\sigma}_1[r]$ était indéfini à l'origine, il va être créé comme un compte sans code ou état et avec zéro solde ou nonce. ainsi la précédente équation doit être interprétée comme suit:
 \begin{equation}
 \boldsymbol{\sigma}_1 \equiv \boldsymbol{\sigma}_1' \quad \text{except:} \\
 \end{equation}
@@ -774,7 +774,7 @@ Throughout the present work, it is assumed that if $\boldsymbol{\sigma}_1[r]$ wa
 \end{cases}
 \end{equation}
 
-The account's associated code (identified as the fragment whose Keccak hash is $\boldsymbol{\sigma}[c]_c$) is executed according to the execution model (see section \ref{ch:model}). Just as with contract creation, if the execution halts in an exceptional fashion (i.e. due to an exhausted gas supply, stack underflow, invalid jump destination or invalid instruction), then no gas is refunded to the caller and the state is reverted to the point immediately prior to balance transfer (i.e. $\boldsymbol{\sigma}$).
+Le code associé au compte (identifié comme le fragment dont l'empreinte Keccack $\boldsymbol{\sigma}[c]_c$) est exécuté conformément au modèle d'exécution (voir section \ref{ch:model}). Comme avec la création de contrat, si l'exécution cesse pour cause d'anomalie (i.e. à cause de l'épuisement de la fourniture en gaz, épuisement de la pile, saut invalide ou instruction invalide), alors l'appelant n'est pas remboursé et l'état est remis au point immédiatement avant le transfert de solde (i.e. $\boldsymbol{\sigma}$).
 
 \begin{eqnarray}
 \boldsymbol{\sigma}' & \equiv & \begin{cases}
@@ -797,11 +797,11 @@ I_e & \equiv & e \\
 \text{Let} \; \mathtt{\tiny KEC}(I_\mathbf{b}) & = & \boldsymbol{\sigma}[c]_c
 \end{eqnarray}
 
-It is assumed that the client will have stored the pair $(\mathtt{\tiny KEC}(I_\mathbf{b}), I_\mathbf{b})$ at some point prior in order to make the determination of $I_\mathbf{b}$ feasible.
+On suppose que le client aura stocké la paire $(\mathtt{\tiny KEC}(I_\mathbf{b}), I_\mathbf{b})$ préalablement pour pouvoir déterminer $I_\mathbf{b}$.
 
-As can be seen, there are four exceptions to the usage of the general execution framework $\Xi$ for evaluation of the message call: these are four so-called `precompiled' contracts, meant as a preliminary piece of architecture that may later become \textit{native extensions}. The four contracts in addresses 1, 2, 3 and 4 execute the elliptic curve public key recovery function, the SHA2 256-bit hash scheme, the RIPEMD 160-bit hash scheme and the identity function respectively.
+Comme on pourra voir, il y a quatre exceptions au framework général d'exécution $\Xi$ lors de l'évaluation d'un appel de message: ce sont les quatre contrats `précompilés', compris comme des éléments d'architecture préliminaires qui pourront ultérieurement devenir des \textit{extensions natives}. Les quatre contrats aux adresses 1, 2, 3 et 4 executent la fonction de récupération de la clé publique de courbe elliptique, le schema d'empreinte SHA2 256-bit, le schema d'empreinte RIPEMD 160-bit et la fonction d'identité respectivement.
 
-Their full formal definition is in Appendix \ref{app:precompiled}.
+Leur définition formelle complète est dans l'Annexe \ref{app:precompiled}.
 
 \section{Execution Model} \label{ch:model}
 

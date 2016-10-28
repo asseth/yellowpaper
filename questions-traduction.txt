@@ -1,9 +1,9 @@
-Dilemmes, propositions et doutes sur les termes traduits.
-=========================================================
+Choix, Dilemmes, propositions et doutes sur les termes traduits.
+================================================================
 
-arbre PATRICIA ou arbre radix ? 
-appel de message ou message d'appel ?
-element-wise : élément par élément ou il existe une locution plus adaptée ?
+arbre PATRICIA
+message d'appel
+element-wise : élément par élément ou il existe une locution plus adaptée (et surtout plus courte) ?
 
 Traduction de "Ommer" : c'est "Emmer" en fait :-) si on en croit la page http://nonbinary.org/wiki/Gender_neutral_language#Sibling
 bloc aïeul pourrait-il être une solution ? ou bien bloc ascendant ?
