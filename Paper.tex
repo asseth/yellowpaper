@@ -803,25 +803,27 @@ Comme on pourra voir, il y a quatre exceptions au framework général d'exécuti
 
 Leur définition formelle complète est dans l'Annexe \ref{app:precompiled}.
 
-\section{Execution Model} \label{ch:model}
+\section{Modèle d'exécution} \label{ch:model}
 
-The execution model specifies how the system state is altered given a series of bytecode instructions and a small tuple of environmental data. This is specified through a formal model of a virtual state machine, known as the Ethereum Virtual Machine (EVM). It is a \textit{quasi-}Turing-complete machine; the \textit{quasi} qualification comes from the fact that the computation is intrinsically bounded through a parameter, \textit{gas}, which limits the total amount of computation done.
+Le modèle d'exécution spécifie la façon dont l'état du système est altéré étant donné une série d'instructions de bytecode et un petit tuple de données environnementales. On le spécifie par un modèle formel d'une machine à état nommée Ethereum Virtual Machine (EVM). Il s'agit d'une machine de Turing quasi-complète; la qualification de \textit{quasi} vient de ce que le traitement est intrinsèquement borné par un paramètre, \textit{gas} (gaz), qui limite le traitement total effectué.
 
-\subsection{Basics}
+\subsection{Fondamentaux}
 
-The EVM is a simple stack-based architecture. The word size of the machine (and thus size of stack item) is 256-bit. This was chosen to facilitate the Keccak-256 hash scheme and elliptic-curve computations. The memory model is a simple word-addressed byte array. The stack has a maximum size of $1024$. The machine also has an independent storage model; this is similar in concept to the memory but rather than a byte array, it is a word-addressable word array. Unlike memory, which is volatile, storage is non volatile and is maintained as part of the system state. All locations in both storage and memory are well-defined initially as zero.
+L'EVM est une architecture simple basée sur une pile. La taille des mots de la machine (et donc la taille de l'élément de la pile) est de 256 bits. Ce choix est destiné à faciliter le mécanisme d'empreinte Keccak-256 et les calculs de courbes elliptiques. Le modèle mémoire est un simple tableau d'octets adressé par mots. La pile a une taille maximale de $1024$. La machine comporte également un modèle de stockage indépendant, conceptuellement similaire à celui de la mémoire mais, au lieu d'un tableau d'octets, il s'agit d'un tableau de mots adressé par mots. Au contraire de la mémoire, qui est volatile, le stockage est non volatil et est maintenu comme partie de l'état système. Tous les emplacements tant en stockage qu'en mémoire sont définis à zéro à l'initialisation.
 
-The machine does not follow the standard von Neumann architecture. Rather than storing program code in generally-accessible memory or storage, it is stored separately in a virtual ROM interactable only through a specialised instruction.
+La machine n'est pas conçue selon l'architecture standard de Von Neumann. Au lieu de stocker le code des programmes dans une mémoire transitoire ou permanente générique, il est mis à part dans une ROM virtuelle avec laquelle seule une instruction spécialisée peut interagir.
 
-The machine can have exceptional execution for several reasons, including stack underflows and invalid instructions. Like the out-of-gas (OOG) exception, they do not leave state changes intact. Rather, the machine halts immediately and reports the issue to the execution agent (either the transaction processor or, recursively, the spawning execution environment) which will deal with it separately.
+La machine peut entrer dans une exécution exceptionnelles pour plusieurs raisons, comme un dépassement de dépilage et des instructions invalides. Comme l'exception \textit{out-of-gas} (OOG), elles ne laissent pas les changements d'état intacts. La machine s'arrête immédiatement et rapporte le problème à l'agent d'exécution (soit le processeur de transactions, soit, récursivement, l'environnement d'exécution du lancement) qui le gèrera de son côté.
 
-\subsection{Fees Overview}
+\subsection{Aperçu des frais}
 
-Fees (denominated in gas) are charged under three distinct circumstances, all three as prerequisite to the execution of an operation. The first and most common is the fee intrinsic to the computation of the operation (see Appendix \ref{app:fees}). Secondly, gas may be deducted in order to form the payment for a subordinate message call or contract creation; this forms part of the payment for {\small CREATE}, {\small CALL} and {\small CALLCODE}. Finally, gas may be paid due to an increase in the usage of the memory.
+Les \textit{fees} (frais), chiffrés en gaz, sont décomptés en trois circonstances distinctes, toutes trois étant des prérequis à l'exécution d'une opération. D'abord et le plus fréquemment, les frais intrinsèques au calcul de l'opération (voir Appendice \ref{app:fees}). Ensuite le gaz peut être déduit afin de constituer le paiement d'un appel de message ou d'une création de contrat subordonné; cela fait partie du paiement de {\small CREATE}, {\small CALL} et {\small CALLCODE}. Enfin, le gaz peut être payé en raison de l'augmentation de l'utilisation de la mémoire.
 
-Over an account's execution, the total fee for memory-usage payable is proportional to smallest multiple of 32 bytes that are required such that all memory indices (whether for read or write) are included in the range. This is paid for on a just-in-time basis; as such, referencing an area of memory at least 32 bytes greater than any previously indexed memory will certainly result in an additional memory usage fee. Due to this fee it is highly unlikely addresses will ever go above 32-bit bounds. That said, implementations must be able to manage this eventuality.
+Pendant l'exécution d'un compte,
+% l'exécution appartement à un compte ?
+les frais totaux dûs pour l'utilisation de la mémoire sont proportionnels au plus petit multiple de 32 octets qui est requis tel que tous les index mémoire (en lecture ou en écriture) sont inclus dans l'intervalle. Le paiement se fait en juste-à-temps; le référencement d'une zone de mémoire plus grande d'au moins 32 octets que la mémoire précédemment référencée résulte avec certitude en des frais d'utilisation mémoire supplémentaires. Ces frais rendent extrêmement improbable un adressage dépassant la limite de 32 bits. Cela dit, les implémentations doivent être capables de gérer cette éventualité.
 
-Storage fees have a slightly nuanced behaviour---to incentivise minimisation of the use of storage (which corresponds directly to a larger state database on all nodes), the execution fee for an operation that clears an entry in the storage is not only waived, a qualified refund is given; in fact, this refund is effectively paid up-front since the initial usage of a storage location costs substantially more than normal usage.
+Les frais de stockage se comportent de manière légèrement différente. Pour inciter à minimiser l'utilisation du stockage (qui correspond directement à une base de données d'état plus grande sur tous les n\oe{}uds, les frais d'exécution d'une opération supprimant une entrée dans le stockage ne sont pas seulement abandonnés mais un remboursement explicite est effectué; dans les faits, ce remboursement est payé immédiatement puisque l'utilisation initiale d'un emplacement mémoire coûte bien plus qu'une utilisation courante.
 
 %More formally, given an instruction, it is possible to calculate the gas cost of executing it as follows:
 %
@@ -844,36 +846,36 @@ Storage fees have a slightly nuanced behaviour---to incentivise minimisation of 
 %
 %Additionally, when memory is accessed with {\small MSTORE}, {\small MSTORE8}, {\small MLOAD}, {\small CALLDATACOPY}, {\small CODECOPY}, {\small RETURN}, {\small SHA3}, {\small CREATE} or {\small CALL}, the memory should be enlarged to the smallest multiple of words such that all addressed bytes now fit in it.
 
-See Appendix \ref{app:vm} for a rigorous definition of the EVM gas cost.
+Voir l'appendice \ref{app:vm} pour une définition rigoureuse du coût en gaz de l'EVM.
 
 %Whenever a higher memory index is referenced, the fee difference to take it to the higher usage from the original (lower) usage is charged. Notably, because {\small MSTORE} and {\small MLOAD} operate on word lengths, they implicitly increase the highest-accessed index to 31 greater than their target index.
 
-\subsection{Execution Environment}
+\subsection{Environnement d'exécution}
 
-In addition to the system state $\boldsymbol{\sigma}$, and the remaining gas for computation $g$, there are several pieces of important information used in the execution environment that the execution agent must provide; these are contained in the tuple $I$:
+En plus de l'état du système $\boldsymbol{\sigma}$ et du gaz restant pour le traitement $g$, l'agent d'exécution doit fournir plusieurs informations importantes utilisées dans l'environnement d'exécution, qui sont contenues dans le tuple $I$:
 
 \begin{itemize}
-\item $I_a$, the address of the account which owns the code that is executing.
-\item $I_o$, the sender address of the transaction that originated this execution.
-\item $I_p$, the price of gas in the transaction that originated this execution.
-\item $I_\mathbf{d}$, the byte array that is the input data to this execution; if the execution agent is a transaction, this would be the transaction data.
-\item $I_s$, the address of the account which caused the code to be executing; if the execution agent is a transaction, this would be the transaction sender.
-\item $I_v$, the value, in Wei, passed to this account as part of the same procedure as execution; if the execution agent is a transaction, this would be the transaction value.
-\item $I_\mathbf{b}$, the byte array that is the machine code to be executed.
-\item $I_H$, the block header of the present block.
-\item $I_e$, the depth of the present message-call or contract-creation (i.e. the number of {\small CALL}s or {\small CREATE}s being executed at present).
+\item $I_a$, l'adresse du compte qui possède le code en cours d'exécution.
+\item $I_o$, l'adresse de l'expéditeur de la transaction d'où provient cette exécution.
+\item $I_p$, le prix du gaz dans la transaction d'où provient cette exécution.
+\item $I_\mathbf{d}$, le tableau d'octets qui constitue les données d'entrée pour cette exécution; si l'agent d'exécution est une transaction, il s'agit des données de transaction.
+\item $I_s$, l'adresse du compte qui a provoqué l'exécution du code; si l'agent d'exécution est une transaction, il s'agit de l'expéditeur de la transaction.
+\item $I_v$, la valeur, en Wei, passée à ce compte comme faisant partie de la même procédure que l'exécution; si l'agent d'exécution est une transaction, c'est la valeur de la transaction.
+\item $I_\mathbf{b}$, le tableau d'octets qui est le code machine à exécuter.
+\item $I_H$, l'en-tête de bloc du bloc actuel.
+\item $I_e$, la profondeur de l'appel de message actuel ou de la création de contrat actuelle (c.à.d. le nombre de {\small CALL} ou de {\small CREATE} exécutés à ce moment).
 \end{itemize}
 
-The execution model defines the function $\Xi$, which can compute the resultant state $\boldsymbol{\sigma}'$, the remaining gas $g'$, the suicide list $\mathbf{s}$, the log series $\mathbf{l}$, the refunds $r$ and the resultant output, $\mathbf{o}$, given these definitions:
+Le modèle d'exécution définit la fonction $\Xi$, qui peut calculer l'état résultant $\boldsymbol{\sigma}'$, le gaz restant $g'$, la liste de suicide $\mathbf{s}$, la série de logs $\mathbf{l}$, les remboursements $r$ et la sortie résultante, $\mathbf{o}$, étant données ces définitions:
 \begin{equation}
 (\boldsymbol{\sigma}', g', \mathbf{s}, \mathbf{l}, r, \mathbf{o}) \equiv \Xi(\boldsymbol{\sigma}, g, I)
 \end{equation}
 
-\subsection{Execution Overview}
+\subsection{Aperçu de l'exécution}
 
-We must now define the $\Xi$ function. In most practical implementations this will be modelled as an iterative progression of the pair comprising the full system state, $\boldsymbol{\sigma}$ and the machine state, $\boldsymbol{\mu}$. Formally, we define it recursively with a function $X$. This uses an iterator function $O$ (which defines the result of a single cycle of the state machine) together with functions $Z$ which determines if the present state is an exceptional halting state of the machine and $H$, specifying the output data of the instruction if and only if the present state is a normal halting state of the machine.
+Nous devons maintenant définir la fonction $\Xi$. Dans la plupart des implémentations concrètes, elle sera conçue comme une progression itérative de la paire comprenant l'état complet du système, $\boldsymbol{\sigma}$ et de l'état de la machine,  $\boldsymbol{\mu}$. Formellement, nous la définissons récursivement avec une fonction $X$, qui utilise une fonction itératrice $O$ (qui définit le résultat d'un cycle unique de la machine à état) avec les fonctions $Z$, qui détermine si l'état actuel est un état d'arrêt exceptionnel de la machine, et $H$, spécifiant les données de sortie de l'instruction si et seulement si l'état actuel est un état d'arrêt normal de la machine.
 
-The empty sequence, denoted $()$, is not equal to the empty set, denoted $\varnothing$; this is important when interpreting the output of $H$, which evaluates to $\varnothing$ when execution is to continue but a series (potentially empty) when execution should halt.
+La séquence vide, notée $()$, n'est pas égale à l'ensemble vide, noté $\varnothing$; c'est important au moment d'interpréter la sortie de $H$, qui donne $\varnothing$ quand l'exécution doit continuer mais une série (potentiellement vide) quand l'exécution doit s'arrêter.
 \begin{eqnarray}
 \Xi(\boldsymbol{\sigma}, g, I) & \equiv & X_{0,1,2,4}\big((\boldsymbol{\sigma}, \boldsymbol{\mu}, A^0, I)\big) \\
 \boldsymbol{\mu}_g & \equiv & g \\
@@ -884,39 +886,40 @@ The empty sequence, denoted $()$, is not equal to the empty set, denoted $\varno
 \end{eqnarray}
 \begin{equation}
 X\big( (\boldsymbol{\sigma}, \boldsymbol{\mu}, A, I) \big) \equiv \begin{cases}
-\big(\varnothing, \boldsymbol{\mu}, A^0, I, ()\big) & \text{if} \quad Z(\boldsymbol{\sigma}, \boldsymbol{\mu}, I)\\
-O(\boldsymbol{\sigma}, \boldsymbol{\mu}, A, I) \cdot \mathbf{o} & \text{if} \quad \mathbf{o} \neq \varnothing\\
-X\big(O(\boldsymbol{\sigma}, \boldsymbol{\mu}, A, I)\big) & \text{otherwise}\\
+\big(\varnothing, \boldsymbol{\mu}, A^0, I, ()\big) & \text{si} \quad Z(\boldsymbol{\sigma}, \boldsymbol{\mu}, I)\\
+O(\boldsymbol{\sigma}, \boldsymbol{\mu}, A, I) \cdot \mathbf{o} & \text{si} \quad \mathbf{o} \neq \varnothing\\
+X\big(O(\boldsymbol{\sigma}, \boldsymbol{\mu}, A, I)\big) & \text{sinon}\\
 \end{cases}
 \end{equation}
 
-where
+où
 \begin{eqnarray}
 \mathbf{o} & \equiv & H(\boldsymbol{\mu}, I) \\
 (a, b, c) \cdot d & \equiv & (a, b, c, d)
 \end{eqnarray}
 
-Note that we must drop the fourth value in the tuple returned by $X$ to correctly evaluate $\Xi$, hence the subscript $X_{0,1,2,4}$.
+On remarque que nous devons omettre la quatrième value du tuple renvoyé par $X$ pour évaluer correctement $\Xi$, d'où la notation $X_{0,1,2,4}$.
 
-$X$ is thus cycled (recursively here, but implementations are generally expected to use a simple iterative loop) until either $Z$ becomes true indicating that the present state is exceptional and that the machine must be halted and any changes discarded or until $H$ becomes a series (rather than the empty set) indicating that the machine has reached a controlled halt.
+On cycle donc dans $X$ (ici, récursivement, mais on s'attend généralement à ce que les implémentations emploient une simple boucle itérative) jusqu'à ce que soit $Z$ devienne vrai, indiquant ainsi que l'état actuel est exceptionnel et que la machine doit être arrêtée en revenant sur toutes les modifications, ou jusqu'à ce que $H$ devienne une série (au lieu de l'ensemble vide) indiquant que la machine a atteint un arrêt contrôlé.
 
-\subsubsection{Machine State}
-The machine state $\boldsymbol{\mu}$ is defined as the tuple $(g, pc, \mathbf{m}, i, \mathbf{s})$ which are the gas available, the program counter $pc \in \mathbb{P}_{256}$ , the memory contents, the active number of words in memory (counting continuously from position 0), and the stack contents. The memory contents $\boldsymbol{\mu}_\mathbf{m}$ are a series of zeroes of size $2^{256}$.
+\subsubsection{État de la machine}
+L'état de la machine $\boldsymbol{\mu}$ est défini par le tuple $(g, pc, \mathbf{m}, i, \mathbf{s})$ qui sont le gaz disponible, le compteur de programme $pc \in \mathbb{P}_{256}$, le contenu de la mémoire, le nombre de mots actifs en mémoire (en comptant en continu depuis la position 0) et le contenu de la pile. Le contenu de la mémoire $\boldsymbol{\mu}_\mathbf{m}$ est une série de zéros de taille $2^{256}$.
 
-For the ease of reading, the instruction mnemonics, written in small-caps (\eg \space {\small ADD}), should be interpreted as their numeric equivalents; the full table of instructions and their specifics is given in Appendix \ref{app:vm}.
+Dans un but de lisibilité, les mnémoniques d'instructions, écrites en petites capitales (comme {\small ADD}), doivent être interprétées comme leurs équivalents numériques; la table complète des instructions et de leurs spécificités est donnée à l'Appendice \ref{app:vm}.
 
-For the purposes of defining $Z$, $H$ and $O$, we define $w$ as the current operation to be executed:
+Dans le but de définir $Z$, $H$ et $O$, nous définissons $x$ comme l'opération actuelle à exécuter:
 \begin{equation}\label{eq:currentoperation}
-w \equiv \begin{cases} I_\mathbf{b}[\boldsymbol{\mu}_{pc}] & \text{if} \quad \boldsymbol{\mu}_{pc} < \lVert I_\mathbf{b} \rVert \\
-\text{\small STOP} & \text{otherwise}
+w \equiv \begin{cases} I_\mathbf{b}[\boldsymbol{\mu}_{pc}] & \text{si} \quad \boldsymbol{\mu}_{pc} < \lVert I_\mathbf{b} \rVert \\
+\text{\small STOP} & \text{sinon}
 \end{cases}
 \end{equation}
 
-We also assume the fixed amounts of $\mathbf{\delta}$ and $\mathbf{\alpha}$, specifying the stack items removed and added, both subscriptable on the instruction and an instruction cost function $C$ evaluating to the full cost, in gas, of executing the given instruction.
+Nous supposons également les montants fixes de $\mathbf{\delta}$ et $\mathbf{\alpha}$, en spécifiant les éléments de la pile qui ont été supprimés et ajoutés, les deux étant \textit{subscriptables} sur l'instruction et une fonction de coût d'instruction $C$ qui donne le coût total, en gaz, de l'exécution de l'instruction donnée.
+%We also assume the fixed amounts of $\mathbf{\delta}$ and $\mathbf{\alpha}$, specifying the stack items removed and added, both subscriptable on the instruction and an instruction cost function $C$ evaluating to the full cost, in gas, of executing the given instruction.
 
-\subsubsection{Exceptional Halting}
+\subsubsection{Arrêt exceptionnel}
 
-The exceptional halting function $Z$ is defined as:
+La fonction d'arrêt exceptionnel $Z$ est définie par:
 \begin{equation}
 Z(\boldsymbol{\sigma}, \boldsymbol{\mu}, I) \equiv
 \begin{array}[t]{l}
@@ -928,51 +931,51 @@ Z(\boldsymbol{\sigma}, \boldsymbol{\mu}, I) \equiv
 \end{array}
 \end{equation}
 
-This states that the execution is in an exceptional halting state if there is insufficient gas, if the instruction is invalid (and therefore its $\delta$ subscript is undefined), if there are insufficient stack items, if a {\small JUMP}/{\small JUMPI} destination is invalid or the new stack size would be larger then 1024. The astute reader will realise that this implies that no instruction can, through its execution, cause an exceptional halt.
+Cela établit que l'éxécution se trouve dans un état d'arrêt exceptionnel s'il n'y a pas assez de gaz, si l'instruction est invalide (et donc son \textit{subscript} est indéfini), s'il n'y a pas suffisamment d'éléments de pile, si une destination de {\small JUMP}/{\small JUMPI} est invalide ou si la nouvelle taille de la pile serait supérieure à 1024. Le lecteur attentif aura compris que cela signifie également qu'aucune instruction ne peut, par son exécution, provoquer un arrêt exceptionnel.
 
-\subsubsection{Jump Destination Validity}
+\subsubsection{Validité d'une destination de saut}
 
-We previously used $D$ as the function to determine the set of valid jump destinations given the code that is being run. We define this as any position in the code occupied by a {\small JUMPDEST} instruction.
+Nous avons auparavant utilisé $D$ comme fonction pour déterminer l'ensemble des destinations de saut valides étant donné le code en train de tourner. Nous définission ceci comme toute position dans le code occupée par une instruction {\small JUMPDEST}.
 
-All such positions must be on valid instruction boundaries, rather than sitting in the data portion of {\small PUSH} operations and must appear within the explicitly defined portion of the code (rather than in the implicitly defined {\small STOP} operations that trail it).
+Toutes ces positions doivent se trouver sur des limites d'instruction valides au lieu d'occuper la partie de données des opération {\small PUSH} et doivent apparaître dans la portion explicitement définie du code (et non dans les opérations {\small STOP} implicitement définies qui les suivent).
 
-Formally:
+Formellement:
 \begin{equation}
 D(\mathbf{c}) \equiv D_J(\mathbf{c}, 0)
 \end{equation}
 
-where:
+où:
 \begin{equation}
 D_J(\mathbf{c}, i) \equiv \begin{cases}
-\{\} & \text{if} \quad i \geqslant |\mathbf{c}|  \\
+\{\} & \text{si} \quad i \geqslant |\mathbf{c}|  \\
 \{ i \} \cup D_J(\mathbf{c}, N(i, \mathbf{c}[i])) & \text{if} \quad \mathbf{c}[i] = \text{\small JUMPDEST} \\
-D_J(\mathbf{c}, N(i, \mathbf{c}[i])) & \text{otherwise} \\
+D_J(\mathbf{c}, N(i, \mathbf{c}[i])) & \text{sinon} \\
 \end{cases}
 \end{equation}
 
-where $N$ is the next valid instruction position in the code, skipping the data of a {\small PUSH} instruction, if any:
+où $N$ est la position de l'instruction valide suivante dans le code, en sautant les données d'une instruction {\small PUSH} le cas échéant:
 \begin{equation}
 N(i, w) \equiv \begin{cases}
-i + w - \text{\small PUSH1} + 2 & \text{if} \quad w \in [\text{\small PUSH1}, \text{\small PUSH32}] \\
-i + 1 & \text{otherwise} \end{cases}
+i + w - \text{\small PUSH1} + 2 & \text{si} \quad w \in [\text{\small PUSH1}, \text{\small PUSH32}] \\
+i + 1 & \text{sinon} \end{cases}
 \end{equation}
 
-\subsubsection{Normal Halting}
+\subsubsection{Arrêt normal}
 
-The normal halting function $H$ is defined:
+La fonction d'arrêt normal $H$ est définie par:
 \begin{equation}
 H(\boldsymbol{\mu}, I) \equiv \begin{cases}
-H_{\text{\tiny RETURN}}(\boldsymbol{\mu}) & \text{if} \quad w = \text{\small RETURN} \\
+H_{\text{\tiny RETURN}}(\boldsymbol{\mu}) & \text{si} \quad w = \text{\small RETURN} \\
 () & \text{if} \quad w \in \{ \text{\small STOP}, \text{\small SUICIDE} \} \\
-\varnothing & \text{otherwise}
+\varnothing & \text{sinon}
 \end{cases}
 \end{equation}
 
-The data-returning halt operation, \text{\small RETURN}, has a special function $H_{\text{\tiny RETURN}}$, defined in Appendix \ref{app:vm}.
+L'opération d'arrêt renvoyant les données, \text{\small RETURN}, a une fonction spéciale $H_{\text{\tiny RETURN}}$, définie à l'Appendice \ref{app:vm}.
 
-\subsection{The Execution Cycle}
+\subsection{Le cycle d'exécution}
 
-Stack items are added or removed from the left-most, lower-indexed portion of the series; all other items remain unchanged:
+Les éléments de la pile sont ajoutés ou retirés de la partie la plus à gauche et dont l'index est le plus bas de la série; tous les autres éléments restent inchangés:
 \begin{eqnarray}
 O\big((\boldsymbol{\sigma}, \boldsymbol{\mu}, A, I)\big) & \equiv & (\boldsymbol{\sigma}', \boldsymbol{\mu}', A', I) \\
 \Delta & \equiv & \mathbf{\alpha}_w - \mathbf{\delta}_w \\
@@ -980,17 +983,17 @@ O\big((\boldsymbol{\sigma}, \boldsymbol{\mu}, A, I)\big) & \equiv & (\boldsymbol
 \quad \forall x \in [\mathbf{\alpha}_w, \lVert\boldsymbol{\mu}'_\mathbf{s}\rVert): \boldsymbol{\mu}'_\mathbf{s}[x] & \equiv & \boldsymbol{\mu}_\mathbf{s}[x+\Delta]
 \end{eqnarray}
 
-The gas is reduced by the instruction's gas cost and for most instructions, the program counter increments on each cycle, for the three exceptions, we assume a function $J$, subscripted by one of two instructions, which evaluates to the according value:
+Le gaz est réduit du coût en gaz de l'instruction et, pour la plupart des instructions, le compteur de programme s'incrémente à chaque cycle, pour les trois exceptions, nous posons une fonction $J$, \textit{subscripted} par une ou deux instructions, qui donne les valeurs en accord avec:
 \begin{eqnarray}
 \quad \boldsymbol{\mu}'_{g} & \equiv & \boldsymbol{\mu}_{g} - C(\boldsymbol{\sigma}, \boldsymbol{\mu}, I) \\
 \quad \boldsymbol{\mu}'_{pc} & \equiv & \begin{cases}
-J_{\text{JUMP}}(\boldsymbol{\mu}) & \text{if} \quad w = \text{\small JUMP} \\
-J_{\text{JUMPI}}(\boldsymbol{\mu}) & \text{if} \quad w = \text{\small JUMPI} \\
-N(\boldsymbol{\mu}_{pc}, w) & \text{otherwise}
+J_{\text{JUMP}}(\boldsymbol{\mu}) & \text{si} \quad w = \text{\small JUMP} \\
+J_{\text{JUMPI}}(\boldsymbol{\mu}) & \text{si} \quad w = \text{\small JUMPI} \\
+N(\boldsymbol{\mu}_{pc}, w) & \text{sinon}
 \end{cases}
 \end{eqnarray}
 
-In general, we assume the memory, suicide list and system state don't change:
+En général, nous supposons que la mémoire, la liste de suicide et l'état du système ne changent pas:
 \begin{eqnarray}
 \boldsymbol{\mu}'_\mathbf{m} & \equiv & \boldsymbol{\mu}_\mathbf{m} \\
 \boldsymbol{\mu}'_i & \equiv & \boldsymbol{\mu}_i \\
@@ -998,7 +1001,7 @@ A' & \equiv & A \\
 \boldsymbol{\sigma}' & \equiv & \boldsymbol{\sigma}
 \end{eqnarray}
 
-However, instructions do typically alter one or several components of these values. Altered components listed by instruction are noted in Appendix \ref{app:vm}, alongside values for $\alpha$ and $\delta$ and a formal description of the gas requirements.
+Cependant, les instructions altèrent typiquement une ou plusieurs composantes de ces valeurs. Les composantes altérées listées par instruction sont notées à l'Appendice \ref{app:vm}, accompagnées des valeurs de $\alpha$ et de $\delta$ avec une description formelle des exigences en gaz.
 
 \section{Blocktree to Blockchain} \label{ch:ghost}
 
