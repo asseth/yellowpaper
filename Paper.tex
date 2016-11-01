@@ -1003,19 +1003,19 @@ A' & \equiv & A \\
 
 Cependant, les instructions altèrent typiquement une ou plusieurs composantes de ces valeurs. Les composantes altérées listées par instruction sont notées à l'Appendice \ref{app:vm}, accompagnées des valeurs de $\alpha$ et de $\delta$ avec une description formelle des exigences en gaz.
 
-\section{Blocktree to Blockchain} \label{ch:ghost}
+\section{De l'arbre des blocs à la chaîne des blocs} \label{ch:ghost}
 
-The canonical blockchain is a path from root to leaf through the entire block tree. In order to have consensus over which path it is, conceptually we identify the path that has had the most computation done upon it, or, the \textit{heaviest} path. Clearly one factor that helps determine the heaviest path is the block number of the leaf, equivalent to the number of blocks, not counting the unmined genesis block, in the path. The longer the path, the greater the total mining effort that must have been done in order to arrive at the leaf. This is akin to existing schemes, such as that employed in Bitcoin-derived protocols.
+La blockchain typique est un chemin de la racine jusqu'à la feuille à travers toute l'arborescence des blocs. Pour atteindre le consensus sur ce chemin, conceptuellement, nous identifions celui où le plus de calculs ont été effectués, c'est-à-dire le chemin dont \textit{le poids est le plus élevé}. L'un des facteurs qui permettent de déterminer le chemin dont poids le plus élevé est clairement le numéro de bloc de la feuille, qui est équivalent au nombre de blocs sans compter le bloc \textit{genesis} non miné, dans le chemin. Plus le chemin est long, plus l'effort nécessaire pour arriver à la feuille a été grand. Ce principe est comparable à d'autres, comme ceux employés dans les protocoles dérivés de Bitcoin.
 
-Since a block header includes the difficulty, the header alone is enough to validate the computation done. Any block contributes toward the total computation or \textit{total difficulty} of a chain.
+Comme un en-tête de bloc inclut la difficulté, il suffit à lui seul à valider le calcul effectué. Chaque bloc contribue au calcul total, ou à la \textit{diffulté totale} d'une chaîne.
 
-Thus we define the total difficulty of block $B$ recursively as:
+En conséquence, nous définissons récursivement la difficulté totale du bloc $B$ comme suit:
 \begin{eqnarray}
 B_t & \equiv & B'_t + B_d \\
 B' & \equiv & P(B_H)
 \end{eqnarray}
 
-As such given a block $B$, $B_t$ is its total difficulty, $B'$ is its parent block and $B_d$ is its difficulty.
+Cela implique qu'étant donné un bloc $B$, $B_t$ est sa difficulté totale, $B'$ est son bloc parent et $B_d$ est sa difficulté.
 
 \section{Block Finalisation} \label{ch:finalisation}
 
