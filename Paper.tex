@@ -1019,113 +1019,115 @@ Cela implique qu'étant donné un bloc $B$, $B_t$ est sa difficulté totale, $B'
 
 \section{Block Finalisation} \label{ch:finalisation}
 
-The process of finalising a block involves four stages:
+Le traitement de finalisation d'un bloc comporte quatre étapes:
 
 \begin{enumerate}
-\item Validate (or, if mining, determine) ommers;
-\item validate (or, if mining, determine) transactions;
-\item apply rewards;
-\item verify (or, if mining, compute a valid) state and nonce.
+\item Valider (ou, pour du minage, déterminer) les \textit{ommers} (oncles);
+\item Valider (ou, pour du minage, déterminer) les transactions;
+\item Appliquer les récompenses;
+\item Vérifier (ou, pour du minage, calculer) l'état et le nonce.
 \end{enumerate}
 
-\subsection{Ommer Validation}
+\subsection{Validation des oncles}
 
-The validation of ommer headers means nothing more than verifying that each ommer header is both a valid header and satisfies the relation of $N$th-generation ommer to the present block where $N \leq 6$. The maximum of ommer headers is two. Formally:
+La validation des en-têtes des oncles ne signifie rien de plus que la vérification que chaque en-tête d'oncle est un en-tête valide et qu'il satisfait la relation de l'oncle de $N$ième génération au bloc actuel où $N \leq 6$. Le maximum d'en-têtes d'oncles est deux. Formellement:
 \begin{equation}
 \lVert B_\mathbf{U} \rVert \leqslant 2 \bigwedge_{U \in B_\mathbf{U}} V(U) \; \wedge \; k(U, P(B_H)_H, 6)
 \end{equation}
 
-where $k$ denotes the ``is-kin'' property:
+où $k$ note la propriété ``is-kin'':
 \begin{equation}
-k(U, H, n) \equiv \begin{cases} false & \text{if} \quad n = 0 \\
+k(U, H, n) \equiv \begin{cases} false & \text{si} \quad n = 0 \\
 s(U, H) &\\
-\quad \vee \; k(U, P(H)_H, n - 1) & \text{otherwise}
+\quad \vee \; k(U, P(H)_H, n - 1) & \text{sinon}
 \end{cases}
 \end{equation}
 
-and $s$ denotes the ``is-sibling'' property:
+et $s$ note la propriété ``is-sibling'':
 \begin{equation}
 s(U, H) \equiv (P(H) = P(U)\; \wedge \; H \neq U \; \wedge \; U \notin B(H)_\mathbf{U})
 \end{equation}
-where $B(H)$ is the block of the corresponding header $H$.
+où $B(H)$ est le bloc de l'en-tête correspondant $H$.
 
-\subsection{Transaction Validation}
+\subsection{Validation de transaction}
 
 %where $s[i]$ equals the root of the state trie immediately after the execution of the transaction $B_\mathbf{T}[i]$, and $g[i]$ the total gas used immediately after said transaction.
 
-The given \textbf{gasUsed} must correspond faithfully to the transactions listed: ${B_H}_g$, the total gas used in the block, must be equal to the accumulated gas used according to the final transaction:
+Le \textbf{gasUsed} donné doit correspondre fidèlement aux transactions listées:  ${B_H}_g$, le gaz total  utilisé dans le bloc doit être égal au gaz accumulé utilisé d'après la transaction finale:
 \begin{equation}
 {B_H}_g = \ell(\mathbf{R})_u
 \end{equation}
 
-\subsection{Reward Application}
+\subsection{Application des récompenses}
 
-The application of rewards to a block involves raising the balance of the accounts of the beneficiary address of the block and each ommer by a certain amount. We raise the block's beneficiary account by $R_b$; for each ommer, we raise the block's beneficiary by an additional $\frac{1}{32}$ of the block reward and the beneficiary of the ommer gets rewarded depending on the block number. Formally we define the function $\Omega$:
+L'application des récompenses à un bloc implique d'augmenter le solde des comptes de l'adresse du bénéficiaire du bloc et de chaque oncle d'un certain montant. Nous ajoutons $R_b$ au compte du bénéficiaire; pour chaque oncle, nous ajoutons un $\frac{1}{32}$ supplémentaire de la récompense du bloc à celui du bénéficiaire du bloc et le bénéficiaire de l'oncle est récompensé en fonction du numéro de bloc. Formellement, nous définissons la fonction $\Omega$:
 \begin{eqnarray}
-\Omega(B, \boldsymbol{\sigma}) & \equiv & \boldsymbol{\sigma}': \boldsymbol{\sigma}' = \boldsymbol{\sigma} \quad \text{except:} \\
+\Omega(B, \boldsymbol{\sigma}) & \equiv & \boldsymbol{\sigma}': \boldsymbol{\sigma}' = \boldsymbol{\sigma} \quad \text{excepté:} \\
 \boldsymbol{\sigma}'[{B_H}_c]_b & = & \boldsymbol{\sigma}[{B_H}_c]_b + (1 + \frac{\lVert B_\mathbf{U}\rVert}{32})R_b \\
 \forall_{U \in B_\mathbf{U}}: \\ \nonumber
  \boldsymbol{\sigma}'[U_c]_b & = & \boldsymbol{\sigma}[U_c]_b + (1 + \frac{1}{8} (U_i - {B_H}_i)) R_b
 \end{eqnarray}
 
-If there are collisions of the beneficiary addresses between ommers and the block (i.e. two ommers with the same beneficiary address or an ommer with the same beneficiary address as the present block), additions are applied cumulatively.
+S'il existe des collision des adresses de bénéficiaires entre les oncles et le bloc (c'est-à-dire deux oncles ave la même adresse de bénéficiaire ou un oncle avec la même adresse de bénéficiaire que celle du bloc actuel), les additions sont appliquées de manière cumulative.
 
-We define the block reward as 5 Ether:
+Nous définissons la récompense de bloc qui est de 5 Ether:
 \begin{equation}
 \text{Let} \quad R_b = 5 \times 10^{18}
 \end{equation}
 
-\subsection{State \& Nonce Validation}\label{sec:statenoncevalidation}
+\subsection{Validation de l'état et du nonce}\label{sec:statenoncevalidation}
 
-We may now define the function, $\Gamma$, that maps a block $B$ to its initiation state:
+Nous pouvons maintenant définir la fonction, $\Gamma$, qui fait correspond un bloc $B$ à son état d'initialisation:
 \begin{equation}
 \Gamma(B) \equiv \begin{cases}
-\boldsymbol{\sigma}_0 & \text{if} \quad P(B_H) = \varnothing \\
-\boldsymbol{\sigma}_i: \mathtt{\small TRIE}(L_S(\boldsymbol{\sigma}_i)) = {P(B_H)_H}_r & \text{otherwise}
+\boldsymbol{\sigma}_0 & \text{si} \quad P(B_H) = \varnothing \\
+\boldsymbol{\sigma}_i: \mathtt{\small TRIE}(L_S(\boldsymbol{\sigma}_i)) = {P(B_H)_H}_r & \text{sinon}
 \end{cases}
 \end{equation}
 
-Here, $\mathtt{\small TRIE}(L_S(\boldsymbol{\sigma}_i))$ means the hash of the root node of a trie of state $\boldsymbol{\sigma}_i$; it is assumed that implementations will store this in the state database, trivial and efficient since the trie is by nature an immutable data structure.
+Ici, $\mathtt{\small TRIE}(L_S(\boldsymbol{\sigma}_i))$ signifie l'empreinte du n\oe{}ud racine du trie (arbre préfixe) d'état $\boldsymbol{\sigma}_i$; on supose que les implémentations le stockerdont dans la base d'état, ce qui est trivial et efficient puisque le trie est par nature une structure de données immuable.
 
-And finally define $\Phi$, the block transition function, which maps an incomplete block $B$ to a complete block $B'$:
+Et nous définissons finalement $\Phi$, la fonction de transition de bloc, qui fait correspondre un bloc incomplet $B$ à un bloc complet $B'$:
 \begin{eqnarray}
-\Phi(B) & \equiv & B': \quad B' = B^* \quad \text{except:} \\
+\Phi(B) & \equiv & B': \quad B' = B^* \quad \text{excepté:} \\
 B'_n & = & n: \quad x \leqslant \frac{2^{256}}{H_d} \\
-B'_m & = & m \quad \text{with } (x, m) = \mathtt{PoW}(B^*_{\hcancel{n}}, n, \mathbf{d}) \\
-B^* & \equiv & B \quad \text{except:} \quad B^*_r = r(\Pi(\Gamma(B), B))
+B'_m & = & m \quad \text{avec } (x, m) = \mathtt{PoW}(B^*_{\hcancel{n}}, n, \mathbf{d}) \\
+B^* & \equiv & B \quad \text{excepté:} \quad B^*_r = r(\Pi(\Gamma(B), B))
 \end{eqnarray}
-With $\mathbf{d}$ being a dataset as specified in appendix \ref{app:ethash}.
+$\mathbf{d}$ étant un ensemble de données tel que spécifié à l'appendice \ref{app:ethash}.
 
-As specified at the beginning of the present work, $\Pi$ is the state-transition function, which is defined in terms of $\Omega$, the block finalisation function and $\Upsilon$, the transaction-evaluation function, both now well-defined.
+Comme on l'a spécifié au début du présent travail, $\Pi$ est la fonction de transition d'état, qui est définie en termes de $\Omega$, la fonction de finalisation de bloc, et de $\Upsilon$, la fonction d'évaluation d'état, toutes deux maintenant bien définies.
 
-As previously detailed, $\mathbf{R}[n]_{\boldsymbol{\sigma}}$, $\mathbf{R}[n]_\mathbf{l}$ and $\mathbf{R}[n]_u$ are the $n$th corresponding states, logs and cumulative gas used after each transaction ($\mathbf{R}[n]_b$, the fourth component in the tuple, has already been defined in terms of the logs). The former is defined simply as the state resulting from applying the corresponding transaction to the state resulting from the previous transaction (or the block's initial state in the case of the first such transaction):
+Comme on l'a détaillé précédemment, $\mathbf{R}[n]_{\boldsymbol{\sigma}}$, $\mathbf{R}[n]_\mathbf{l}$ et $\mathbf{R}[n]_u$ sont les $n$ièmes états, logs et gaz cumulé correspondants utilisés après chaque transaction ($\mathbf{R}[n]_b$, le quatrième composant du tuple, a déjà été défini en termes de logs). Le précédent  est simplement défini comme l'état résultant de l'application de la transaction correspondante à l'état résultant de la transaction précédente (ou l'état initial du bloc dans le cas d'un première transaction de ce type):
 \begin{equation}
-\mathbf{R}[n]_{\boldsymbol{\sigma}} = \begin{cases} \Gamma(B) & \text{if} \quad n < 0 \\ \Upsilon(\mathbf{R}[n - 1]_{\boldsymbol{\sigma}}, B_\mathbf{T}[n]) & \text{otherwise} \end{cases}
+\mathbf{R}[n]_{\boldsymbol{\sigma}} = \begin{cases} \Gamma(B) & \text{si} \quad n < 0 \\ \Upsilon(\mathbf{R}[n - 1]_{\boldsymbol{\sigma}}, B_\mathbf{T}[n]) & \text{sinon} \end{cases}
 \end{equation}
 
-In the case of $B_\mathbf{R}[n]_u$, we take a similar approach defining each item as the gas used in evaluating the corresponding transaction summed with the previous item (or zero, if it is the first), giving us a running total:
+Dans le cas de $B_\mathbf{R}[n]_u$, nous prenons une approche similaire en définissant chaque élément comme le gaz utilisé en évaluant la transaction correspondante ajouté à l'élément précédent (ou zéro s'il s'agit du premier), nous donnant un total en cours;
 \begin{equation}
-\mathbf{R}[n]_u = \begin{cases} 0 & \text{if} \quad n < 0 \\
+\mathbf{R}[n]_u = \begin{cases} 0 & \text{si} \quad n < 0 \\
 \begin{array}[b]{l}
 \Upsilon^g(\mathbf{R}[n - 1]_{\boldsymbol{\sigma}}, B_\mathbf{T}[n])\\ \quad + \mathbf{R}[n-1]_u
 \end{array}
- & \text{otherwise} \end{cases}
+ & \text{sinon} \end{cases}
 \end{equation}
 
-For $\mathbf{R}[n]_\mathbf{l}$, we utilise the $\Upsilon^\mathbf{l}$ function that we conveniently defined in the transaction execution function.
+Pour $\mathbf{R}[n]_\mathbf{l}$, nous utilisons la fonction $\Upsilon^\mathbf{l}$ que nous avons commodément définie dans la fonction d'exécution de transaction.
 \begin{equation}
 \mathbf{R}[n]_\mathbf{l} =
 \Upsilon^\mathbf{l}(\mathbf{R}[n - 1]_{\boldsymbol{\sigma}}, B_\mathbf{T}[n])
 \end{equation}
 
-Finally, we define $\Pi$ as the new state given the block reward function $\Omega$ applied to the final transaction's resultant state, $\ell(B_\mathbf{R})_{\boldsymbol{\sigma}}$:
+Enfin, nous définissons $\Pi$ comme le nouvel état étant donnée la fonction de récompense de bloc $\Omega$ appliquée à l'état résultant de la transaction finale, $\ell(B_\mathbf{R})_{\boldsymbol{\sigma}}$:
 \begin{equation}
 \Pi(\boldsymbol{\sigma}, B) \equiv \Omega(B, \ell(\mathbf{R})_{\boldsymbol{\sigma}})
 \end{equation}
 
+Donc le mécanisme de transition de bloc, moins  $\mathtt{PoW}$, la fonction de preuve de travail, est défini.
 Thus the complete block-transition mechanism, less $\mathtt{PoW}$, the proof-of-work function is defined.
 
-\subsection{Mining Proof-of-Work} \label{ch:pow}
+\subsection{Preuve de travail de minage} \label{ch:pow}
+
 
 The mining proof-of-work (PoW) exists as a cryptographically secure nonce that proves beyond reasonable doubt that a particular amount of computation has been expended in the determination of some token value $n$. It is utilised to enforce the blockchain security by giving meaning and credence to the notion of difficulty (and, by extension, total difficulty). However, since mining new blocks comes with an attached reward, the proof-of-work not only functions as a method of securing confidence that the blockchain will remain canonical into the future, but also as a wealth distribution mechanism.
 
