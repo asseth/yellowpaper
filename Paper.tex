@@ -617,7 +617,7 @@ où $g$ est le montant de gaz restant après avoir déduit le montant de base de
 \begin{equation}
 g \equiv T_g - g_0
 \end{equation}
-et $T_o$ est l'auteur originel de la transaction, qui peut différer de l'expéditeur dans le cas d'un appel de message ou d'une crréation de contact qui n'a pas été directement déclenché par une transaction mais qui vient de l'exécution de code EVM.
+et $T_o$ est l'auteur originel de la transaction, qui peut différer de l'expéditeur dans le cas d'un appel de message ou d'une création de contact qui n'a pas été directement déclenché par une transaction mais qui vient de l'exécution de code EVM.
 
 On remarque que nous utilisons $\Theta_{3}$ pour noter le fait que seuls les trois premiers composants de la valeur de la fonction sont pris; le composant final représente la valeur de sortie d'un appel de message (un tableau d'octets) et est inutilisé dans le contexte de l'évaluation d'une transaction.
 
@@ -690,7 +690,7 @@ v' \equiv \begin{cases}
 
 %It is asserted that the state database will also change such that it defines the pair $(\mathtt{\tiny KEC}(\mathbf{b}), \mathbf{b})$.
 
-Enfin, le compte est initialisé par l'exécution du code EVM d'initialisation $\mathbf{i}$ d'après le modèle d'exécution (voir la section \ref{ch:model}). L'exécution du code peut engendre plusieurs événements qui ne sont pas internes à l'état d'exécution: la mémoire de stockage peut être altérée, des comptes supplémentaires peuvent être créé et d'autres appels de message peuvent être lancés. En tant que telle, la fonction d'exécution de code $\Xi$ donne un tuple de l'état résultant $\boldsymbol{\sigma}^{**}$, du gaz disponible restant $g^{**}$, du substrat accru $A$ et du code du corps du compte $\mathbf{o}$.
+Enfin, le compte est initialisé par l'exécution du code EVM d'initialisation $\mathbf{i}$ d'après le modèle d'exécution (voir la section \ref{ch:model}). L'exécution du code peut engendrer plusieurs événements qui ne sont pas internes à l'état d'exécution: la mémoire de stockage peut être altérée, des comptes supplémentaires peuvent être créés et d'autres appels de message peuvent être lancés. En tant que telle, la fonction d'exécution de code $\Xi$ donne un tuple de l'état résultant $\boldsymbol{\sigma}^{**}$, du gaz disponible restant $g^{**}$, du substrat accru $A$ et du code du corps du compte $\mathbf{o}$.
 
 \begin{equation}
 (\boldsymbol{\sigma}^{**}, g^{**}, A, \mathbf{o}) \equiv \Xi(\boldsymbol{\sigma}^*, g, I) \\
@@ -718,7 +718,7 @@ c \equiv G_{codedeposit} \times |\mathbf{o}|
 
 S'il n'y a pas assez de gaz restant pour payer ceci, c'est-à-dire $g^{**} < c$, alors nous déclarons également une exception Out-of-Gas.
 
-Le gaz restant sera à zéro dans ces circonstances exceptionnelles, c'est-à-dire que si la création a été conduite à la réception d'une transaction, alors cela n'affecte pas le paiement du coût intrinsèque de la création du contrat; celui-ci est payé de toute manière. Cependant, la valeur de la transaction n'est pas transférée à l'adresse du contrat avorté quand nous somme Out-of-Gas.
+Le gaz restant sera à zéro dans ces circonstances exceptionnelles, c'est-à-dire que si la création a été conduite à la réception d'une transaction, alors cela n'affecte pas le paiement du coût intrinsèque de la création du contrat; celui-ci est payé de toute manière. Cependant, la valeur de la transaction n'est pas transférée à l'adresse du contrat avorté quand nous sommes Out-of-Gas.
 
 Si ce type d'exception ne se produit pas, alors le gaz restant est renvoyé à l'\textbf{\textit{originator}} et l'état maintenant altéré a le droit de persister. Nous pouvons donc formellement spécifier l'état, le gaz et le sous-état résultants par $(\boldsymbol{\sigma}', g', A)$ où:
 
