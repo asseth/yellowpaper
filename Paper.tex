@@ -1196,44 +1196,62 @@ Many thanks to Aeron Buchanan for authoring the Homestead revisions, Christoph J
 
 \appendix
 
-\section{Terminology}
+\section{Terminologie}
 
 \begin{description}
-\item[External Actor] A person or other entity able to interface to an Ethereum node, but external to the world of Ethereum. It can interact with Ethereum through depositing signed Transactions and inspecting the blockchain and associated state. Has one (or more) intrinsic Accounts.
+\item[Acteur externe (\textit{external actor})\,]
+  Une personne ou une entité susceptible de s'interfacer à un n\oe{}ud Ethereum, mais extérieur au monde d'Ethereum. Il peut interagir avec Ethereum en déposant des Transactions signées et en inspectant la blockchain et son état associé. Possède un Compte intrinsèque ou plus.
 
-\item[Address] A 160-bit code used for identifying Accounts.
+\item[Adresse (\textit{address})\,]
+  Un code sur 160 bits utilisé pour identifier les Comptes.
 
-\item[Account] Accounts have an intrinsic balance and transaction count maintained as part of the Ethereum state. They also have some (possibly empty) EVM Code and a (possibly empty) Storage State associated with them. Though homogenous, it makes sense to distinguish between two practical types of account: those with empty associated EVM Code (thus the account balance is controlled, if at all, by some external entity) and those with non-empty associated EVM Code (thus the account represents an Autonomous Object). Each Account has a single Address that identifies it.
+\item[Compte (\textit{account})\,]
+  Les Comptes ont une balance intrinsèque et un compteur de transactions maintenu dans l'état d'Ethereum. Ils ont également du Code EVM (éventuellement vide) et un État de stockage qui leur est associé. Bien qu'homogènes, il est admis de distinguer deux types de comptes: ceux avec un Code EVM vide (et dont le solde est contrôlé le cas échéant par une entité externe) et ceux dont le Code EVM associé n'est pas vide (le compte représente donc un Objet autonome. Chaque compte a une adresse unique qui l'identifie.
+  
+\item[Transaction\,]
+  Des données, signées par un Acteur externe. Elle représente soit un Message soit un nouvel Objet autonome. Les transactions sont enregistrées dans chaque bloc de la blockchain.
 
-\item[Transaction] A piece of data, signed by an External Actor. It represents either a Message or a new Autonomous Object. Transactions are recorded into each block of the blockchain.
+\item[Objet autonome (\textit{autonomous object})\,]
+  Un objet théorique qui n'existe que dans l'état hypothétique d'Ethereum. Possède une adresse intrinsèque et donc un compte associé; le compte aura un Code EVM associé non vide. N'est incorporé que comme État de stockage de ce compte.
 
-\item[Autonomous Object] A notional object existent only within the hypothetical state of Ethereum. Has an intrinsic address and thus an associated account; the account will have non-empty associated EVM Code. Incorporated only as the Storage State of that account.
+\item[État de stockage (\textit{storage state})\,]
+  L'information spécifique à un Compte donné qui est conservée entre les occurrences de lancement du Code EVM associé au Compte.
 
-\item[Storage State] The information particular to a given Account that is maintained between the times that the Account's associated EVM Code runs.
+\item[Message\,]
+  Données (en tant qu'ensemble d'octets) et Valeur (spécifiée en Ether) qui sont passées entre deux Comptes, soit par l'opération déterministe d'un Objet autonome, soit par la signature sécurisée cryptographiquement de la Transaction.
 
-\item[Message] Data (as a set of bytes) and Value (specified as Ether) that is passed between two Accounts, either through the deterministic operation of an Autonomous Object or the cryptographically secure signature of the Transaction.
+\item[Appel de message (\textit{message call})\,]
+  L'acte de passer un message d'un Compte vers un autre. Si le compte de destination est associé à du Code EVM non vide, alors la VM sera démarrée avec l'état de l'objet en question et le Message donnera lieu à une action. Si l'expéditeur du message est un Objet autonome, l'Appel passe toute donnée renvoyée de l'opération de la VM.
 
-\item[Message Call] The act of passing a message from one Account to another. If the destination account is associated with non-empty EVM Code, then the VM will be started with the state of said Object and the Message acted upon. If the message sender is an Autonomous Object, then the Call passes any data returned from the VM operation.
+\item[Gaz (\textit{gas})\,]
+  L'unité de coût fondamentale du réseau. Payée exclusivement en Ether (au momnet du PoC-4), qui est librement converti en Gaz et inversement selon les besoins. Le Gaz n'existe pas hors du moteur de calcul interne d'Ethereum; son prix est fixé par la Transaction et les mineurs sont libres d'ignorer les Transactions dont le prix en Gaz est trop bas.
 
-\item[Gas] The fundamental network cost unit. Paid for exclusively by Ether (as of PoC-4), which is converted freely to and from Gas as required. Gas does not exist outside of the internal Ethereum computation engine; its price is set by the Transaction and miners are free to ignore Transactions whose Gas price is too low.
+\item[Contrat (\textit{contract})\,]
+  Terme informel employé pour signifier à la fois un bout de Code EV qui peut être associé à un compte, et un Objet autonome.
 
-\item[Contract] Informal term used to mean both a piece of EVM Code that may be associated with an Account or an Autonomous Object.
+\item[Objet (\textit{object})\,]
+  Synonyme d'Objet autonome.
 
-\item[Object] Synonym for Autonomous Object.
+\item[App\,]
+  Une application visible de l'utilisateur hébergée dans le Navigateur Ethereum.
 
-\item[App] An end-user-visible application hosted in the Ethereum Browser.
+\item[Navigateur Ethereum (\textit{Ethereum Browser})\,]
+  (alias \textit{Ethereum Reference Client}) Une interface utilisateur graphique similaire à un navigateur simplifié (à la Chrome) capable d'héberger des applications en mode bac à sable dont la base arrière est purement sur le protocole Ethereum.
 
-\item[Ethereum Browser] (aka Ethereum Reference Client) A cross-platform GUI of an interface similar to a simplified browser (a la Chrome) that is able to host sandboxed applications whose backend is purely on the Ethereum protocol.
+\item[Ethereum Virtual Machine\,]
+  (alias EVM) La machine virtuelle qui forme la partie essentielle du modèle d'exécution du Code EVM associé à un Compte.
 
-\item[Ethereum Virtual Machine] (aka EVM) The virtual machine that forms the key part of the execution model for an Account's associated EVM Code.
+\item[Ethereum Runtime Environment\,]
+  (alias ERE) L'environnement qui est fourni à un Objet autonome en train de s'exécuter dans l'EM. Comprend l'EVM mais aussi la structure de l'état du monde sur laquelle l'EVM se base pour certaines instruction d'E/S, y compris CALL et CREATE.
 
-\item[Ethereum Runtime Environment] (aka ERE) The environment which is provided to an Autonomous Object executing in the EVM. Includes the EVM but also the structure of the world state on which the EVM relies for certain I/O instructions including CALL \& CREATE.
+\item[Code EVM\,]
+  Le bytecode que l'EVM peut exécuter nativement. Utilisé pour spécifier formellement la signification et les ramifications d'un message vers un Compte.
 
-\item[EVM Code] The bytecode that the EVM can natively execute. Used to formally specify the meaning and ramifications of a message to an Account.
+\item[Assembleur EVM (\textit{EVM assembly})\,]
+  La forme humainement lisible du Code EVM.
 
-\item[EVM Assembly] The human-readable form of EVM-code.
-
-\item[LLL] The Lisp-like Low-level Language, a human-writable language used for authoring simple contracts and general low-level language toolkit for trans-compiling to.
+\item[LLL\,] \
+  textit{Lisp-like Low-level Language}, un langage humainement utilisable pour créer des contrats simples et une boîte à outils de lanage généraliste de bas niveau vers laquelle on transcompile.
 
 \end{description}
 
