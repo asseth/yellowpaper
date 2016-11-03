@@ -1153,17 +1153,17 @@ Il existe une graine qui peut être calculée pour chaque bloc en scannant son e
 
 Le minage consiste en sélectionnant des tranches de l'ensemble des données et en faisant des empreintes de leurs combinaisons. La vérification peut être faite avec peu de mémoire en utilisant le cache pour régénérer les éléments spécifiques de l'ensemble des données dont vous avez besoin, et ainsi vous n'avez besoin que de stocker le cache. L'ensemble des données est mis à jour tous les $J_{epoch}$ blocs, donc la grande majorité de l'effort de minage sera de lire les données, et non de les changer. les paramètres cités comme l'algorithme lui-même sont décrits en annexe \ref{app:ethash}.
 
-\section{Implementing Contracts}
+\section{Implémentation des contrats}
 
-There are several patterns of contracts engineering that allow particular useful behaviours; two of these that I will briefly discuss are data feeds and random numbers.
+IL existe plusieurs modèles d'ingénierie des contrats qui autorisent des fonctionnalités particulièrement utiles; je vais brièvement traiter de deux d'entre eux, les \textit{data feeds} (soures de données) et les nombres aléatoires.
 
-\subsection{Data Feeds}
-A data feed contract is one which provides a single service: it gives access to information from the external world within Ethereum. The accuracy and timeliness of this information is not guaranteed and it is the task of a secondary contract author---the contract that utilises the data feed---to determine how much trust can be placed in any single data feed.
+\subsection{Sources de données}
+Un contrat de source de données fournit un simple service: il donne accès à des informations du monde extérieur depuis Ethereum. L'exactitude en qualité et en temps de ces informations ne sont pas garanties et c'est la tâche d'un auteur de contrat secondaire -- le contrat qui utilise la source de données -- de déterminer la confiance qui peut être placée dans une source de données. 
 
-The general pattern involves a single contract within Ethereum which, when given a message call, replies with some timely information concerning an external phenomenon. An example might be the local temperature of New York City. This would be implemented as a contract that returned that value of some known point in storage. Of course this point in storage must be maintained with the correct such temperature, and thus the second part of the pattern would be for an external server to run an Ethereum node, and immediately on discovery of a new block, creates a new valid transaction, sent to the contract, updating said value in storage. The contract's code would accept such updates only from the identity contained on said server.
+Le modèle général implique un unique contrat dans Ethereum qui, à réception d'un appel de message, répond par une information en temps voulu concernant un phénomène extérieur, par exemple la température à New York. Cela peut être implémenté par un contrat qui renvoie cette valeur depuis un point connu dans la mémoire de stockage. Ce dernier doit être bien entendu maintenu avec la température correcte et la seconde partie du modèle implique donc un serveur externe faisant tourner un n\oe{}ud Ethereum qui, au moment précis de la découverte d'un nouveau bloc, crée une nouvelle transaction valide, envoyée au contrat, mettant la valeur en question dans la mémoire de stockage. Le code du contrat n'accepterait de mises à jour que depuis l'identité contenue dans le serveur.
 
-\subsection{Random Numbers}
-Providing random numbers within a deterministic system is, naturally, an impossible task. However, we can approximate with pseudo-random numbers by utilising data which is generally unknowable at the time of transacting. Such data might include the block's hash, the block's timestamp and the block's beneficiary address. In order to make it hard for malicious miner to control those values, one should use the {\small BLOCKHASH} operation in order to use hashes of the previous 256 blocks as pseudo-random numbers. For a series of such numbers, a trivial solution would be to add some constant amount and hashing the result.
+\subsection{Nombre aléatoires}
+La fourniture de nombres aléatoire au sein d'un système déterministe relève naturellement de l'impossible. Nous pouvons cependant aboutir à une approximation en utilisant des données qui sont généralement inconnues au moment de la transaction. Ces données comprennent l'empreinte du bloc, son horodatage et l'adresse de son bénéficiaire. Afin de compliquer le contrôle éventuel de ces valeurs par un mineur malveillant, il faudrait employer l'opération {\small BLOCKHASH} pour utiliser des empreintes des 256 blocs précédents comme nombres pseudo-aléatoires. Pour une série de ces nombres, une solution triviale consiste à y ajouter un montant constant et à prendre l'empreinte du résultat.
 
 \section{Future Directions} \label{ch:future}
 
