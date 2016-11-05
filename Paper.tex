@@ -1323,22 +1323,22 @@ Quand on interprète les données RLP, si un fragment inattendu est décodé com
 
 Il n'existe pas de format d'encodage canonique pour les valeurs signées ou en virgule flottante.
 
-\section{Hex-Prefix Encoding}\label{app:hexprefix}
-Hex-prefix encoding is an efficient method of encoding an arbitrary number of nibbles as a byte array. It is able to store an additional flag which, when used in the context of the trie (the only context in which it is used), disambiguates between node types.
+\section{Encodage \textit{hex-prefix}}\label{app:hexprefix}
+L'encodage \textit{hex-prefix} est une méthode efficace d'encodage d'un nombre quelconque de \textit{nibbles} ou quartets dans un tableau d'octets. Il est capable de stocker un indicateur supplémentaire qui, quand on l'emploie dans le contexte d'un trie ou arbre préfixe (le seul contexte dans lequel il est utilisé), permet de discriminer les types de n\oe{}uds.
 
-It is defined as the function $\mathtt{\tiny HP}$ which maps from a sequence of nibbles (represented by the set $\mathbb{Y}$) together with a boolean value to a sequence of bytes (represented by the set $\mathbb{B}$):
+Il est défini par la fonction $\mathtt{\tiny HP}$ qui fait correspondre une séquence de quartets (représentés par l'ensemble  $\mathbb{Y}$) avec une valeur booléenne à une séquence d'octets (représentés par l'ensemble $\mathbb{B}$):
 
 \begin{eqnarray}
 \mathtt{\tiny HP}(\mathbf{x}, t): \mathbf{x} \in \mathbb{Y} & \equiv & \begin{cases}
 (16f(t), 16\mathbf{x}[0] + \mathbf{x}[1], 16\mathbf{x}[2] + \mathbf{x}[3], ...) &
-\text{if} \quad \lVert \mathbf{x} \rVert \; \text{is even} \\
+\text{si} \quad \lVert \mathbf{x} \rVert \; \text{est pair} \\
 (16(f(t) + 1) + \mathbf{x}[0], 16\mathbf{x}[1] + \mathbf{x}[2], 16\mathbf{x}[3] + \mathbf{x}[4], ...) &
-\text{otherwise}
+\text{sinon}
 \end{cases} \\
-f(t) & \equiv & \begin{cases} 2 & \text{if} \quad t \neq 0 \\ 0 & \text{otherwise} \end{cases}
+f(t) & \equiv & \begin{cases} 2 & \text{si} \quad t \neq 0 \\ 0 & \text{sinon} \end{cases}
 \end{eqnarray}
 
-Thus the high nibble of the first byte contains two flags; the lowest bit encoding the oddness of the length and the second-lowest encoding the flag $t$. The low nibble of the first byte is zero in the case of an even number of nibbles and the first nibble in the case of an odd number. All remaining nibbles (now an even number) fit properly into the remaining bytes.
+Le quartet de poids fort du premier octet contient deux indicateurs: le bit de poids faible code la parité de la longueur et le deuxième bit de poids faible code l'indicateur $t$. L'octet de poids faible du premier octet est à zéro dans le cas d'une nombre de quartets pair et au premier quartet dans le cas d'un nombre impair. Tous les quartets restants (maintenant un nombre pair) s'adaptent correctemetn dans les octets restants.
 
 \section{Modified Merkle Patricia Tree}\label{app:trie}
 The modified Merkle Patricia tree (trie) provides a persistent data structure to map between arbitrary-length binary data (byte arrays). It is defined in terms of a mutable data structure to map between 256-bit binary fragments and arbitrary-length binary data, typically implemented as a database. The core of the trie, and its sole requirement in terms of the protocol specification is to provide a single value that identifies a given set of key-value pairs, which may be either a 32 byte sequence or the empty byte sequence. It is left as an implementation consideration to store and maintain the structure of the trie in a manner the allows effective and efficient realisation of the protocol.
