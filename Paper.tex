@@ -1167,15 +1167,15 @@ La fourniture de nombres aléatoire au sein d'un système déterministe relève 
 
 \section{Future Directions} \label{ch:future}
 
-Dans le futur, la base de donnée à état ne sera pas forcée de maintenir tous les états passés des structures du trie. Elle devra maintenir un âge pour chaque noeud et eventuellement rejeter les noeuds qui ne sont ni assez récents, ni des checkpoints; les checkpoints, ou un ensemble de noeuds dans la base de donnée qui autorisent à traverser un trie d'état de bloc, peuvent être utilisés pour placer une limite maximum sur le volume de calcul nécessaire pour récupérer n'importe quel état à travers la blockchain.
+Dans le futur, la base de données à état ne sera pas forcée de maintenir tous les états passés des structures du trie. Elle devra maintenir un âge pour chaque noeud et eventuellement rejeter les noeuds qui ne sont ni assez récents, ni des checkpoints; les checkpoints, ou un ensemble de noeuds dans la base de donnée qui autorisent à traverser un trie d'état de bloc, peuvent être utilisés pour placer une limite maximum sur le volume de calcul nécessaire pour récupérer n'importe quel état à travers la blockchain.
 
-La consolidation de la blockchain peut-être utilisée dans le but de réduire le nombre de blocs qu'un client a besoin de télécharger pour agir comme un mineur, un noeud complet. Une archive compressée de la structure du trie à des points donnés dans le temps (par exemple une tous les 10 000 blocs) peut être maintenue par le réseau de pairs, en renouvelant efficacement le bloc genesis. Cela serait censé réduire le volume à télécharger à une simple archive plus une limite dure de blocs maximum.
+La consolidation de la blockchain peut être utilisée dans le but de réduire le nombre de blocs qu'un client a besoin de télécharger pour agir comme un mineur, un noeud complet. Une archive compressée de la structure du trie à des points donnés dans le temps (par exemple une tous les 10 000 blocs) peut être maintenue par le réseau de pairs, en renouvelant efficacement le bloc genesis. Cela pourrait réduire le volume à télécharger à une simple archive plus une limite maximum de blocs en dur.
 
-Enfin, la compression de la blockchain pourrait peut-être être menée: les noeuds dans un trie d'état qui n'ont pas envoyé/reçu de transaction dans un certain nombre de blocs donné pourraient être rejetés, réduisant les vols d'ethers ainsi que l'accroissement de la base de donnée d'état.
+Enfin, la compression de la blockchain pourrait peut-être être menée: les noeuds dans un trie d'état qui n'ont pas envoyé/reçu de transaction dans un certain nombre de blocs donné pourraient être rejetés, réduisant les fuites d'ethers ainsi que l'accroissement de la base de donnée d'état.
 
 \subsection{Scalability}
 
-Scalability remains an eternal concern. With a generalised state transition function, it becomes difficult to partition and parallelise transactions to apply the divide-and-conquer strategy. Unaddressed, the dynamic value-range of the system remains essentially fixed and as the average transaction value increases, the less valuable of them become ignored, being economically pointless to include in the main ledger. However, several strategies exist that may potentially be exploited to provide a considerably more scalable protocol.
+La scalabilité demeure un éternel problème. Avec une fonction de changement d'état généraliste, il devient difficile de partitionner et parallèliser les transactions pour appliquer la stratégie diviser pour régner. Unaddressed, the dynamic value-range of the system remains essentially fixed and as the average transaction value increases, the less valuable of them become ignored, being economically pointless to include in the main ledger. However, several strategies exist that may potentially be exploited to provide a considerably more scalable protocol.
 
 Some form of hierarchical structure, achieved by either consolidating smaller lighter-weight chains into the main block or building the main block through the incremental combination and adhesion (through proof-of-work) of smaller transaction sets may allow parallelisation of transaction combination and block-building. Parallelism could also come from a prioritised set of parallel blockchains, consolidated each block and with duplicate or invalid transactions thrown out accordingly.
 
@@ -1296,13 +1296,13 @@ R_b(\mathbf{x}) & \equiv & \begin{cases}
 
 Donc $\mathtt{\tiny BE}$ est la fonction d'expansion d'une valeur entière positive vers un tableau d'octets gros-boutien de longueur minimale et l'opérateur point effectue la concaténation de la séquence.
 
-Si en revanche la valeur à sérialiser est une séquence d'éléments autres, la sérialisatoin RLP prend l'une de ces deux formes:
+Si en revanche la valeur à sérialiser est une séquence d'éléments autres, la sérialisation RLP prend l'une de ces deux formes:
 
 \begin{itemize}
 \item
   Si les sérialisations concaténées de chaque élément contenu fait moins de 56 octets de longueur, la sortie est égale à cette concaténation préfixée par l'octet égal à la longueur de ce tableau d'octets plus 192.
 \item
-  Sinon, la sortie est égale aux sérialisations concaténées préfixées par le tableau d'octets de longueur minimale qui, quand on l'interprète comme un entier gros-boutien, est égal à la longueur du tableau d'octets des sérialisations concaténées, lui-même préfixé par le nombre d'octets requi pour encoder fidèlement la valeur de cette longueur plus 247.
+  Sinon, la sortie est égale aux sérialisations concaténées préfixées par le tableau d'octets de longueur minimale qui, quand on l'interprète comme un entier gros-boutien, est égal à la longueur du tableau d'octets des sérialisations concaténées, lui-même préfixé par le nombre d'octets requis pour encoder fidèlement la valeur de cette longueur plus 247.
 \end{itemize}
 
 Nous terminons donc en définissant formellement $R_l$:
