@@ -79,13 +79,13 @@ De manière générale, je souhaite fournir un système dans lequel les utilisat
 
 \subsection{Travaux antérieurs} \label{ch:previous}
 
-\cite{buterin2013ethereum} a proposé initialement le noyau de ce travail fin Novembre 2013. Bien qu'elle ait maintenant évolué sur de nombreux points, la fonctionnalité clé d'une blockchain possédant un langage Turing-complet et une capacité illimitée de stockage inter-transaction fonctionnelle demeure inchangée.
+\cite{buterin2013ethereum} a proposé initialement le noyau de ce travail fin Novembre 2013. Bien qu'elle ait maintenant évolué sur de nombreux points, la fonctionnalité clé d'une blockchain possédant un langage Turing-complet et une capacité illimitée et fonctionnelle de stockage inter-transaction demeure inchangée.
 
 \cite{dwork92pricingvia} a fourni le premier travail d'usage de la preuve cryptographique d’effort de calcul (``proof-of-work, ou preuve de travail'') ayant pour but de transmettre un signal de valeur à travers Internet. Le signal de valeur était utilisé ici comme un mécanisme de dissuasion de spam plutôt que comme une forme de monnaie, mais a démontré de manière décisive le potentiel d'un canal de données basique à porter un \textit{signal économique fort}, autorisant un récepteur à faire une vérification physique sans avoir à s'en remettre à une forme de \textit{confiance}. \cite{back2002hashcash} a plus tard produit un système dans la même veine.
 
-Le premier exemple d'utilisation de la preuve de travail en tant que signal économique fort pour sécuriser une monnaie a été utilisé par \cite{vishnumurthy03karma:a}. Dans cet exemple, le jeton était utilisé pour contrôler l'échange de fichiers en pair to pair et permettait aux ``consommateurs'' de procéder à des micro-paiements aux ``fournisseurs'' pour leurs services. Le modèle de sécurité apporté par la preuve de travail était augmenté avec les signatures digitales et un registre dans le but de protéger l'historique des enregistrements contre la corruption, et contre des actes malicieux tels que la falsification des paiements ou les plaintes abusives. Cinq ans plus tard, \cite{nakamoto2008bitcoin} introduisit un autre jeton de valeur basé sur une preuve de travail sécurisée avec une portée plus large. Le fruit de ce projet, Bitcoin, est devenu le premier registre global décentralisé de transactions à être largement adopté.
+Le premier exemple d'utilisation de la preuve de travail en tant que signal économique fort pour sécuriser une monnaie a été utilisé par \cite{vishnumurthy03karma:a}. Dans cet exemple, le jeton était utilisé pour contrôler l'échange de fichiers en pair à pair et permettait aux ``consommateurs'' de procéder à des micro-paiements aux ``fournisseurs'' pour leurs services. Le modèle de sécurité apporté par la preuve de travail était augmenté avec les signatures digitales et un registre dans le but de protéger l'historique des enregistrements contre la corruption, et contre des actes malicieux tels que la falsification des paiements ou les plaintes abusives. Cinq ans plus tard, \cite{nakamoto2008bitcoin} introduisit un autre jeton de valeur basé sur une preuve de travail sécurisée avec une portée plus large. Le fruit de ce projet, Bitcoin, est devenu le premier registre global décentralisé de transactions à être largement adopté.
 
-D'autres projets construits à partir de Bitcoin ont réussi; les altcoins, ou monnaies alternatives, ont introduit de nombreuses autres monnaies en modifiant le protocole. Quelques-unes des plus connues sont Litecoin et Primecoin, citées par \cite{sprankel2013technical}. D'autres projets ont su prendre la valeur essentielle contenue dans le mécanisme du protocole et de la réappliquer; \cite{aron2012bitcoin} a décrit, par exemple, du projet Namecoin qui a pour but de fournir un système de résolution de nom décentralisé.
+D'autres projets construits à partir de Bitcoin ont réussi; les altcoins, ou monnaies alternatives, ont introduit de nombreuses autres monnaies en modifiant le protocole. Quelques-unes des plus connues sont Litecoin et Primecoin, citées par \cite{sprankel2013technical}. D'autres projets ont su prendre la valeur essentielle contenue dans le mécanisme du protocole et de la réappliquer; \cite{aron2012bitcoin} décrit, par exemple, le projet Namecoin qui a pour but de fournir un système de résolution de nom décentralisé.
 
 D'autres projets visent toujours à construire par-dessus le réseau Bitcoin lui-même, tirant profit de l’importante valeur placée dans le système et de la très grande puissance de calcul destinée au mécanisme de consensus. Le projet Mastercoin, proposé initialement par \cite{mastercoin2013willett}, vise à construire un protocole plus riche, impliquant beaucoup de fonctionnalités de haut niveau par-dessus le protocole Bitcoin à travers l'utilisation d'un grand nombre de parties auxiliaires au protocole de base. Le projet Colored Coins, proposé par \cite{colouredcoins2012rosenfeld}, a une stratégie similaire mais plus simple, agrémentant les règles d'une transaction afin de casser la fongibilité de la monnaie de base Bitcoin et autoriser la création  et le suivi des jetons à travers un ``chroma-wallet'', une surcouche logicielle fonctionnant avec le protocole.
 
@@ -145,7 +145,7 @@ Tout au long du présent document, toute référence à une valeur ou à l'Ether
 
 \subsection{Quel historique?}
 
-Puisque le système est décentralisé et que toutes les parties ont une opportunité de créer un nouveau bloc sur un bloc préexistant, la structure résultante est nécessairement un arbre de blocs. Il est nécessaire de disposer d’un schéma de passage consensuelle dans cette structure, c’est-à-dire un chemin depuis la racine (le bloc originel) jusqu'à la feuille (le bloc contenant les transactions les plus récentes) qui fasse consensus à travers cette structure d'arbre connue sous le nom de blockchain. Si jamais il y avait un désaccord entre les n\oe{}uds sur quel des chemins de l'arbre des blocs constitue la `meilleure' blockchain, alors il y a fourche (fork en anglais).  
+Puisque le système est décentralisé et que toutes les parties ont une opportunité de créer un nouveau bloc sur un bloc préexistant, la structure résultante est nécessairement un arbre de blocs. Il est nécessaire de disposer d’un schéma de passage consensuel dans cette structure, c’est-à-dire un chemin depuis la racine (le bloc originel) jusqu'à la feuille (le bloc contenant les transactions les plus récentes) qui fasse consensus à travers cette structure d'arbre connue sous le nom de blockchain. Si jamais il y a un désaccord entre les n\oe{}uds sur quel des chemins de l'arbre des blocs constitue la `meilleure' blockchain, alors il y a fourche (fork en anglais).  
 
 Cela voudrait dire que passé un point donné dans le temps (bloc), plusieurs états du système peuvent coexister: certains n\oe{}uds croyant qu'un bloc contient les transactions canoniques, tandis que d'autres n\oe{}uds croyant être canonique un autre bloc, celui-ci contenant potentiellement des transactions radicalement différentes ou incompatibles. Ceci est à éviter à tout prix, tout comme l'incertitude qui s'ensuivrait et qui pourrait tuer la confiance dans le système entier. 
 
@@ -159,10 +159,10 @@ Les deux ensembles de haut niveau, hautement structurés, des valeurs d'état, s
 
 Les fonctions opérant sur ces valeurs hautement structurées sont notés en lettre Grecque majuscule, par exemple $\Upsilon$, la fonction de changement d'état d'Ethereum.
 
-Pour la plupart des fonctions, une lettre majuscule est utilisée, par exemple $C$, la fonction de coût général. Elles peuvent être indicées pour dénoter des variantes spécifiée, par exemple $C_\text{\tiny SSTORE}$,
+Pour la plupart des fonctions, une lettre majuscule est utilisée, par exemple $C$, la fonction de coût général. Elles peuvent être indicées pour dénoter des variantes spécifiées, par exemple $C_\text{\tiny SSTORE}$,
 la fonction de coût pour l'opération {\tiny SSTORE}. Pour certaines fonctions spécialisées et éventuellement définies de manière externe, je peux utiliser une typographie particulière, par exemple la fonction de hachage Keccak-256 (la gagnante du concours SHA-3) est dénotée $\texttt{KEC}$ (et généralement référencée comme simple Keccak). Aussi, $\texttt{KEC512}$ fait référence à une fonction de hachage Keccak 512.
 
-Les tuples sont typiquement notés en lettres majuscules, par exemple $T$ est utilisé pour noter une transaction Ethereum. Ce symbole peut, s’il est défini en conséquence, être indicée pour faire référence à un composant individuel, \eg $T_n$, dénote le nonce de ladite transaction. la forme de l'indice est utilisée pour dénoter son type; par exemple des indices en majuscule font référence à des tuples avec des composants indiçables.
+Les tuples sont typiquement notés en lettres majuscules, par exemple $T$ est utilisé pour noter une transaction Ethereum. Ce symbole peut, s’il est défini en conséquence, être indicé pour faire référence à un composant individuel, \eg $T_n$, dénote le nonce de ladite transaction. la forme de l'indice est utilisée pour dénoter son type; par exemple des indices en majuscule font référence à des tuples avec des composants indiçables.
 
 Les scalaires et les séquences d'octets de taille fixe (analogue, les tableaux), sont notés avec une lettre normale minuscule, par exemple $n$ est utilisée pour représenter le nonce de telle transaction. Ceux qui ont une signification particulière peuvent être grecs, par exemple $\delta$, le nombre d'éléments requis dans la pile pour une opération donnée.
 
@@ -190,14 +190,14 @@ Ayant introduit les concepts de base d'Ethereum, nous allons discuter de la sign
 
 \subsection{L'état du monde} \label{ch:state}
 
-L'état du monde (\textit{l'état}), est une mise en correspondance (mapping) entre les adresses (identifiants de 160-bit) et l'état des comptes (une structure de données serialisée comme RLP (Recursive Length Prefix - Préfixe de Longueur Récursive), voir annexe \ref{app:rlp}). Bien que non stockée sur la blockchain, on suppose que l'implémentation va maintenir ce mapping dans un arbre radix merkle modifié (\textit{trie}, voir annexe \ref{app:trie}). Le trie nécessite une base de données en arrière-plan qui maintienne un mapping de tableau de bytes à tableau de bytes; nous nommons cette base de données sous jacente la base de données d'état. Elle a un grand nombre d'avantages; premièrement le n\oe{}uds racine de cette structure est cryptographiquement dépendant de toute les données internes et son haché peut être utilisé comme une identité sécurisée pour l'état du système entier. Deuxièmement, étant une structure de données immutable, elle permet à n'importe quel état précédent (dont le haché racine est connu) d’être appelé à nouveau en altérant simplement le haché racine en fonction. Comme nous stockons tous ces hachés racines dans la blockchain, nous sommes capables de revenir aux anciens états de manière triviale.
+L'état du monde (\textit{l'état}), est une mise en correspondance (mapping) entre les adresses (identifiants de 160-bit) et l'état des comptes (une structure de données serialisée comme RLP (Recursive Length Prefix - Préfixe de Longueur Récursive), voir annexe \ref{app:rlp}). Bien que non stocké sur la blockchain, on suppose ce mapping maintenu par l'implémentation dans un arbre radix merkle modifié (\textit{trie}, voir annexe \ref{app:trie}). Le trie nécessite une base de données en arrière-plan qui maintienne un mapping de tableau de bytes à tableau de bytes; nous nommons cette base de données sous-jacente la base de données d'état. Elle a un grand nombre d'avantages; premièrement le n\oe{}ud racine de cette structure est cryptographiquement dépendant de toutes les données internes et son haché peut être utilisé comme une identité sécurisée pour l'état du système entier. Deuxièmement, étant une structure de données immutable, elle permet à n'importe quel état précédent (dont le haché racine est connu) d’être appelé à nouveau en altérant simplement le haché racine en fonction. Comme nous stockons tous ces hachés racines dans la blockchain, nous sommes capables de revenir aux anciens états de manière triviale.
 
 L'état d'un compte comprend les quatre champs suivants:	
 
 \begin{description}
 \item[nonce] Une valeur scalaire égale au nombre de transactions envoyées depuis cette adresse, ou, dans le cas d'un compte contenant du code, le nombre de contrats créés par ce compte. Pour les comptes ou les adresses $a$ dans l'état $\boldsymbol{\sigma}$, cela sera représenté par $\boldsymbol{\sigma}[a]_n$.
 \item[balance] Une valeur scalaire égale au nombre de Wei possédés par cette adresse. Représentée par $\boldsymbol{\sigma}[a]_b$.
-\item[storageRoot] Un haché de 256-bit du n\oe{}uds racine d'un arbre radix merkle qui encode le stockage des contenus du compte (un mapping entre des valeurs entières de 256 bits), encodés dans le trie comme un mapping entre le haché Keccak 256 bits des clés entières de 256 bits et les valeurs entières encodées par RLP de 256 bits. Le haché est noté $\boldsymbol{\sigma}[a]_s$.
+\item[storageRoot] Un haché de 256-bit du n\oe{}ud racine d'un arbre radix merkle qui encode le stockage des contenus du compte (un mapping entre des valeurs entières de 256 bits), encodés dans le trie comme un mapping entre le haché Keccak 256 bits des clés entières de 256 bits et les valeurs entières encodées par RLP de 256 bits. Le haché est noté $\boldsymbol{\sigma}[a]_s$.
 \item[codeHash] Le haché du code EVM du compte---c'est le code qui est exécuté lorsque cette adresse reçoit un appel de message; il est immutable et ainsi, contrairement à tous les autres champs, ne peut pas être changé après construction. Tous ces fragments de code sont contenus dans la base de données d'état sous leur haché correspondant pour les récupérer plus tard. Ce haché est noté $\boldsymbol{\sigma}[a]_c$, et ainsi le code peut être représenté par $\mathbf{b}$, sachant que $\texttt{\small KEC}(\mathbf{b}) = \boldsymbol{\sigma}[a]_c$.
 \end{description}
 
@@ -218,7 +218,7 @@ k \in \mathbb{B}_{32} \quad \wedge \quad v \in \mathbb{P}
 
 Il faut comprendre ici que $\boldsymbol{\sigma}[a]_\mathbf{s}$ n'est pas un membre `physique' du compte et ne contribue pas a sa sérialisation ultérieure.
 
-Si le champ \textbf{codeHash} est le haché Keccak-256 de la chaîne (de caractères) vide, i.e. $\boldsymbol{\sigma}[a]_c = \texttt{\small KEC}\big(()\big)$, alors le n\oe{}uds représente un simple compte, parfois dénommé compte ``non-contrat''.
+Si le champ \textbf{codeHash} est le haché Keccak-256 de la chaîne (de caractères) vide, i.e. $\boldsymbol{\sigma}[a]_c = \texttt{\small KEC}\big(()\big)$, alors le n\oe{}ud représente un simple compte, parfois dénommé compte ``non-contrat''.
 
 Ainsi nous pouvons définir une fonction d'effondrement ordinale de l'état du monde $L_S$:
 \begin{equation}
@@ -319,7 +319,7 @@ Le bloc dans Ethereum est l'ensemble de morceaux d'information pertinents (connu
 \item[transactionsRoot] Le hash Keccak de 256 bits du noeud racine de la structure du trie, peuplé avec chaque transaction dans la section de la liste de transactions du bloc; $H_t$.
 \item[receiptsRoot] Le hash Keccak de 256 bits du noeud racine de la structure de  (TODO : trie) trie, peuplée avec les reçus de chaque transaction dans la section de la liste de transactions du bloc; $H_e$.
 \item[logsBloom] Le filtre de Bloom composé de l'information indexable (l'adresse du logger et les sujets de log) contenu dans chaque entrée de log depuis le reçu de chaque transaction dans la liste de transactions; $H_b$.
-\item[difficulty] Une valeur scalaire correspondant au niveau de difficulté de ce bloc. Il peut être calculé à partir de la difficulté précédente et du timestamp; formally $H_d$.
+\item[difficulty] Une valeur scalaire correspondant au niveau de difficulté de ce bloc. Il peut être calculé à partir de la difficulté précédente et du timestamp; formellement $H_d$.
 \item[number] Une valeur scalaire égale au nombre de blocs ancêtre. Le bloc origine a un number de zéro; $H_i$.
 \item[gasLimit] Une valeur scalaire égale à la limite courante d'usage de gaz par bloc; $H_l$.
 \item[gasUsed] Une valeur scalaire égale au gaz total utilisé par les transactions dans ce bloc; $H_g$.
@@ -336,9 +336,9 @@ B \equiv (B_H, B_\mathbf{T}, B_\mathbf{U})
 
 \subsubsection{Quittance de transaction}
 
-De façon à pouvoir stocker l'information concernant une transaction, pour laquelle il peut être utile de fournir une preuve à divulgation nulle de connaissance, ou l'indexer à fins de recherche, nous encodons un récépissé de chaque transaction contenant des informations à propos de son exécution. Chaque récépissé, noté $B_\mathbf{R}[i]$ pour la $i$ème transaction, est placé dans un trie indexé et la racine est encodée dans son en-tête comme $H_e$.
+De façon à pouvoir stocker l'information concernant une transaction, pour laquelle il peut être utile de fournir une preuve à divulgation nulle de connaissance, ou l'indexer à des fins de recherche, nous encodons un récépissé de chaque transaction contenant des informations à propos de son exécution. Chaque récépissé, noté $B_\mathbf{R}[i]$ pour la $i$ème transaction, est placé dans un trie indexé et la racine est encodée dans son en-tête comme $H_e$.
 
-Le récépissé de transaction est un tuple de quatre items comprenant l'état post-transaction $R_{\boldsymbol{\sigma}}$, la totalité du gaz consommé par le bloc contenant le récépissé de transaction comme celle usée immédiatement après sa ratification $R_u$, l'ensemble des journaux créés durant la transaction $R_\mathbf{l}$, et le filtre de Bloom constitué par l'information dans ces journaux $R_b$:
+Le récépissé de transaction est un tuple de quatre items comprenant l'état post-transaction $R_{\boldsymbol{\sigma}}$, la quantité cumulée du gaz consommé par le bloc contenant le récépissé de transaction avec celle usée immédiatement après sa ratification $R_u$, l'ensemble des journaux créés durant la transaction $R_\mathbf{l}$, et le filtre de Bloom composé par l'information dans ces journaux $R_b$:
 \begin{equation}
 R \equiv (R_{\boldsymbol{\sigma}}, R_u, R_b, R_\mathbf{l})
 \end{equation}
@@ -369,7 +369,7 @@ On définit la fonction filtre de Bloom $M$, comme réduction d'une rubrique de 
 M(O) \equiv \bigvee_{t \in \{O_a\} \cup O_\mathbf{t}} \big( M_{3:2048}(t) \big)
 \end{equation}
 
-où $M_{3:2048}$ un filtre de Bloom spécialisé qui extrait trois bits de 2048, une série d'octets arbitraire étant donnée. Cela est fait en prenant les 11 bits de poids faible de chacune des trois premières paires d'octets dans une empreinte Keccak-256 de la série d'octets. Formellement:
+où $M_{3:2048}$ est un filtre de Bloom spécialisé qui extrait trois bits de 2048, une série d'octets arbitraire étant donnée. Cela est fait en prenant les 11 bits de poids faible de chacune des trois premières paires d'octets dans une empreinte Keccak-256 de la série d'octets. Formellement:
 \begin{eqnarray}
 M_{3:2048}(\mathbf{x}: \mathbf{x} \in \mathbb{B}) & \equiv & \mathbf{y}: \mathbf{y} \in \mathbb{B}_{256} \quad \text{où:}\\
 \mathbf{y} & = & (0, 0, ..., 0) \quad \text{excepté:}\\
@@ -377,7 +377,7 @@ M_{3:2048}(\mathbf{x}: \mathbf{x} \in \mathbb{B}) & \equiv & \mathbf{y}: \mathbf
 m(\mathbf{x}, i) &\equiv& \mathtt{\tiny KEC}(\mathbf{x})[i, i + 1] \bmod 2048
 \end{eqnarray}
 
-Où $\mathcal{B}$ est la fonction binaire telle que $\mathcal{B}_j(\mathbf{x})$ égale le bit d'index $j$ (indexé depuis 0) dans le tableau d'octets $\mathbf{x}$.
+Où $\mathcal{B}$ est la fonction binaire telle que $\mathcal{B}_j(\mathbf{x})$ égale le bit d'index $j$ (indexé à partir de 0) dans le tableau d'octets $\mathbf{x}$.
 
 \subsubsection{Validation synergique}
 
@@ -495,7 +495,7 @@ $H_s$ est l'horodatage du bloc $H$ et doit être conforme à la relation:
 H_s > {P(H)_H}_s
 \end{equation}
 
-Ce mécanisme renforce une homéostasie pour les intervalles de temps entre les blocs; une période de temps plus petite entre deux blocs entraîne une augmentation du niveau de difficulté et ainsi davantage de calcul, rallongeant d'autant la période suivante. inversement, si la période est trop large, la difficulté, et le temps attendu pour le bloc suivant, est réduit.
+Ce mécanisme renforce une homéostasie pour les intervalles de temps entre les blocs; une période de temps plus petite entre deux blocs entraîne une augmentation du niveau de difficulté et ainsi davantage de calcul, rallongeant d'autant la période suivante. Inversement, si la période est trop large, la difficulté, et le temps attendu pour le bloc suivant, sont réduits.
 
 Le nonce $H_n$, doit satisfaire aux relations:
 \begin{equation}
@@ -505,7 +505,7 @@ avec $(n, m) = \mathtt{PoW}(H_{\hcancel{n}}, H_n, \mathbf{d})$.
 
 Où $H_{\hcancel{n}}$ est le nouvel en-tête de bloc $H$, mais \textit{sans} le nonce et le mixhash, $\mathbf{d}$ étant le DAG courant, un grand ensemble de données utilisé pour calculer le mixhash, et $\mathtt{PoW}$ étant la fonction de preuve-de-travail (voir section \ref{ch:pow}): ceci est évalué en un tableau dont le premier item est le mixhash, pour preuve qu'un DAG correct a été utilisé, et le second item est un nombre pseudo-aléatoire cryptographiquement dependant de $H$ et $\mathbf{d}$. Étant donnée une distribution approximativement uniforme sur l'intervalle $[0, 2^{64}]$, le temps estimé pour trouver une solution est proportionnel à la difficulté $H_d$.
 
-Ceci est le fondement de la sécurité de la chaîne de blocs et est la raison fondamentale pour laquelle un code malicieux ne peut pas propager des blocs nouvellement forgés qui pourraient autrement écraser (``réécrire'') l'historique. Parce que le nonce doit satisfaire cette condition, et parce que cette satisfaction dépend du contenu du bloc et des transactions qui le composent, créer de nouveaux blocs valides est difficile et, avec le temps, demande  approximativement la puissance de calcul totale de la partie de confiance parmi les pairs mineurs.
+Ceci est le fondement de la sécurité de la chaîne de blocs et est la raison fondamentale pour laquelle un code malicieux ne peut pas propager des blocs nouvellement forgés qui pourraient autrement écraser (``réécrire'') l'historique. Parce que le nonce doit satisfaire cette condition, et parce que cette satisfaction dépend du contenu du bloc et des transactions qui le composent, créer de nouveaux blocs valides est difficile et, avec le temps, demande  approximativement la puissance de calcul totale de la population de confiance parmi les pairs mineurs.
 
 Ainsi on est en mesure de définir la fonction de validation de l'entête de bloc $V(H)$:
 \begin{eqnarray}
@@ -525,11 +525,11 @@ Notons que \textbf{extraData} doit être au plus de 32 octets.
 
 \section{Gaz et paiement} \label{ch:payment}
 
-Pour éviter d'avoir des problèmes d'abus du réseau et pour contourner les inévitables questions découlant de la complétude au sens de Turing, tout calcul programmable dans Ethereum est sujet à des frais. Le barème des frais est spécifié en unités de \textit{gas} (voir Annexe \ref{app:fees} pour les frais associés avec divers calculs). Ainsi tout fragment donné de calcul programmable (ceci inclut créer des contrats, lancer des messages d'appel, accéder et utiliser les données associées aux comptes, et exécuter des opérations sur la machine virtuelle) a un coût en gaz universellement approuvé.
+Pour éviter d'avoir des problèmes d'abus du réseau et pour contourner les inévitables questions découlant de la complétude au sens de Turing, tout calcul programmable dans Ethereum est sujet à des frais. Le barème des frais est spécifié en unités de \textit{gaz} (voir Annexe \ref{app:fees} pour les frais associés avec divers calculs). Ainsi tout fragment donné de calcul programmable (ceci inclut créer des contrats, lancer des appels de messages, accéder et utiliser les données associées aux comptes, et exécuter des opérations sur la machine virtuelle) a un coût en gaz universellement approuvé.
 
 Toute transaction a un montant spécifique de gaz qui lui est associé: \textbf{gasLimit}. C'est le montant en gaz qui est implicitement prélevé sur le compte de l'expéditeur. L'achat est fait à la valeur de \textbf{gasPrice}, également spécifié dans la transaction. La transaction est considérée comme invalide si le solde du compte ne peut assurer l'achat. Il est nommé \textbf{gasLimit} parce que toute quantité de gaz non utilisée est rendue (au même taux d'achat) au compte de l'expéditeur. Le gaz n'existe pas en dehors de l'exécution d'une transaction. Ainsi pour des comptes avec du code de confiance associé, une limite relativement haute de gaz peut être ainsi réservée.
 
-En général, l'Ether utilisé pour acheter du gaz qui n'est pas rendu est délivré à l'adresse du \textit{bénéficiaire}, adresse typiquement sous le contrôle du mineur. Les contractants sont libres de spécifier tout \textbf{gasPrice} qui leur convienne, cependant les mineurs sont libres d'ignorer les transactions de leur choix. Un prix de gaz plus élevé pour une transaction coûtera davantage d'Ether à son expéditeur et donnera davantage au mineur, et donc elle sera plus aisément sélectionnée pour inclusion par davantage de mineurs. Les mineurs, en général, choisiront d'annoncer le prix du gaz minimum pour lequel ils exécuteront des transactions et les contractants seront libres de marchander ces prix en déterminant quel prix du gaz offrir. Comme il y aura une distribution (pondérée) des minima des prix du gaz, les contractants devront nécessairement marchander entre baisser le prix du gaz et maximiser les chances que leurs transactions seront minées avec rapidité.
+En général, l'Ether utilisé pour acheter du gaz qui n'est pas rendu est délivré à l'adresse du \textit{bénéficiaire}, adresse typiquement sous le contrôle du mineur. Les contractants sont libres de spécifier tout \textbf{gasPrice} qui leur convienne, cependant les mineurs sont libres d'ignorer les transactions lors de leur choix. Un prix de gaz plus élevé pour une transaction coûtera davantage d'Ether à son expéditeur et donnera davantage au mineur, et donc elle sera plus aisément sélectionnée pour inclusion par davantage de mineurs. Les mineurs, en général, choisiront d'annoncer le prix du gaz minimum pour lequel ils exécuteront des transactions et les contractants seront libres de marchander ces prix en déterminant quel prix du gaz offrir. Comme il y aura une distribution (pondérée) des minima des prix du gaz, les contractants devront nécessairement marchander entre baisser le prix du gaz et maximiser les chances que leurs transactions seront minées avec rapidité.
 
 %\subsubsection{Determining Computation Costs}
 
@@ -613,7 +613,7 @@ L'évaluation de $\boldsymbol{\sigma}_P$ à partir de $\boldsymbol{\sigma}_0$ d�
 \end{cases}
 \end{equation}
 
-où $g$ est le montant de gaz restant après avoir déduit le montant de base demandé pour payer pour l'existence de la transaction:
+où $g$ est le montant de gaz restant après avoir déduit le montant de base demandé à payer pour l'existence de la transaction:
 \begin{equation}
 g \equiv T_g - g_0
 \end{equation}
@@ -757,7 +757,7 @@ On définit $\boldsymbol{\sigma}_1$, le premier état de transition comme l'éta
 \boldsymbol{\sigma}_1[r]_b \equiv \boldsymbol{\sigma}[r]_b + v \quad\wedge\quad \boldsymbol{\sigma}_1[s]_b \equiv \boldsymbol{\sigma}[s]_b - v
 \end{equation}
 
-Au long du présent travail, il est admis que $\boldsymbol{\sigma}_1[r]$ était indéfini à l'origine, il va être créé comme un compte sans code ou état et avec zéro solde ou nonce. ainsi la précédente équation doit être interprétée comme suit:
+Au long du présent travail, il est admis que si $\boldsymbol{\sigma}_1[r]$ était indéfini à l'origine, il sera créé comme un compte sans code ou état et avec zéro solde ou nonce. ainsi la précédente équation doit être interprétée comme suit:
 \begin{equation}
 \boldsymbol{\sigma}_1 \equiv \boldsymbol{\sigma}_1' \quad \text{except:} \\
 \end{equation}
@@ -769,12 +769,12 @@ Au long du présent travail, il est admis que $\boldsymbol{\sigma}_1[r]$ était 
 \end{equation}
 \begin{equation}
 \begin{cases}
-\boldsymbol{\sigma}_1'[r] \equiv (v, 0, \mathtt{\tiny KEC}(()), \mathtt{\tiny TRIE}(\varnothing)) & \text{if} \quad \boldsymbol{\sigma}[r] = \varnothing \\
-\boldsymbol{\sigma}_1'[r]_b \equiv \boldsymbol{\sigma}[r]_b + v & \text{otherwise}
+\boldsymbol{\sigma}_1'[r] \equiv (v, 0, \mathtt{\tiny KEC}(()), \mathtt{\tiny TRIE}(\varnothing)) & \text{si} \quad \boldsymbol{\sigma}[r] = \varnothing \\
+\boldsymbol{\sigma}_1'[r]_b \equiv \boldsymbol{\sigma}[r]_b + v & \text{sinon}
 \end{cases}
 \end{equation}
 
-Le code associé au compte (identifié comme le fragment dont l'empreinte Keccack $\boldsymbol{\sigma}[c]_c$) est exécuté conformément au modèle d'exécution (voir section \ref{ch:model}). Comme avec la création de contrat, si l'exécution cesse pour cause d'anomalie (i.e. à cause de l'épuisement de la fourniture en gaz, épuisement de la pile, saut invalide ou instruction invalide), alors l'appelant n'est pas remboursé et l'état est remis au point immédiatement avant le transfert de solde (i.e. $\boldsymbol{\sigma}$).
+Le code associé au compte (identifié comme le fragment dont l'empreinte Keccack est $\boldsymbol{\sigma}[c]_c$) est exécuté conformément au modèle d'exécution (voir section \ref{ch:model}). Comme avec la création de contrat, si l'exécution cesse pour cause d'anomalie (i.e. à cause de l'épuisement de la fourniture en gaz, épuisement de la pile, saut invalide ou instruction invalide), alors l'appelant n'est pas remboursé et l'état est remis au point immédiatement avant le transfert de solde (i.e. $\boldsymbol{\sigma}$).
 
 \begin{eqnarray}
 \boldsymbol{\sigma}' & \equiv & \begin{cases}
@@ -809,7 +809,7 @@ Le modèle d'exécution spécifie la façon dont l'état du système est altér�
 
 \subsection{Fondamentaux}
 
-L'EVM est une architecture simple basée sur une pile. La taille des mots de la machine (et donc la taille de l'élément de la pile) est de 256 bits. Ce choix est destiné à faciliter le mécanisme d'empreinte Keccak-256 et les calculs de courbes elliptiques. Le modèle mémoire est un simple tableau d'octets adressé par mots. La pile a une taille maximale de $1024$. La machine comporte également un modèle de stockage indépendant, conceptuellement similaire à celui de la mémoire mais, au lieu d'un tableau d'octets, il s'agit d'un tableau de mots adressé par mots. Au contraire de la mémoire, qui est volatile, le stockage est non volatil et est maintenu comme partie de l'état système. Tous les emplacements tant en stockage qu'en mémoire sont définis à zéro à l'initialisation.
+L'EVM est une architecture simple basée sur une pile. La taille des mots de la machine (et donc la taille de l'élément de la pile) est de 256 bits. Ce choix est destiné à faciliter le mécanisme d'empreinte Keccak-256 et les calculs de courbes elliptiques. Le modèle de mémoire est un simple tableau d'octets adressé par mots. La pile a une taille maximale de $1024$. La machine comporte également un modèle de stockage indépendant, conceptuellement similaire à celui de la mémoire mais, au lieu d'un tableau d'octets, il s'agit d'un tableau de mots adressé par mots. Au contraire de la mémoire, qui est volatile, le stockage est non volatil et est maintenu comme partie de l'état du système. Tous les emplacements tant en stockage qu'en mémoire sont définis à zéro à l'initialisation.
 
 La machine n'est pas conçue selon l'architecture standard de Von Neumann. Au lieu de stocker le code des programmes dans une mémoire transitoire ou permanente générique, il est mis à part dans une ROM virtuelle avec laquelle seule une instruction spécialisée peut interagir.
 
@@ -823,7 +823,7 @@ Pendant l'exécution d'un compte,
 % l'exécution appartement à un compte ?
 les frais totaux dûs pour l'utilisation de la mémoire sont proportionnels au plus petit multiple de 32 octets qui est requis tel que tous les index mémoire (en lecture ou en écriture) sont inclus dans l'intervalle. Le paiement se fait en juste-à-temps; le référencement d'une zone de mémoire plus grande d'au moins 32 octets que la mémoire précédemment référencée résulte avec certitude en des frais d'utilisation mémoire supplémentaires. Ces frais rendent extrêmement improbable un adressage dépassant la limite de 32 bits. Cela dit, les implémentations doivent être capables de gérer cette éventualité.
 
-Les frais de stockage se comportent de manière légèrement différente. Pour inciter à minimiser l'utilisation du stockage (qui correspond directement à une base de données d'état plus grande sur tous les n\oe{}uds, les frais d'exécution d'une opération supprimant une entrée dans le stockage ne sont pas seulement abandonnés mais un remboursement explicite est effectué; dans les faits, ce remboursement est payé immédiatement puisque l'utilisation initiale d'un emplacement mémoire coûte bien plus qu'une utilisation courante.
+Les frais de stockage se comportent de manière légèrement différente. Pour inciter à minimiser l'utilisation du stockage (qui correspond directement à une base de données d'état plus grande sur tous les n\oe{}uds), les frais d'exécution d'une opération supprimant une entrée dans le stockage ne sont pas seulement abandonnés mais un remboursement explicite est effectué; dans les faits, ce remboursement est payé immédiatement puisque l'utilisation initiale d'un emplacement mémoire coûte bien plus qu'une utilisation courante.
 
 %More formally, given an instruction, it is possible to calculate the gas cost of executing it as follows:
 %
@@ -898,7 +898,7 @@ où
 (a, b, c) \cdot d & \equiv & (a, b, c, d)
 \end{eqnarray}
 
-On remarque que nous devons omettre la quatrième value du tuple renvoyé par $X$ pour évaluer correctement $\Xi$, d'où la notation $X_{0,1,2,4}$.
+On remarque que nous devons omettre la quatrième valeur du tuple renvoyé par $X$ pour évaluer correctement $\Xi$, d'où la notation $X_{0,1,2,4}$.
 
 On cycle donc dans $X$ (ici, récursivement, mais on s'attend généralement à ce que les implémentations emploient une simple boucle itérative) jusqu'à ce que soit $Z$ devienne vrai, indiquant ainsi que l'état actuel est exceptionnel et que la machine doit être arrêtée en revenant sur toutes les modifications, ou jusqu'à ce que $H$ devienne une série (au lieu de l'ensemble vide) indiquant que la machine a atteint un arrêt contrôlé.
 
@@ -1077,7 +1077,7 @@ Nous définissons la récompense de bloc qui est de 5 Ether:
 
 \subsection{Validation de l'état et du nonce}\label{sec:statenoncevalidation}
 
-Nous pouvons maintenant définir la fonction, $\Gamma$, qui fait correspond un bloc $B$ à son état d'initialisation:
+Nous pouvons maintenant définir la fonction, $\Gamma$, qui fait correspondre un bloc $B$ à son état d'initialisation:
 \begin{equation}
 \Gamma(B) \equiv \begin{cases}
 \boldsymbol{\sigma}_0 & \text{si} \quad P(B_H) = \varnothing \\
@@ -1085,7 +1085,7 @@ Nous pouvons maintenant définir la fonction, $\Gamma$, qui fait correspond un b
 \end{cases}
 \end{equation}
 
-Ici, $\mathtt{\small TRIE}(L_S(\boldsymbol{\sigma}_i))$ signifie l'empreinte du n\oe{}ud racine du trie (arbre préfixe) d'état $\boldsymbol{\sigma}_i$; on supose que les implémentations le stockerdont dans la base d'état, ce qui est trivial et efficient puisque le trie est par nature une structure de données immuable.
+Ici, $\mathtt{\small TRIE}(L_S(\boldsymbol{\sigma}_i))$ signifie l'empreinte du n\oe{}ud racine du trie (arbre préfixe) d'état $\boldsymbol{\sigma}_i$; on suppose que les implémentations le stockeront dans la base d'état, ce qui est trivial et efficient puisque le trie est par nature une structure de données immuable.
 
 Et nous définissons finalement $\Phi$, la fonction de transition de bloc, qui fait correspondre un bloc incomplet $B$ à un bloc complet $B'$:
 \begin{eqnarray}
@@ -1128,7 +1128,7 @@ Donc le mécanisme de transition de bloc, moins  $\mathtt{PoW}$, la fonction de 
 \subsection{Preuve de travail de minage} \label{ch:pow}
 
 
-La preuve de travail de minage (PoW) existe comme nonce cryptographique sécurisé nonce qui prouve au-delà du doute raisonnable qu'un montant particulier de calcul a été dépensé dans la détermination de telle valeur $n$ d'un token. Elle est utilisée pour renforcer la sécurité de la blockchain en donnant signification et crédibilité à la notion de difficulté (et, par extension, à la difficulté totale). Cependant, comme miner de nouveaux blocs apporte une récompense, la preuve de travail ne fonctionne pas seulement comme méthode de de sécurisation de la confiance dans le statut normatif de la blockchain pour le futur, mais aussi un moyen de distribution de la richesse.
+La preuve de travail de minage (PoW) existe comme nonce cryptographique sécurisé qui prouve au-delà du doute raisonnable qu'un montant particulier de calcul a été dépensé dans la détermination de telle valeur $n$ d'un token. Elle est utilisée pour renforcer la sécurité de la blockchain en donnant signification et crédibilité à la notion de difficulté (et, par extension, à la difficulté totale). Cependant, comme miner de nouveaux blocs apporte une récompense, la preuve de travail ne fonctionne pas seulement comme méthode de de sécurisation de la confiance dans le statut normatif de la blockchain pour le futur, mais aussi comme un moyen de distribution de la richesse.
 
 Pour ces deux raisons, il y a deux buts importants assignés à la preuve de travail; premièrement, elle doit être aussi accessible que possible au plus grand nombre de personnes possibles. Le besoin de, ou rétribution par, des matériels spécialisés et spécifiques doit être minimisé. Ceci rend le modèle de distribution aussi ouvert que possible, et, dans l'idéal, fait de l'acte de miner une simble transformation de l'électricité en Ether à un taux grossièrement le même partout dans le monde.
 
@@ -1136,33 +1136,33 @@ Deuxièmement, il ne doit pas être possible de réaliser des profits surlinéai
 
 Un fléau du monde Bitcoin est dû aux équipements ASIC. Ce sont des équipements informatiques spécialisés qui sont conçus pour effectuer une tâche unique. Dans le cas de Bitcoin cette tâche est la fonction SHA256. Comme les ASICs existent pour une fonction de preuve de travail, les deux objectifs ci-dessus sont menacés. Pour cette raison, une fonction de preuve de travail ASIC-resistante (i.e. difficile ou economiquement inefficace à implémenter dans ces équipements informatiques spécialisés) est identifiée à la proverbiale "silver bullet".
 
-Il y a deux moyens d'obtenir l'ASIC-résistance; le premier est de le rendre sépquentiel par exigence en mémoire, i.e. composer la fonction de façon à ce que la détermination du nonce requière une telle quantité de mémoire et de bande passante que la mémoire ne puisse être utilisée en parallèle pour découvrir simultanément de multiples nonces. Le second est de rendre le type de calcul demandé d'ordre général ; la signification de "matériel spécialisé" pour un calcul d'ordre général est, naturellement, matériel généraliste et on peut escompter que les ordinateurs de bureau entrent dans une catégorie proche. Pour la version 1.0 d'Ethereum nous avons choisi le premier moyen.
+Il y a deux moyens d'obtenir l'ASIC-résistance; le premier est de le rendre séquentiel par exigence en mémoire, i.e. composer la fonction de façon à ce que la détermination du nonce requière une telle quantité de mémoire et de bande passante que la mémoire ne puisse être utilisée en parallèle pour découvrir simultanément de multiples nonces. Le second est de rendre le type de calcul demandé d'ordre général ; la signification de "matériel spécialisé" pour un calcul d'ordre général est, naturellement, matériel généraliste et on peut escompter que les ordinateurs de bureau entrent dans une catégorie proche. Pour la version 1.0 d'Ethereum nous avons choisi le premier moyen.
 
 Plus formellement, la fonction de preuve de travail prend la forme de $\mathtt{PoW}$ telle que:
 \begin{equation}
 m = H_m \quad \wedge \quad n \leqslant \frac{2^{256}}{H_d} \quad \text{with} \quad (m, n) = \mathtt{PoW}(H_{\hcancel{n}}, H_n, \mathbf{d})
 \end{equation}
 
-Où $H_{\hcancel{n}}$ est le nouvel en-tête de bloc mais \textit{sans} le nonce et les composants mix-hash; $H_n$ est le nonce du header; $\mathbf{d}$ est un grand ensemble de données nécessaire pour calculer le mix-hash et $H_d$ est la difficulté du nouveau block (i.e. la difficulté de la section \ref{ch:ghost}). $\mathtt{PoW}$ iPoW est la fonction preuve de travail qui produit un tableau avec le premier élément comme mixhash et le deuxième élément un nombre pseudo-aléatoire cryptographiquement dépendant de $H$ et $\mathbf{d}$. L'algorithme sous-jacent se nomme Ethahsh et est décrit ci-dessous.
+Où $H_{\hcancel{n}}$ est le nouvel en-tête de bloc mais \textit{sans} le nonce et les composants mix-hash; $H_n$ est le nonce du header; $\mathbf{d}$ est un grand ensemble de données nécessaire pour calculer le mix-hash et $H_d$ est la difficulté du nouveau block (i.e. la difficulté de la section \ref{ch:ghost}). $\mathtt{PoW}$ est la fonction preuve de travail qui produit un tableau avec le premier élément comme mixhash et le deuxième élément un nombre pseudo-aléatoire cryptographiquement dépendant de $H$ et $\mathbf{d}$. L'algorithme sous-jacent se nomme Ethash et est décrit ci-dessous.
 
 \subsubsection{Ethash}
-Ethash est l'algorithme de preuve de travail pour la version 1.0 d'Ethereum. C'est la dernière version du Dagger-Hashimoto, présenté par \cite{dagger} et \cite{hashimoto}, malgre qu'il ne peut plus être appelé ainsi puisque nombre des fonctionnalités de ces deux algorithmes ont été grandement changées ces derniers mois de recherche et développement. Le comportement général de l'algorithme est le suivant: 
+Ethash est l'algorithme de preuve de travail pour la version 1.0 d'Ethereum. C'est la dernière version du Dagger-Hashimoto, présenté par \cite{dagger} et \cite{hashimoto}, malgré qu'il ne peut plus être appelé ainsi puisque nombre des fonctionnalités de ces deux algorithmes ont été grandement changées ces derniers mois de recherche et développement. Le comportement général de l'algorithme est le suivant: 
 
 Il existe une graine qui peut être calculée pour chaque bloc en scannant son en-tête jusqu'à ce point. A pertir de la graine, on peut calculer un cache pseudo-aléatoire, de $J_{cacheinit}$ octets de taille initiale. Les clients légers stockent le cache. Depuis le cache on peut générer un ensemble de données, de $J_{datasetinit}$ octets de taille initiale, avec la propriété que chaque élément de l'ensemble de données dépend de seulement un petit nombre d'éléments du cache. Les clients complets et les mineurs stockent l'ensemble des données. L'ensemble des données croît linéairement avec le temps. 
 
 
-Le minage consiste en sélectionnant des tranches de l'ensemble des données et en faisant des empreintes de leurs combinaisons. La vérification peut être faite avec peu de mémoire en utilisant le cache pour régénérer les éléments spécifiques de l'ensemble des données dont vous avez besoin, et ainsi vous n'avez besoin que de stocker le cache. L'ensemble des données est mis à jour tous les $J_{epoch}$ blocs, donc la grande majorité de l'effort de minage sera de lire les données, et non de les changer. les paramètres cités comme l'algorithme lui-même sont décrits en annexe \ref{app:ethash}.
+Le minage consiste en sélectionnant des tranches de l'ensemble des données et en faisant des empreintes de leurs combinaisons. La vérification peut être faite avec peu de mémoire en utilisant le cache pour régénérer les éléments spécifiques de l'ensemble des données dont vous avez besoin, et ainsi vous n'avez besoin que de stocker le cache. L'ensemble des données est mis à jour tous les $J_{epoch}$ blocs, donc la grande majorité de l'effort de minage sera de lire les données, et non de les changer. Les paramètres cités comme l'algorithme lui-même sont décrits en annexe \ref{app:ethash}.
 
 \section{Implémentation des contrats}
 
-IL existe plusieurs modèles d'ingénierie des contrats qui autorisent des fonctionnalités particulièrement utiles; je vais brièvement traiter de deux d'entre eux, les \textit{data feeds} (soures de données) et les nombres aléatoires.
+IL existe plusieurs modèles d'ingénierie des contrats qui autorisent des fonctionnalités particulièrement utiles; je vais brièvement traiter de deux d'entre eux, les \textit{data feeds} (sources de données) et les nombres aléatoires.
 
 \subsection{Sources de données}
-Un contrat de source de données fournit un simple service: il donne accès à des informations du monde extérieur depuis Ethereum. L'exactitude en qualité et en temps de ces informations ne sont pas garanties et c'est la tâche d'un auteur de contrat secondaire -- le contrat qui utilise la source de données -- de déterminer la confiance qui peut être placée dans une source de données. 
+Un contrat de source de données fournit un simple service: il donne accès depuis Ethereum à des informations du monde extérieur. L'exactitude en qualité et en temps de ces informations ne sont pas garanties et c'est la tâche d'un auteur de contrat secondaire -- le contrat qui utilise la source de données -- de déterminer la confiance qui peut être placée dans une source de données. 
 
 Le modèle général implique un unique contrat dans Ethereum qui, à réception d'un appel de message, répond par une information en temps voulu concernant un phénomène extérieur, par exemple la température à New York. Cela peut être implémenté par un contrat qui renvoie cette valeur depuis un point connu dans la mémoire de stockage. Ce dernier doit être bien entendu maintenu avec la température correcte et la seconde partie du modèle implique donc un serveur externe faisant tourner un n\oe{}ud Ethereum qui, au moment précis de la découverte d'un nouveau bloc, crée une nouvelle transaction valide, envoyée au contrat, mettant la valeur en question dans la mémoire de stockage. Le code du contrat n'accepterait de mises à jour que depuis l'identité contenue dans le serveur.
 
-\subsection{Nombre aléatoires}
+\subsection{Nombres aléatoires}
 La fourniture de nombres aléatoire au sein d'un système déterministe relève naturellement de l'impossible. Nous pouvons cependant aboutir à une approximation en utilisant des données qui sont généralement inconnues au moment de la transaction. Ces données comprennent l'empreinte du bloc, son horodatage et l'adresse de son bénéficiaire. Afin de compliquer le contrôle éventuel de ces valeurs par un mineur malveillant, il faudrait employer l'opération {\small BLOCKHASH} pour utiliser des empreintes des 256 blocs précédents comme nombres pseudo-aléatoires. Pour une série de ces nombres, une solution triviale consiste à y ajouter un montant constant et à prendre l'empreinte du résultat.
 
 \section{Future Directions} \label{ch:future}
