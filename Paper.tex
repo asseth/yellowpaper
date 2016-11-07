@@ -1407,25 +1407,25 @@ Aucune supposition explicite n'est donc faite concernant les données stockées 
 
 Cette implémentation maintiendra une base de données de n\oe{}uds déterminée à partir du calcul de divers tries ou, plus formellement, elle va mémoïser la fonction $c$. Cette stratégie utilise la nature du trie tant pour rappeler facilement le contenu de tout ensemble de clefs-valeurs que pour stocker plusieurs de ces ensembles de manière très efficiente. En raison de la relation de dépendances, les preuves de Merkle doivent être construites avec un prérequis d'espace $O(\log N)$ qui peut démontrer qu'une feuille donnée doit exister dans un trie d'une empreinte racine de trie donnée.
 
-\section{Precompiled Contracts}\label{app:precompiled}
+\section{Contrats précompilés}\label{app:precompiled}
 
-For each precompiled contract, we make use of a template function, $\Xi_{\mathtt{PRE}}$, which implements the out-of-gas checking.
+Pour chaque contrat précompilé, nous nous servons d'une fonction template, $\Xi_{\mathtt{PRE}}$, qui implémente la vérification du \textit{out-of-gas}.
 \begin{equation}
 \Xi_{\mathtt{PRE}}(\boldsymbol{\sigma}, g, I) \equiv \begin{cases}
-(\varnothing, 0, A^0, ()) & \text{if} \quad g < g_r \\
-(\boldsymbol\sigma, g - g_r, A^0, \mathbf{o}) & \text{otherwise}\end{cases}
+(\varnothing, 0, A^0, ()) & \text{si} \quad g < g_r \\
+(\boldsymbol\sigma, g - g_r, A^0, \mathbf{o}) & \text{sinon}\end{cases}
 \end{equation}
 
-The precompiled contracts each use these definitions and provide specifications for the $\mathbf{o}$ (the output data) and $g_r$, the gas requirements.
+Les contrats précompilés utilisent chacun ces définitions et fournissent les spécifications de $\mathbf{o}$ (les données en sortie) et $g_r$, les exigences en gaz.
 
-For the elliptic curve DSA recover VM execution function, we also define $\mathbf{d}$ to be the input data, well-defined for an infinite length by appending zeroes as required. Importantly in the case of an invalid signature ($\mathtt{\tiny ECDSARECOVER}(h, v, r, s) = \varnothing$), then we have no output.
+Pour la fonction d'exécution de VM du recouvrement de courbe elliptique DSA, nous définissons également $\mathbf{d}$, les données en entrée, bien définies pour une longueur infinie en ajoutant des zéros le cas échéant. Il est important de noter que, dans le cas d'une signature invalide ($\mathtt{\tiny ECDSARECOVER}(h, v, r, s) = \varnothing$), il n'y a pas de sortie.
 \begin{eqnarray}
-\Xi_{\mathtt{ECREC}} &\equiv& \Xi_{\mathtt{PRE}} \quad \text{where:} \\
+\Xi_{\mathtt{ECREC}} &\equiv& \Xi_{\mathtt{PRE}} \quad \text{où:} \\
 g_r &=& 3000\\
-|\mathbf{o}| &=& \begin{cases} 0 & \text{if} \quad \mathtt{\tiny ECDSARECOVER}(h, v, r, s) = \varnothing\\ 32 & \text{otherwise} \end{cases}\\
+|\mathbf{o}| &=& \begin{cases} 0 & \text{si} \quad \mathtt{\tiny ECDSARECOVER}(h, v, r, s) = \varnothing\\ 32 & \text{sinon} \end{cases}\\
 \text{if} \quad |\mathbf{o}| = 32: &&\\
 \mathbf{o}[0..11] &=& 0 \\
-\mathbf{o}[12..31] &=& \mathtt{\tiny KEC}\big(\mathtt{\tiny ECDSARECOVER}(h, v, r, s)\big)[12..31] \quad \text{where:}\\
+\mathbf{o}[12..31] &=& \mathtt{\tiny KEC}\big(\mathtt{\tiny ECDSARECOVER}(h, v, r, s)\big)[12..31] \quad \text{où:}\\
 \mathbf{d}[0..(|I_\mathbf{d}|-1)] &=& I_\mathbf{d}\\
 \mathbf{d}[|I_\mathbf{d}|..] &=& (0, 0, ...) \\
 h &=& \mathbf{d}[0..31]\\
@@ -1434,24 +1434,24 @@ r &=& \mathbf{d}[64..95]\\
 s &=& \mathbf{d}[96..127]
 \end{eqnarray}
 
-The two hash functions, RIPEMD-160 and SHA2-256 are more trivially defined as an almost pass-through operation. Their gas usage is dependent on the input data size, a factor rounded up to the nearest number of words.
+Les deux fonctions de hachage, RIPEMD-160 et SHA2-256, sont plus trivialement définies comme une opération presque traversante. Leur consommation en gaz dépend de la taille des données en entrée, un facteur arrondi au nombre de mots immédiatement supérieur.
 \begin{eqnarray}
-\Xi_{\mathtt{SHA256}} &\equiv& \Xi_{\mathtt{PRE}} \quad \text{where:} \\
+\Xi_{\mathtt{SHA256}} &\equiv& \Xi_{\mathtt{PRE}} \quad \text{où:} \\
 g_r &=& 60 + 12\Big\lceil \dfrac{|I_\mathbf{d}|}{32} \Big\rceil\\
 \mathbf{o}[0..31] &=& \mathtt{\tiny SHA256}(I_\mathbf{d})\\
-\Xi_{\mathtt{RIP160}} &\equiv& \Xi_{\mathtt{PRE}} \quad \text{where:} \\
+\Xi_{\mathtt{RIP160}} &\equiv& \Xi_{\mathtt{PRE}} \quad \text{où:} \\
 g_r &=& 600 + 120\Big\lceil \dfrac{|I_\mathbf{d}|}{32} \Big\rceil\\
 \mathbf{o}[0..11] &=& 0 \\
 \mathbf{o}[12..31] &=& \mathtt{\tiny RIPEMD160}(I_\mathbf{d})\\
 \end{eqnarray}
 
-For the purposes here, we assume we have well-defined standard cryptographic functions for RIPEMD-160 and SHA2-256 of the form:
+Pour les besoins présents, nous supposons que nous avons des fonctions cryptographiques standard bien définies pour RIPEMD-160 et SHA2-256 de la forme:
 \begin{eqnarray}
 \mathtt{\small SHA256}(\mathbf{i} \in \mathbb{B}) & \equiv & o \in \mathbb{B}_{32} \\
 \mathtt{\small RIPEMD160}(\mathbf{i} \in \mathbb{B}) & \equiv & o \in \mathbb{B}_{20}
 \end{eqnarray}
 
-Finally, the fourth contract, the identity function $\Xi_{\mathtt{ID}}$ simply defines the output as the input:
+Enfin, le quatrième contrat, la fonction d'identité $\Xi_{\mathtt{ID}}$, se contente de définir la sortie d'après l'entrée:
 \begin{eqnarray}
 \Xi_{\mathtt{ID}} &\equiv& \Xi_{\mathtt{PRE}} \quad \text{where:} \\
 g_r &=& 15 + 3\Big\lceil \dfrac{|I_\mathbf{d}|}{32} \Big\rceil\\
