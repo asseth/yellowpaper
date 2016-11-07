@@ -21,6 +21,7 @@
 \usepackage{afterpage}
 \usepackage{tikz}
 \usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
 
 \newcommand{\hcancel}[1]{%
     \tikz[baseline=(tocancel.base)]{
@@ -1459,64 +1460,64 @@ g_r &=& 15 + 3\Big\lceil \dfrac{|I_\mathbf{d}|}{32} \Big\rceil\\
 \end{eqnarray}
 
 
-\section{Signing Transactions}\label{app:signing}
+\section{Signature de transactions}\label{app:signing}
 
-The method of signing transactions is similar to the `Electrum style signatures'; it utilises the SECP-256k1 curve as described by \cite{gura2004comparing}.
+La méthode de signature de transactions est similaiire aux \guillemotleft\,signatures de style Electrum\,\guillemotright; elle utilise la courbe SECP-256k1 décrite par \cite{gura2004comparing}.
 
-It is assumed that the sender has a valid private key $p_r$, which is a randomly selected positive integer (represented as a byte array of length 32 in big-endian form) in the range \hbox{$[1, \mathtt{\tiny secp256k1n} - 1]$}.
+On suppose que l'expéditeur possède une clef privée valide $p_r$, qui est un entier positif sélectionné au hasard (représenté par un tableau d'octets de longueur 32 sous forme gros-boutienne) dans l'intervalle \hbox{$[1, \mathtt{\tiny secp256k1n} - 1]$}.
 
-We assert the functions $\mathtt{\small ECDSASIGN}$, $\mathtt{\small ECDSARESTORE}$ and $\mathtt{\small ECDSAPUBKEY}$. These are formally defined in the literature.
+Nous posons les fonctions $\mathtt{\small ECDSASIGN}$, $\mathtt{\small ECDSARESTORE}$ et $\mathtt{\small ECDSAPUBKEY}$. Celles-ci sont formellement définies dans la littérature.
 \begin{eqnarray}
 \mathtt{\small ECDSAPUBKEY}(p_r \in \mathbb{B}_{32}) & \equiv & p_u \in \mathbb{B}_{64} \\
 \mathtt{\small ECDSASIGN}(e \in \mathbb{B}_{32}, p_r \in \mathbb{B}_{32}) & \equiv & (v \in \mathbb{B}_{1}, r \in \mathbb{B}_{32}, s \in \mathbb{B}_{32}) \\
 \mathtt{\small ECDSARECOVER}(e \in \mathbb{B}_{32}, v \in \mathbb{B}_{1}, r \in \mathbb{B}_{32}, s \in \mathbb{B}_{32}) & \equiv & p_u \in \mathbb{B}_{64}
 \end{eqnarray}
 
-Where $p_u$ is the public key, assumed to be a byte array of size 64 (formed from the concatenation of two positive integers each $< 2^{256}$) and $p_r$ is the private key, a byte array of size 32 (or a single positive integer in the aforementioned range). It is assumed that $v$ is the `recovery id', a 1 byte value specifying the sign and finiteness of the curve point; this value is in the range of $[27, 30]$, however we declare the upper two possibilities, representing infinite values, invalid.
+où $p_u$ est la clef publique, que l'on suppose un tableau d'octets de taille 64 (formé à partir de la concaténation de deux entiers positifs chacun $< 2^{256}$) et $p_r$ est la clef privée, un tableau de taille 32 (ou un simple entier positif dans l'intervalle susmentionné). On suppose que $v$ est l'«\,identifiant de recouvrement\,», une valeur sur un octet spécifiant le signe et la finitude du point de la courbe; cette valeur se trouve dans l'intervalle $[27, 30]$ mais nous déclarons les deux possibilité supérieures, représentant des valeurs infinies, invalides.
 
 \newcommand{\slimit}{\ensuremath{\text{s-limit}}}
 
-We declare that a signature is invalid unless all the following conditions are true:
+Nous déclarons qu'une signature est invalide à mons que toutes les conditions suivantes soient vraies:
 \begin{align}
 0 < r &< \mathtt{\tiny secp256k1n} \\
 0 < s &< \begin{dcases}
-\mathtt{\tiny secp256k1n} & \text{if} \quad H_i < \firsthomesteadblock \\
-\mathtt{\tiny secp256k1n} \div 2 & \text{otherwise} \\
+\mathtt{\tiny secp256k1n} & \text{si} \quad H_i < \firsthomesteadblock \\
+\mathtt{\tiny secp256k1n} \div 2 & \text{sinon} \\
 \end{dcases} \\
  v &\in \{27,28\}
 \end{align}
-where:
+où:
 \begin{align}
 \mathtt{\tiny secp256k1n} &= 115792089237316195423570985008687907852837564279074904382605163141518161494337
 %\mathtt{\tiny secp256k1p} &= 2^{256} - 2^{32} - 977\\
 \end{align}
 
-For a given private key, $p_r$, the Ethereum address $A(p_r)$ (a 160-bit value) to which it corresponds is defined as the right most 160-bits of the Keccak hash of the corresponding ECDSA public key:
+Pour une clef privée donnée, $p_r$, l'adresse Ethereum $A(p_r)$ (une valeur sur 160 bits) à laquelle elle correspond est définie comme les 160 bits de droite de l'empreinte Keccak de la clef publique ECDSA correspondante:
 \begin{equation}
 A(p_r) = \mathcal{B}_{96..255}\big(\mathtt{\tiny KEC}\big( \mathtt{\small ECDSAPUBKEY}(p_r) \big) \big)
 \end{equation}
 
-The message hash, $h(T)$, to be signed is the Keccak hash of the transaction without the latter three signature components, formally described as $T_r$, $T_s$ and $T_w$:
+L'empreinte du message $h(T)$ à signer est l'empreinte Keccak de la transaction sans les trois derniers composants de la signature, formellement décrits comme $T_r$, $T_s$ et $T_w$:
 \begin{eqnarray}
 L_S(T) & \equiv & \begin{cases}
-(T_n, T_p, T_g, T_t, T_v, T_\mathbf{i}) & \text{if} \; T_t = 0\\
-(T_n, T_p, T_g, T_t, T_v, T_\mathbf{d}) & \text{otherwise}
+(T_n, T_p, T_g, T_t, T_v, T_\mathbf{i}) & \text{si} \; T_t = 0\\
+(T_n, T_p, T_g, T_t, T_v, T_\mathbf{d}) & \text{sinon}
 \end{cases} \\
 h(T) & \equiv & \mathtt{\small KEC}( L_S(T) )
 \end{eqnarray}
 
-The signed transaction $G(T, p_r)$ is defined as:
+La transaction signée $G(T, p_r)$ est définie par:
 \begin{eqnarray}
-G(T, p_r) \equiv T \quad \text{except:} \\
+G(T, p_r) \equiv T \quad \text{excepté:} \\
 (T_w, T_r, T_s) = \mathtt{\small ECDSASIGN}(h(T), p_r)
 \end{eqnarray}
 
-We may then define the sender function $S$ of the transaction as:
+Nous pouvons alors définir la fonction de l'expéditeur $S$ de la transaction par:
 \begin{equation}
 S(T) \equiv \mathcal{B}_{96..255}\big(\mathtt{\tiny KEC}\big( \mathtt{\small ECDSARECOVER}(h(T), T_w, T_r, T_s) \big) \big)
 \end{equation}
 
-The assertion that the sender of the a signed transaction equals the address of the signer should be self-evident:
+L'assertion selon laquelle l'expéditeur d'une transaction signée est égale à l'adresse du signataire devrait être évidente:
 \begin{equation}
 \forall T: \forall p_r: S(G(T, p_r)) \equiv A(p_r)
 \end{equation}
