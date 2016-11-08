@@ -1404,9 +1404,9 @@ I_1 & \text{si} \quad \exists I: I \in \mathfrak{I} \wedge \lVert I_0 \rVert = i
 \end{equation}
 
 \subsection{Base de données trie}
-Aucune supposition explicite n'est donc faite concernant les données stockées ou non, puisque cette considération relève de l'implémentation; nous nous contentons de définir la fonction d'identité faisant correspondre l'ensemble de clefs-valeurs $\mathfrak{I}$ à une empreinte de 32 octets et nous posons qu'une seule telle empreinte existe pour tout $\mathfrak{I}$, ce qui, bien que nétant pas strictement vrai, est exact avec une précision acceptable étant donnée la résistance à la collision de l'empreinte Keccak. En réalité, une implémentation raisonnable ne recalculera pas complètement l'empreinte racine du trie pour chaque ensemble.
+Aucune supposition explicite n'est donc faite concernant les données stockées ou non, puisque cette considération relève de l'implémentation; nous nous contentons de définir la fonction d'identité faisant correspondre l'ensemble de clefs-valeurs $\mathfrak{I}$ à une empreinte de 32 octets et nous posons qu'une seule telle empreinte existe pour tout $\mathfrak{I}$, ce qui, bien que n'étant pas strictement vrai, est exact avec une précision acceptable étant donnée la résistance à la collision de l'empreinte Keccak. En réalité, une implémentation raisonnable ne recalculera pas complètement l'empreinte racine du trie pour chaque ensemble.
 
-Cette implémentation maintiendra une base de données de n\oe{}uds déterminée à partir du calcul de divers tries ou, plus formellement, elle va mémoïser la fonction $c$. Cette stratégie utilise la nature du trie tant pour rappeler facilement le contenu de tout ensemble de clefs-valeurs que pour stocker plusieurs de ces ensembles de manière très efficiente. En raison de la relation de dépendances, les preuves de Merkle doivent être construites avec un prérequis d'espace $O(\log N)$ qui peut démontrer qu'une feuille donnée doit exister dans un trie d'une empreinte racine de trie donnée.
+Cette implémentation maintiendra une base de données de nœuds déterminée à partir du calcul de plusieurs tries ou, plus formellement, elle va mémoïser la fonction $c$. Cette stratégie utilise la nature du trie tant pour rappeler facilement le contenu de tout ensemble de clefs-valeurs que pour stocker plusieurs de ces ensembles de manière très efficiente. En raison de la relation de dépendances, les preuves de Merkle doivent être construites avec un prérequis d'espace $O(\log N)$ qui peut démontrer qu'une feuille donnée doit exister dans un trie d'une empreinte racine de trie donnée.
 
 \section{Contrats précompilés}\label{app:precompiled}
 
@@ -1522,49 +1522,54 @@ L'assertion selon laquelle l'expéditeur d'une transaction signée est égale à
 \forall T: \forall p_r: S(G(T, p_r)) \equiv A(p_r)
 \end{equation}
 
-\section{Fee Schedule}\label{app:fees}
+\section{Grille tarifaire}\label{app:fees}
 
-The fee schedule $G$ is a tuple of 31 scalar values corresponding to the relative costs, in gas, of a number of abstract operations that a transaction may effect.
+La grille tarifaire $G$ est un tuple de 31 valeurs scalaires correspondant aux coûts relatifs, en gaz, d'un certain nombre d'opérations abstraites qu'une transaction peut effectuer.
 
 \begin{tabular*}{\columnwidth}[h]{lrl}
 \toprule
-Name & Value & Description* \\
+Nom & Valeur & Description* \\
 \midrule
-$G_{zero}$ & 0 & Nothing paid for operations of the set {\small $W_{zero}$}. \\
-$G_{base}$ & 2 & Amount of gas to pay for operations of the set {\small $W_{base}$}. \\
-$G_{verylow}$ & 3 & Amount of gas to pay for operations of the set {\small $W_{verylow}$}. \\
-$G_{low}$ & 5 & Amount of gas to pay for operations of the set {\small $W_{low}$}. \\
-$G_{mid}$ & 8 & Amount of gas to pay for operations of the set {\small $W_{mid}$}. \\
-$G_{high}$ & 10 & Amount of gas to pay for operations of the set {\small $W_{high}$}. \\
-$G_{extcode}$ & 700 & Amount of gas to pay for operations of the set {\small $W_{extcode}$}. \\
-$G_{balance}$ & 400 & Amount of gas to pay for a {\small BALANCE} operation. \\
-$G_{sload}$ & 200 & Paid for a {\small SLOAD} operation. \\
-$G_{jumpdest}$ & 1 & Paid for a {\small JUMPDEST} operation. \\
-$G_{sset}$ & 20000 & Paid for an {\small SSTORE} operation when the storage value is set to non-zero from zero. \\
-$G_{sreset}$ & 5000 & Paid for an {\small SSTORE} operation when the storage value's zeroness remains unchanged or is set to zero. \\
-$R_{sclear}$ & 15000 & Refund given (added into refund counter) when the storage value is set to zero from non-zero. \\
-$R_{suicide}$ & 24000 & Refund given (added into refund counter) for suiciding an account. \\
-$G_{suicide}$ & 5000 & Amount of gas to pay for a {\small SUICIDE} operation. \\
-$G_{create}$ & 32000 & Paid for a {\small CREATE} operation. \\
-$G_{codedeposit}$ & 200 & Paid per byte for a {\small CREATE} operation to succeed in placing code into state. \\
-$G_{call}$ & 700 & Paid for a {\small CALL} operation. \\
-$G_{callvalue}$ & 9000 & Paid for a non-zero value transfer as part of the {\small CALL} operation. \\
-$G_{callstipend}$ & 2300 & A stipend for the called contract subtracted from $G_{callvalue}$ for a non-zero value transfer. \\
-$G_{newaccount}$ & 25000 & Paid for a {\small CALL} or {\small SUICIDE} operation which creates an account. \\
-$G_{exp}$ & 10 & Partial payment for an {\small EXP} operation. \\
-$G_{expbyte}$ & 10 & Partial payment when multiplied by $\lceil\log_{256}(exponent)\rceil$ for the {\small EXP} operation. \\
-$G_{memory}$ & 3 & Paid for every additional word when expanding memory. \\
-$G_\text{txcreate}$ & 32000 & Paid by all contract-creating transactions after the {\it Homestead transition}.\\
-$G_{txdatazero}$ & 4 & Paid for every zero byte of data or code for a transaction. \\
-$G_{txdatanonzero}$ & 68 & Paid for every non-zero byte of data or code for a transaction. \\
-$G_{transaction}$ & 21000 & Paid for every transaction. \\
-$G_{log}$ & 375 & Partial payment for a {\small LOG} operation. \\
-$G_{logdata}$ & 8 & Paid for each byte in a {\small LOG} operation's data. \\
-$G_{logtopic}$ & 375 & Paid for each topic of a {\small LOG} operation. \\
-$G_{sha3}$ & 30 & Paid for each {\small SHA3} operation. \\
-$G_{sha3word}$ & 6 & Paid for each word (rounded up) for input data to a {\small SHA3} operation. \\
-$G_{copy}$ & 3 & Partial payment for {\small *COPY} operations, multiplied by words copied, rounded up. \\
-$G_{blockhash}$ & 20 & Payment for {\small BLOCKHASH} operation. \\
+$G_{zero}$ & 0 & Rien n'est payé pour les opérations de l'ensemble {\small $W_{zero}$}. \\
+$G_{base}$ & 2 & Montant en gaz à payer pour les opérations de l'ensemble {\small $W_{base}$}. \\
+$G_{verylow}$ & 3 & Montant en gaz à payer pour les opérations de l'ensemble {\small $W_{verylow}$}. \\
+$G_{low}$ & 5 & Montant en gaz à payer pour les opérations de l'ensemble {\small $W_{low}$}. \\
+$G_{mid}$ & 8 & Montant en gaz à payer pour les opérations de l'ensemble {\small $W_{mid}$}. \\
+$G_{high}$ & 10 & Montant en gaz à payer pour les opérations de l'ensemble {\small $W_{high}$}. \\
+$G_{extcode}$ & 700 & Montant en gaz à payer pour les opérations de l'ensemble {\small $W_{extcode}$}. \\
+$G_{balance}$ & 400 & Montant en gaz à payer pour une opération {\small BALANCE}. \\
+$G_{sload}$ & 200 & Payé pour une opération {\small SLOAD}. \\
+$G_{jumpdest}$ & 1 & Payé pour une opération {\small JUMPDEST}. \\
+$G_{sset}$ & 20000 & Payé pour une opération {\small SSTORE} quand la l'état zéro de la valeur du stockage passe \\
+ & & de non-zéro à zéro. \\
+$G_{sreset}$ & 5000 & Payé pour une opération {\small SSTORE} quand la valeur du stockage reste ou passe à zéro. \\
+$R_{sclear}$ & 15000 & Remboursement (ajouté au compteur de remboursement) quand la valeur du stockage \\
+ & & passe de zéro à non-zéro. \\
+$R_{suicide}$ & 24000 & Remboursement (ajouté au compteur de remboursement) pour le suicide d'un compte. \\
+$G_{suicide}$ & 5000 & Montant en gaz à payer pour une opération {\small SUICIDE}. \\
+$G_{create}$ & 32000 & Payé pour une opération {\small CREATE}. \\
+$G_{codedeposit}$ & 200 & Payé par octet pour qu'une opération {\small CREATE} réussise à placer le code dans l'état. \\
+$G_{call}$ & 700 & Payé pour une opération {\small CALL}. \\
+$G_{callvalue}$ & 9000 & Payé pour un transfert de valeur non nulle faisant partie de l'opération {\small CALL}. \\
+$G_{callstipend}$ & 2300 & Une allocation pour le contrat appelé, soustraite de $G_{callvalue}$ pour le transfert d'une \\
+ & & valeur non nulle. \\
+$G_{newaccount}$ & 25000 & Payé pour une opération {\small CALL} ou {\small SUICIDE} qui crée un compte. \\
+$G_{exp}$ & 10 & Paiement partiel pour une opération {\small EXP}. \\
+$G_{expbyte}$ & 10 & Paiement partiel quand il est multiplié par $\lceil\log_{256}(exposant)\rceil$ pour l'opération {\small EXP}. \\
+$G_{memory}$ & 3 & Payé pour tout mot additionnel en augmentant la mémoire. \\
+$G_\text{txcreate}$ & 32000 & Payé par toutes les transactions de création de contrat après la {\it transition Homestead}.\\
+$G_{txdatazero}$ & 4 & Payé pour tout octet de données ou de code à zéro pour une transaction. \\
+$G_{txdatanonzero}$ & 68 & Payé pour tout octet de données ou de code non nul pour une transaction. \\
+$G_{transaction}$ & 21000 & Payé pour toute transaction. \\
+$G_{log}$ & 375 & Paiement partiel pour une opération {\small LOG}. \\
+$G_{logdata}$ & 8 & Payé pour chaque octet de données d'une opération {\small LOG}. \\
+$G_{logtopic}$ & 375 & Payé pour chaque sujet d'une opération {\small LOG}. \\
+$G_{sha3}$ & 30 & Payé pour chaque opération {\small SHA3}. \\
+$G_{sha3word}$ & 6 & Payé pour chaque mot (arrondi à la valeur supérieure) pour les données en entrée d'une \\
+ & & opération {\small SHA3}. \\
+$G_{copy}$ & 3 & Paiement partiel pour les opérations {\small *COPY}, multiplié par le nombre de mots copiés, \\
+ & & arrondi à la valeur supérieure. \\
+$G_{blockhash}$ & 20 & Paiement pour une opération {\small BLOCKHASH}. \\
 
 %extern u256 const c_copyGas;			///< Multiplied by the number of 32-byte words that are copied (round up) for any *COPY operation and added.
 \bottomrule
