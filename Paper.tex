@@ -1575,57 +1575,57 @@ $G_{blockhash}$ & 20 & Paiement pour une opération {\small BLOCKHASH}. \\
 \bottomrule
 \end{tabular*}
 
-\section{Virtual Machine Specification}\label{app:vm}
+\section{Spécification de la machine virtuelle}\label{app:vm}
 
-When interpreting 256-bit binary values as integers, the representation is big-endian.
+Quand on interprète des valeurs binaires sur 256 bits comme entiers, la représentation est gros-boutienne.
 
-When a 256-bit machine datum is converted to and from a 160-bit address or hash, the rightwards (low-order for BE) 20 bytes are used and the left most 12 are discarded or filled with zeroes, thus the integer values (when the bytes are interpreted as big-endian) are equivalent.
+Quand une donnée machine sur 256 bits est convertie depuis et vers une adresse ou une empreinte sur 160 bits, les 20 octets de droite (ici de poids faible) sont utilisés et les 12 de gauche sont supprimés ou mis à zéro, ce qui rend les valeurs entières (les octets étant interprétés en gros-boutien) sont équivalents.
 
-\subsection{Gas Cost}
+\subsection{Coût en gaz}
 
-The general gas cost function, $C$, is defined as:
+La fonction générale de coût en gaz, $C$, est définie par:
 
 \begin{equation}
 C(\boldsymbol{\sigma}, \boldsymbol{\mu}, I) \equiv C_{mem}(\boldsymbol{\mu}'_i)-C_{mem}(\boldsymbol{\mu}_i) + \begin{cases}
-C_\text{\tiny SSTORE}(\boldsymbol{\sigma}, \boldsymbol{\mu}) & \text{if} \quad w = \text{\small SSTORE} \\
-G_{exp} & \text{if} \quad w = \text{\small EXP} \wedge \boldsymbol{\mu}_\mathbf{s}[1] = 0 \\
-G_{exp} + G_{expbyte}\times(1+\lfloor\log_{256}(\boldsymbol{\mu}_\mathbf{s}[1])\rfloor) & \text{if} \quad w = \text{\small EXP} \wedge \boldsymbol{\mu}_\mathbf{s}[1] > 0 \\
-G_{verylow} + G_{copy}\times\lceil\boldsymbol{\mu}_\mathbf{s}[2] \div 32\rceil & \text{if} \quad w = \text{\small CALLDATACOPY} \lor \text{\small CODECOPY} \\
-G_{extcode} + G_{copy}\times\lceil\boldsymbol{\mu}_\mathbf{s}[3] \div 32\rceil & \text{if} \quad w = \text{\small EXTCODECOPY} \\
-G_{log}+G_{logdata}\times\boldsymbol{\mu}_\mathbf{s}[1] & \text{if} \quad w = \text{\small LOG0} \\
-G_{log}+G_{logdata}\times\boldsymbol{\mu}_\mathbf{s}[1]+G_{logtopic} & \text{if} \quad w = \text{\small LOG1} \\
-G_{log}+G_{logdata}\times\boldsymbol{\mu}_\mathbf{s}[1]+2G_{logtopic} & \text{if} \quad w = \text{\small LOG2} \\
-G_{log}+G_{logdata}\times\boldsymbol{\mu}_\mathbf{s}[1]+3G_{logtopic} & \text{if} \quad w = \text{\small LOG3} \\
-G_{log}+G_{logdata}\times\boldsymbol{\mu}_\mathbf{s}[1]+4G_{logtopic} & \text{if} \quad w = \text{\small LOG4} \\
-C_\text{\tiny CALL}(\boldsymbol{\sigma}, \boldsymbol{\mu}) & \text{if} \quad w = \text{\small CALL} \lor \text{\small CALLCODE} \lor \text{\small DELEGATECALL} \\
-C_\text{\tiny SUICIDE}(\boldsymbol{\sigma}, \boldsymbol{\mu}) & \text{if} \quad w = \text{\small SUICIDE} \\
-G_{create} & \text{if} \quad w = \text{\small CREATE}\\
-G_{sha3}+G_{sha3word} \lceil \mathbf{s}[1] \div 32 \rceil & \text{if} \quad w = \text{\small SHA3}\\
-G_{jumpdest} & \text{if} \quad w = \text{\small JUMPDEST}\\
-G_{sload} & \text{if} \quad w = \text{\small SLOAD}\\
-G_{zero} & \text{if} \quad w \in W_{zero}\\
-G_{base} & \text{if} \quad w \in W_{base}\\
-G_{verylow} & \text{if} \quad w \in W_{verylow}\\
-G_{low} & \text{if} \quad w \in W_{low}\\
-G_{mid} & \text{if} \quad w \in W_{mid}\\
-G_{high} & \text{if} \quad w \in W_{high}\\
-G_{extcode} & \text{if} \quad w \in W_{extcode}\\
-G_{balance} & \text{if} \quad w = \text{\small BALANCE}\\
-G_{blockhash} & \text{if} \quad w = \text{\small BLOCKHASH}\\
+C_\text{\tiny SSTORE}(\boldsymbol{\sigma}, \boldsymbol{\mu}) & \text{si} \quad w = \text{\small SSTORE} \\
+G_{exp} & \text{si} \quad w = \text{\small EXP} \wedge \boldsymbol{\mu}_\mathbf{s}[1] = 0 \\
+G_{exp} + G_{expbyte}\times(1+\lfloor\log_{256}(\boldsymbol{\mu}_\mathbf{s}[1])\rfloor) & \text{si} \quad w = \text{\small EXP} \wedge \boldsymbol{\mu}_\mathbf{s}[1] > 0 \\
+G_{verylow} + G_{copy}\times\lceil\boldsymbol{\mu}_\mathbf{s}[2] \div 32\rceil & \text{si} \quad w = \text{\small CALLDATACOPY} \lor \text{\small CODECOPY} \\
+G_{extcode} + G_{copy}\times\lceil\boldsymbol{\mu}_\mathbf{s}[3] \div 32\rceil & \text{si} \quad w = \text{\small EXTCODECOPY} \\
+G_{log}+G_{logdata}\times\boldsymbol{\mu}_\mathbf{s}[1] & \text{si} \quad w = \text{\small LOG0} \\
+G_{log}+G_{logdata}\times\boldsymbol{\mu}_\mathbf{s}[1]+G_{logtopic} & \text{si} \quad w = \text{\small LOG1} \\
+G_{log}+G_{logdata}\times\boldsymbol{\mu}_\mathbf{s}[1]+2G_{logtopic} & \text{si} \quad w = \text{\small LOG2} \\
+G_{log}+G_{logdata}\times\boldsymbol{\mu}_\mathbf{s}[1]+3G_{logtopic} & \text{si} \quad w = \text{\small LOG3} \\
+G_{log}+G_{logdata}\times\boldsymbol{\mu}_\mathbf{s}[1]+4G_{logtopic} & \text{si} \quad w = \text{\small LOG4} \\
+C_\text{\tiny CALL}(\boldsymbol{\sigma}, \boldsymbol{\mu}) & \text{si} \quad w = \text{\small CALL} \lor \text{\small CALLCODE} \lor \text{\small DELEGATECALL} \\
+C_\text{\tiny SUICIDE}(\boldsymbol{\sigma}, \boldsymbol{\mu}) & \text{si} \quad w = \text{\small SUICIDE} \\
+G_{create} & \text{si} \quad w = \text{\small CREATE}\\
+G_{sha3}+G_{sha3word} \lceil \mathbf{s}[1] \div 32 \rceil & \text{si} \quad w = \text{\small SHA3}\\
+G_{jumpdest} & \text{si} \quad w = \text{\small JUMPDEST}\\
+G_{sload} & \text{si} \quad w = \text{\small SLOAD}\\
+G_{zero} & \text{si} \quad w \in W_{zero}\\
+G_{base} & \text{si} \quad w \in W_{base}\\
+G_{verylow} & \text{si} \quad w \in W_{verylow}\\
+G_{low} & \text{si} \quad w \in W_{low}\\
+G_{mid} & \text{si} \quad w \in W_{mid}\\
+G_{high} & \text{si} \quad w \in W_{high}\\
+G_{extcode} & \text{si} \quad w \in W_{extcode}\\
+G_{balance} & \text{si} \quad w = \text{\small BALANCE}\\
+G_{blockhash} & \text{si} \quad w = \text{\small BLOCKHASH}\\
 \end{cases}
 \end{equation}
 \begin{equation}
-w \equiv \begin{cases} I_\mathbf{b}[\boldsymbol{\mu}_{pc}] & \text{if} \quad \boldsymbol{\mu}_{pc} < \lVert I_\mathbf{b} \rVert\\
-\text{\small STOP} & \text{otherwise}
+w \equiv \begin{cases} I_\mathbf{b}[\boldsymbol{\mu}_{pc}] & \text{si} \quad \boldsymbol{\mu}_{pc} < \lVert I_\mathbf{b} \rVert\\
+\text{\small STOP} & \text{sinon}
 \end{cases}
 \end{equation}
 
-where:
+où:
 \begin{equation}
 C_{mem}(a) \equiv G_{memory} \cdot a + \Big\lfloor \dfrac{a^2}{512} \Big\rfloor
 \end{equation}
 
-with $C_\text{\tiny CALL}$, $C_\text{\tiny SUICIDE}$ and $C_\text{\tiny SSTORE}$ as specified in the appropriate section below. We define the following subsets of instructions:
+avec $C_\text{\tiny CALL}$, $C_\text{\tiny SUICIDE}$ et $C_\text{\tiny SSTORE}$ tels qu'ils sont spécifiés dans la section correspondante ci-dessous. Nous définissons les sous-ensembles suivants d'instructions:
 
 $W_{zero}$ = \{{\small STOP}, {\small RETURN}\}
 
@@ -1641,22 +1641,25 @@ $W_{high}$ = \{{\small JUMPI}\}
 
 $W_{extcode}$ = \{{\small EXTCODESIZE}\}
 
-Note the memory cost component, given as the product of $G_{memory}$ and the maximum of 0 \& the ceiling of the number of words in size that the memory must be over the current number of words, $\boldsymbol{\mu}_i$ in order that all accesses reference valid memory whether for read or write. Such accesses must be for non-zero number of bytes.
+Notons le composant de coût mémoire, donné par le produit de $G_{memory}$ et du maximum de 0 \& le plafond du nombre de mots
+% en taille que la mémoire doit dépasser
+dépassant
+le nombre actuel de mots, $\boldsymbol{\mu}_i$ afin que tous les accès référencent de la mémoire valide que ce soit pour la lecture ou l'écriture. Ces accès doivent concerner un nombre d'octets non nul.
 
-Referencing a zero length range (e.g. by attempting to pass it as the input range to a CALL) does not require memory to be extended to the beginning of the range. $\boldsymbol{\mu}'_i$ is defined as this new maximum number of words of active memory; special-cases are given where these two are not equal.
+Le référencement d'un intervalle de longueur zéro (c'est-à-dire en essayant de le passer comme intervalle en entrée d'un CALL) ne demande pas à la mémoire d'être étendue au début de l'intervalle. $\boldsymbol{\mu}'_i$ est défini comme ce nouveau nombre maximum de mots de mémoire active; les cas spéciaux sont donnés quand ces deux-ci ne sont pas égaux.
 
-Note also that $C_{mem}$ is the memory cost function (the expansion function being the difference between the cost before and after). It is a polynomial, with the higher-order coefficient divided and floored, and thus linear up to 724B of memory used, after which it costs substantially more.
+Notons également que $C_{mem}$ est la fonction de coût mémoire (la fonction d'expansion étant la différence entre les coûts avant et après). C'est un polynôme dont le coefficient de plus haut degré est divisé et tronqué, et il est donc linéaire jusqu'à 724 octets de mémoire utilisée, après quoi il coûte substantiellement plus.
 
-While defining the instruction set, we defined the memory-expansion for range function, $M$, thus:
+En définissant l'ensemble d'instructions, nous avons défini l'expansion mémoire pour la fonction d'intervalle, $M$, d'où:
 
 \begin{equation}
 M(s, f, l) \equiv \begin{cases}
-s & \text{if} \quad l = 0 \\
-\max(s, \ceil{ (f + l) \div 32 }) & \text{otherwise}
+s & \text{si} \quad l = 0 \\
+\max(s, \ceil{ (f + l) \div 32 }) & \text{sinon}
 \end{cases}
 \end{equation}
 
-Another useful function is ``all but one 64th'' function~$L$ defined as:
+Une autre fonction utile est la fonction~$L$ «\,tout sauf un 64\textsuperscript{e}\,» définie par:
 
 \begin{equation}
 L(n) \equiv n - \lfloor n / 64 \rfloor
