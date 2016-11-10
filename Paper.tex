@@ -1174,7 +1174,7 @@ La consolidation de la blockchain peut être utilisée dans le but de réduire l
 
 Enfin, la compression de la blockchain pourrait peut-être être menée: les noeuds dans un trie d'état qui n'ont pas envoyé/reçu de transaction dans un certain nombre de blocs donné pourraient être rejetés, réduisant les fuites d'ethers ainsi que l'accroissement de la base de donnée d'état.
 
-\subsection{Scalability}
+\subsection{Scalabilité}
 
 La scalabilité demeure un éternel problème. Avec une fonction de changement d'état généraliste, il devient difficile de partitionner et parallèliser les transactions pour appliquer la stratégie diviser pour régner. Unaddressed, the dynamic value-range of the system remains essentially fixed and as the average transaction value increases, the less valuable of them become ignored, being economically pointless to include in the main ledger. However, several strategies exist that may potentially be exploited to provide a considerably more scalable protocol.
 
@@ -1225,7 +1225,7 @@ Many thanks to Aeron Buchanan for authoring the Homestead revisions, Christoph J
   L'acte de passer un message d'un Compte vers un autre. Si le compte de destination est associé à du Code EVM non vide, alors la VM sera démarrée avec l'état de l'objet en question et le Message donnera lieu à une action. Si l'expéditeur du message est un Objet autonome, l'Appel passe toute donnée renvoyée de l'opération de la VM.
 
 \item[Gaz (\textit{gas})\,]
-  L'unité de coût fondamentale du réseau. Payée exclusivement en Ether (au momnet du PoC-4), qui est librement converti en Gaz et inversement selon les besoins. Le Gaz n'existe pas hors du moteur de calcul interne d'Ethereum; son prix est fixé par la Transaction et les mineurs sont libres d'ignorer les Transactions dont le prix en Gaz est trop bas.
+  L'unité de coût fondamentale du réseau. Payée exclusivement en Ether (au moment du PoC-4), qui est librement converti en Gaz et inversement selon les besoins. Le Gaz n'existe pas hors du moteur de calcul interne d'Ethereum; son prix est fixé par la Transaction et les mineurs sont libres d'ignorer les Transactions dont le prix en Gaz est trop bas.
 
 \item[Contrat (\textit{contract})\,]
   Terme informel employé pour signifier à la fois un bout de Code EV qui peut être associé à un compte, et un Objet autonome.
@@ -1268,7 +1268,7 @@ Nous définissons l'ensemble des structures possibles $\mathbb{T}$:
 
 où $\mathbb{O}$ est l'ensemble d'octets. $\mathbb{B}$  est donc l'ensemble de toutes les séquences d'octets (connues par ailleurs sous le nom de tableaux d'octets (et une feuille si on l'imagine comme un arbre), $\mathbb{L}$ est l'ensemble de tous les (sous-)structures arborescentes qui ne sont pas une feuille unique (un n\oe{}ud de branches si on l'imagine comme un arbre) et  $\mathbb{T}$ est l'ensemble de tous les tableaux d'octets et les séquences structurales similaires.
 
-Nous définissons la fonction RLP par $\mathtt{\tiny RLP}$ grâce à deux sous-fonctions, la première gérant l'instance quand la valeur est un tableau d'octets, la seconde quand elle est une séquence de valeurs ultérieures:
+Nous définissons la fonction RLP par $\mathtt{\tiny RLP}$ grâce à deux sous-fonctions, la première gérant l'instance quand la valeur est un tableau d'octets, la seconde quand elle est une séquence de valeurs successives:
 \begin{equation}
 \mathtt{\tiny RLP}(\mathbf{x}) \equiv \begin{cases} R_b(\mathbf{x}) & \text{si} \quad \mathbf{x} \in \mathbb{B} \\ R_l(\mathbf{x}) & \text{sinon} \end{cases}
 \end{equation}
@@ -1381,7 +1381,7 @@ c(\mathfrak{I}, i) & \text{si} \quad \lVert c(\mathfrak{I}, i)\rVert < 32 \\
 D'une façon similaire à un arbre radix, quand le trie est traversé de la racine à une feuille, on peut construire une paire clef-valeur unique. La clef est accumulée pendant la traversée en acquiérant un quartet par n\oe{}ud de branches (comme pour un arbre radix). À la différence d'un arbre radix, dans le cas de clefs multiples partageant le même préfixe ou dans le cas d'une clef unique possédant un suffixe unique, deux n\oe{}uds d'optimisation sont fournis. Donc, en traversant, on peut acquérir potentiellement plusieurs quartets de chacun des deux autres types de n\oe{}uds, extension et feuille. Il existe trois sortes de n\oe{}uds dans le trie:
 \begin{description}
 \item[Feuille]
-  Une structure à deux éléments dont le premier correspond aux quartets dans la clef qui n'ont pas encore été pris en compte par l'accumulation des clef et des branches traversées depuis la racine. La méthode d'encodage hex-prefix est utilisée et le second paramètre de la fonction doit être à $true$.
+  Une structure à deux éléments dont le premier correspond aux quartets dans la clef qui n'ont pas encore été pris en compte par l'accumulation des clefs et des branches traversées depuis la racine. La méthode d'encodage hex-prefix est utilisée et le second paramètre de la fonction doit être à $true$.
 \item[Extension]
   Une structure à deux éléments dont le premier correspond à une série d'octets de taille supérieure à un, qui sont partagés par au moins deux clefs distinctes après l'accumulation de clefs et de branches de nibbles traversées depuis la racine. La méthode d'encodage hex-prefix est utilisée et le second paramètre de la fonction doit être à $false$.
 \item[Branche]
@@ -1462,7 +1462,7 @@ g_r &=& 15 + 3\Big\lceil \dfrac{|I_\mathbf{d}|}{32} \Big\rceil\\
 
 \section{Signature de transactions}\label{app:signing}
 
-La méthode de signature de transactions est similaiire aux \guillemotleft\,signatures de style Electrum\,\guillemotright; elle utilise la courbe SECP-256k1 décrite par \cite{gura2004comparing}.
+La méthode de signature de transactions est similaire aux \guillemotleft\,signatures de style Electrum\,\guillemotright; elle utilise la courbe SECP-256k1 décrite par \cite{gura2004comparing}.
 
 On suppose que l'expéditeur possède une clef privée valide $p_r$, qui est un entier positif sélectionné au hasard (représenté par un tableau d'octets de longueur 32 sous forme gros-boutienne) dans l'intervalle \hbox{$[1, \mathtt{\tiny secp256k1n} - 1]$}.
 
@@ -1477,7 +1477,7 @@ où $p_u$ est la clef publique, que l'on suppose un tableau d'octets de taille 6
 
 \newcommand{\slimit}{\ensuremath{\text{s-limit}}}
 
-Nous déclarons qu'une signature est invalide à mons que toutes les conditions suivantes soient vraies:
+Nous déclarons qu'une signature est invalide à moins que toutes les conditions suivantes soient vraies:
 \begin{align}
 0 < r &< \mathtt{\tiny secp256k1n} \\
 0 < s &< \begin{dcases}
