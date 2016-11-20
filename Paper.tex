@@ -1174,21 +1174,21 @@ La consolidation de la blockchain peut être utilisée dans le but de réduire l
 
 Enfin, la compression de la blockchain pourrait peut-être être menée: les noeuds dans un trie d'état qui n'ont pas envoyé/reçu de transaction dans un certain nombre de blocs donné pourraient être rejetés, réduisant les fuites d'ethers ainsi que l'accroissement de la base de donnée d'état.
 
-\subsection{Scalabilité}
+\subsection{extensibilité}
 
-La scalabilité demeure un éternel problème. Avec une fonction de changement d'état généraliste, il devient difficile de partitionner et parallèliser les transactions pour appliquer la stratégie diviser pour régner. Unaddressed, the dynamic value-range of the system remains essentially fixed and as the average transaction value increases, the less valuable of them become ignored, being economically pointless to include in the main ledger. However, several strategies exist that may potentially be exploited to provide a considerably more scalable protocol.
+L'extensibilité demeure un éternel problème. Avec une fonction de changement d'état généraliste, il devient difficile de partitionner et parallèliser les transactions pour appliquer la stratégie diviser pour régner. Négligée, la dynamique valeur-rang du système devient figée et quand la valeur des transactions moyenne augmente, les moindres d'entre elles se font ignorer, perdant leur intérêt économique à être intégrées dans la chaîne principale. Cependant, plusieurs stratégies existent ayant le potentiel de considérablement étendre l'exploitabilité du protocole.
 
-Some form of hierarchical structure, achieved by either consolidating smaller lighter-weight chains into the main block or building the main block through the incremental combination and adhesion (through proof-of-work) of smaller transaction sets may allow parallelisation of transaction combination and block-building. Parallelism could also come from a prioritised set of parallel blockchains, consolidated each block and with duplicate or invalid transactions thrown out accordingly.
+Certaines formes de structure hiérarchique, construites soit en combinant plusieurs petites chaînes de poids inférieur dans les blocs principaux, soit en fabriquant le bloc principal par aggrégation incrémentale (via preuve de travail) d'ensembles de transactions plus petits, peuvent permettre la parallélisation des combinaisons de transactions et des constructions de blocs. La parallélisation peut aussi venir par un ensemble priorisé de blockchains traitées en parallèle, consolidant ainsi chaque bloc et rejetant les transactions surnuméraires ou invalides.
 
-Finally, verifiable computation, if made generally available and efficient enough, may provide a route to allow the proof-of-work to be the verification of final state.
+Pour finir, le calcul vérifiable, s'il est rendu suffisamment abordable et efficient, pourrait ouvrir une voie à l'utilisation de la preuve de travail comme vérification de l'état final.
 
 \section{Conclusion} \label{ch:conclusion}
 
-I have introduced, discussed and formally defined the protocol of Ethereum. Through this protocol the reader may implement a node on the Ethereum network and join others in a decentralised secure social operating system. Contracts may be authored in order to algorithmically specify and autonomously enforce rules of interaction.
+J'ai ici introduit, discuté et défini formellement le protocole d'Ethereum. Par ce protocole le lecteur pourra implémenter un noeud sur le réseau Ethereum et joindre les autres dans un système d'exploitation social et décentralisé. Des contrats pourront être créés pour spécifier et rendre autonomes des règles d'échanges par l'utilisation d'algorithmes.
 
-\section{Acknowledgements}
+\section{Remerciements}
 
-Many thanks to Aeron Buchanan for authoring the Homestead revisions, Christoph Jentzsch for authoring the Ethash algorithm and Yoichi Hirai for doing most of the EIP-150 changes. Important maintenance, useful corrections and suggestions were provided by a number of others from the Ethereum DEV organisation and Ethereum community at large including Gustav Simonsson, Pawe\l{} Bylica, Jutta Steiner, Nick Savers, Viktor Tr\'{o}n, Marko Simovic, Giacomo Tazzari and, of course, Vitalik Buterin.
+De nombreux remerciements vont à Aeron Buchanan pour l'écriture des révisions Homestead, à Christoph Jentzsch pour la description de l'algorithme Ethash et à Yoichi Hirai pour avoir traité la plupart des changements EIP-150. D'importantes mises à jour, des corrections et suggestions utiles ont été faites par nombre d'autres membres de l'Ethereum DEV organisation et de la communauté Ethereum au sens large, incluant Gustav Simonsson, Pawe\l{} Bylica, Jutta Steiner, Nick Savers, Viktor Tr\'{o}n, Marko Simovic, Giacomo Tazzari et, bien sûr, Vitalik Buterin.
 
 \bibliography{Biblio}
 \bibliographystyle{plainnat}
@@ -1665,101 +1665,101 @@ Une autre fonction utile est la fonction~$L$ «\,tout sauf un 64\textsuperscript
 L(n) \equiv n - \lfloor n / 64 \rfloor
 \end{equation}
 
-\subsection{Instruction Set}
+\subsection{Jeu d'instructions}
 
-As previously specified in section \ref{ch:model}, these definitions take place in the final context there. In particular we assume $O$ is the EVM state-progression function and define the terms pertaining to the next cycle's state $(\boldsymbol{\sigma}', \boldsymbol{\mu}')$ such that:
+Comme spécifié auparavant dans la section \ref{ch:model}, toutes ces définitions prennent place dans le contexte final présent. En particulier nous assumons que $O$ est la fonction d'itération d'état de l'EVM et définissons les termes s'appliquant à l'état du cycle suivant $(\boldsymbol{\sigma}', \boldsymbol{\mu}')$ tels que:
 \begin{equation}
-O(\boldsymbol{\sigma}, \boldsymbol{\mu}, A, I) \equiv (\boldsymbol{\sigma}', \boldsymbol{\mu}', A', I) \quad \text{with exceptions, as noted}
+O(\boldsymbol{\sigma}, \boldsymbol{\mu}, A, I) \equiv (\boldsymbol{\sigma}', \boldsymbol{\mu}', A', I) \quad \text{avec exceptions, comme mentionné}
 \end{equation}
 
-Here given are the various exceptions to the state transition rules given in section \ref{ch:model} specified for each instruction, together with the additional instruction-specific definitions of $J$ and $C$. For each instruction, also specified is $\alpha$, the additional items placed on the stack and $\delta$, the items removed from stack, as defined in section \ref{ch:model}.
-
+Ici sont données pour chaque instruction les diverses exceptions aux règles de transition d'état données dans la section \ref{ch:model}, avec les définitions additionnelles de $J$ et $C$ spécifiques à cette instruction. Pour chaque instruction, est aussi spécifié $\alpha$, les éléments additionnels placés sur la pile et $\delta$, les éléments ôtés de la pile, comme définie dans la section \ref{ch:model}.
 \begin{tabular*}{\columnwidth}[h]{rlrrl}
 \toprule
-\multicolumn{5}{c}{\textbf{0s: Stop and Arithmetic Operations}} \\
-\multicolumn{5}{l}{All arithmetic is modulo $2^{256}$ unless otherwise noted.} \vspace{5pt} \\
+\multicolumn{5}{c}{\textbf{0s: opérations arithémtiques et Stop}} \\
+\multicolumn{5}{l}{Toutes les valeurs arithmétiques sont modulo $2^{256}$ sauf mention exprès.} \vspace{5pt} \\
 \textbf{Value} & \textbf{Mnemonic} & $\delta$ & $\alpha$ & \textbf{Description} \vspace{5pt} \\
-0x00 & {\small STOP} & 0 & 0 & Halts execution. \\
+0x00 & {\small STOP} & 0 & 0 & Arrête l'exécution. \\
 \midrule
-0x01 & {\small ADD} & 2 & 1 & Addition operation. \\
+0x01 & {\small ADD} & 2 & 1 & Addition. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \boldsymbol{\mu}_\mathbf{s}[0] + \boldsymbol{\mu}_\mathbf{s}[1]$ \\
 \midrule
-0x02 & {\small MUL} & 2 & 1 & Multiplication operation. \\
+0x02 & {\small MUL} & 2 & 1 & Multiplication. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \boldsymbol{\mu}_\mathbf{s}[0] \times \boldsymbol{\mu}_\mathbf{s}[1]$ \\
 \midrule
-0x03 & {\small SUB} & 2 & 1 & Subtraction operation. \\
+0x03 & {\small SUB} & 2 & 1 & Soustraction. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \boldsymbol{\mu}_\mathbf{s}[0] - \boldsymbol{\mu}_\mathbf{s}[1]$ \\
 \midrule
-0x04 & {\small DIV} & 2 & 1 & Integer division operation. \\
-&&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \begin{cases}0 & \text{if} \quad \boldsymbol{\mu}_\mathbf{s}[1] = 0\\ \lfloor\boldsymbol{\mu}_\mathbf{s}[0] \div \boldsymbol{\mu}_\mathbf{s}[1]\rfloor & \text{otherwise}\end{cases}$  \\
+0x04 & {\small DIV} & 2 & 1 & Division entière. \\
+&&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \begin{cases}0 & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[1] = 0\\ \lfloor\boldsymbol{\mu}_\mathbf{s}[0] \div \boldsymbol{\mu}_\mathbf{s}[1]\rfloor & \text{sinon}\end{cases}$  \\
 \midrule
-0x05 & {\small SDIV} & 2 & 1 & Signed integer division operation (truncated). \\
-&&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \begin{cases}0 & \text{if} \quad \boldsymbol{\mu}_\mathbf{s}[1] = 0\\ -2^{255} & \text{if} \quad \boldsymbol{\mu}_\mathbf{s}[0] = -2^{255} \wedge \quad \boldsymbol{\mu}_\mathbf{s}[1] = -1\\ \mathbf{sgn} (\boldsymbol{\mu}_\mathbf{s}[0] \div \boldsymbol{\mu}_\mathbf{s}[1]) \lfloor |\boldsymbol{\mu}_\mathbf{s}[0] \div \boldsymbol{\mu}_\mathbf{s}[1]| \rfloor & \text{otherwise}\end{cases}$  \\
-&&&& Where all values are treated as two's complement signed 256-bit integers. \\
-&&&& Note the overflow semantic when $-2^{255}$ is negated.\\
+0x05 & {\small SDIV} & 2 & 1 & Division entière signée (tronquée). \\
+&&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \begin{cases}0 & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[1] = 0\\ -2^{255} & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[0] = -2^{255} \wedge \quad \boldsymbol{\mu}_\mathbf{s}[1] = -1\\ \mathbf{sgn} (\boldsymbol{\mu}_\mathbf{s}[0] \div \boldsymbol{\mu}_\mathbf{s}[1]) \lfloor |\boldsymbol{\mu}_\mathbf{s}[0] \div \boldsymbol{\mu}_\mathbf{s}[1]| \rfloor & \text{sinon}\end{cases}$  \\
+&&&& Où toutes les valeurs sont traitées comme des entiers de 256 bits signés en complément à deux. \\
+&&&& Noter la sémantique de dépassement quand $-2^{255}$ est négativé.\\
 \midrule
-0x06 & {\small MOD} & 2 & 1 & Modulo remainder operation. \\
-&&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \begin{cases}0 & \text{if} \quad \boldsymbol{\mu}_\mathbf{s}[1] = 0\\ \boldsymbol{\mu}_\mathbf{s}[0] \bmod \boldsymbol{\mu}_\mathbf{s}[1] & \text{otherwise}\end{cases}$  \\
+0x06 & {\small MOD} & 2 & 1 & Modulo. \\
+&&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \begin{cases}0 & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[1] = 0\\ \boldsymbol{\mu}_\mathbf{s}[0] \bmod \boldsymbol{\mu}_\mathbf{s}[1] & \text{sinon}\end{cases}$  \\
 \midrule
-0x07 & {\small SMOD} & 2 & 1 & Signed modulo remainder operation. \\
-&&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \begin{cases}0 & \text{if} \quad \boldsymbol{\mu}_\mathbf{s}[1] = 0\\ \mathbf{sgn} (\boldsymbol{\mu}_\mathbf{s}[0]) |\boldsymbol{\mu}_\mathbf{s}[0]| \bmod |\boldsymbol{\mu}_\mathbf{s}[1]| & \text{otherwise}\end{cases}$  \\
-&&&& Where all values are treated as two's complement signed 256-bit integers. \\
+0x07 & {\small SMOD} & 2 & 1 & Modulo signé. \\
+&&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \begin{cases}0 & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[1] = 0\\ \mathbf{sgn} (\boldsymbol{\mu}_\mathbf{s}[0]) |\boldsymbol{\mu}_\mathbf{s}[0]| \bmod |\boldsymbol{\mu}_\mathbf{s}[1]| & \text{sinon}\end{cases}$  \\
+&&&& Où toutes les valeurs sont traitées comme des entiers de 256 bits signés en complément à deux. \\
 \midrule
-0x08 & {\small ADDMOD} & 3 & 1 & Modulo addition operation. \\
-&&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \begin{cases}0 & \text{if} \quad \boldsymbol{\mu}_\mathbf{s}[2] = 0\\ (\boldsymbol{\mu}_\mathbf{s}[0] + \boldsymbol{\mu}_\mathbf{s}[1]) \mod \boldsymbol{\mu}_\mathbf{s}[2] & \text{otherwise}\end{cases}$  \\
-&&&& All intermediate calculations of this operation are not subject to the $2^{256}$ modulo. \\
+0x08 & {\small ADDMOD} & 3 & 1 & Addition modulo. \\
+&&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \begin{cases}0 & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[2] = 0\\ (\boldsymbol{\mu}_\mathbf{s}[0] + \boldsymbol{\mu}_\mathbf{s}[1]) \mod \boldsymbol{\mu}_\mathbf{s}[2] & \text{sinon}\end{cases}$  \\
+&&&& Tous les calculs intérmédiaires de cette opération ne sont pas modulo $2^{256}$. \\
 \midrule
-0x09 & {\small MULMOD} & 3 & 1 & Modulo multiplication operation. \\
-&&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \begin{cases}0 & \text{if} \quad \boldsymbol{\mu}_\mathbf{s}[2] = 0\\ (\boldsymbol{\mu}_\mathbf{s}[0] \times \boldsymbol{\mu}_\mathbf{s}[1]) \mod \boldsymbol{\mu}_\mathbf{s}[2] & \text{otherwise}\end{cases}$  \\
-&&&& All intermediate calculations of this operation are not subject to the $2^{256}$ modulo. \\
+0x09 & {\small MULMOD} & 3 & 1 & Multiplication modulo. \\
+&&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \begin{cases}0 & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[2] = 0\\ (\boldsymbol{\mu}_\mathbf{s}[0] \times \boldsymbol{\mu}_\mathbf{s}[1]) \mod \boldsymbol{\mu}_\mathbf{s}[2] & \text{sinon}\end{cases}$  \\
+&&&& Tous les calculs intérmédiaires de cette opération ne sont pas modulo $2^{256}$. \\
 \midrule
-0x0a & {\small EXP} & 2 & 1 & Exponential operation. \\
+0x0a & {\small EXP} & 2 & 1 & Exponentielle. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \boldsymbol{\mu}_\mathbf{s}[0] ^ {\boldsymbol{\mu}_\mathbf{s}[1] }$ \\
 \midrule
-0x0b & {\small SIGNEXTEND} & 2 & 1 & Extend length of two's complement signed integer. \\
-&&&& $ \forall i \in [0..255]: \boldsymbol{\mu}'_\mathbf{s}[0]_i \equiv \begin{cases} \boldsymbol{\mu}_\mathbf{s}[1]_t &\text{if} \quad i \leqslant t \quad \text{where} \; t = 256 - 8(\boldsymbol{\mu}_\mathbf{s}[0] + 1) \\ \boldsymbol{\mu}_\mathbf{s}[1]_i &\text{otherwise} \end{cases}$ \\
-\multicolumn{5}{l}{$\boldsymbol{\mu}_\mathbf{s}[x]_i$ gives the $i$th bit (counting from zero) of $\boldsymbol{\mu}_\mathbf{s}[x]$} \vspace{5pt} \\
+0x0b & {\small SIGNEXTEND} & 2 & 1 & Extension signée en complément à deux. \\
+&&&& $ \forall i \in [0..255]: \boldsymbol{\mu}'_\mathbf{s}[0]_i \equiv \begin{cases} \boldsymbol{\mu}_\mathbf{s}[1]_t &\text{si} \quad i \leqslant t \quad \text{where} \; t = 256 - 8(\boldsymbol{\mu}_\mathbf{s}[0] + 1) \\ \boldsymbol{\mu}_\mathbf{s}[1]_i &\text{sinon} \end{cases}$ \\
+\multicolumn{5}{l}{$\boldsymbol{\mu}_\mathbf{s}[x]_i$ donne le $i$ème bit (partant de zéro) de $\boldsymbol{\mu}_\mathbf{s}[x]$} \vspace{5pt} \\
 \end{tabular*}
 
 \begin{tabular*}{\columnwidth}[h]{rlrrl}
 \toprule
-\multicolumn{5}{c}{\textbf{10s: Comparison \& Bitwise Logic Operations}} \\
+\multicolumn{5}{c}{\textbf{10s: Comparaison \& Opérations Bit à Bit }} \\
 \textbf{Value} & \textbf{Mnemonic} & $\delta$ & $\alpha$ & \textbf{Description} \vspace{5pt} \\
-0x10 & {\small LT} & 2 & 1 & Less-than comparision. \\
-&&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \begin{cases} 1 & \text{if} \quad \boldsymbol{\mu}_\mathbf{s}[0] < \boldsymbol{\mu}_\mathbf{s}[1] \\ 0 & \text{otherwise} \end{cases}$ \\
+0x10 & {\small LT} & 2 & 1 & Plus petit que. \\
+&&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \begin{cases} 1 & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[0] < \boldsymbol{\mu}_\mathbf{s}[1] \\ 0 & \text{sinon} \end{cases}$ \\
 \midrule
-0x11 & {\small GT} & 2 & 1 & Greater-than comparision. \\
-&&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \begin{cases} 1 & \text{if} \quad \boldsymbol{\mu}_\mathbf{s}[0] > \boldsymbol{\mu}_\mathbf{s}[1] \\ 0 & \text{otherwise} \end{cases}$ \\
+0x11 & {\small GT} & 2 & 1 & Plus grand que. \\
+&&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \begin{cases} 1 & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[0] > \boldsymbol{\mu}_\mathbf{s}[1] \\ 0 & \text{sinon} \end{cases}$ \\
 \midrule
-0x12 & {\small SLT} & 2 & 1 & Signed less-than comparision. \\
-&&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \begin{cases} 1 & \text{if} \quad \boldsymbol{\mu}_\mathbf{s}[0] < \boldsymbol{\mu}_\mathbf{s}[1] \\ 0 & \text{otherwise} \end{cases}$ \\
-&&&& Where all values are treated as two's complement signed 256-bit integers. \\
+0x12 & {\small SLT} & 2 & 1 & Plus petit que signé. \\
+&&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \begin{cases} 1 & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[0] < \boldsymbol{\mu}_\mathbf{s}[1] \\ 0 & \text{sinon} \end{cases}$ \\
+&&&& Où toutes les valeurs sont traitées comme des entiers de 256 bits signés en complément à deux. \\
 \midrule
-0x13 & {\small SGT} & 2 & 1 & Signed greater-than comparision. \\
-&&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \begin{cases} 1 & \text{if} \quad \boldsymbol{\mu}_\mathbf{s}[0] > \boldsymbol{\mu}_\mathbf{s}[1] \\ 0 & \text{otherwise} \end{cases}$ \\
-&&&& Where all values are treated as two's complement signed 256-bit integers. \\
+0x13 & {\small SGT} & 2 & 1 & Plus grand que signé. \\
+&&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \begin{cases} 1 & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[0] > \boldsymbol{\mu}_\mathbf{s}[1] \\ 0 & \text{sinon} \end{cases}$ \\
+&&&& Où toutes les valeurs sont traitées comme des entiers de 256 bits signés en complément à deux. \\
 \midrule
-0x14 & {\small EQ} & 2 & 1 & Equality comparision. \\
-&&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \begin{cases} 1 & \text{if} \quad \boldsymbol{\mu}_\mathbf{s}[0] = \boldsymbol{\mu}_\mathbf{s}[1] \\ 0 & \text{otherwise} \end{cases}$ \\
+0x14 & {\small EQ} & 2 & 1 & Égalité \\
+&&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \begin{cases} 1 & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[0] = \boldsymbol{\mu}_\mathbf{s}[1] \\ 0 & \text{sinon} \end{cases}$ \\
 \midrule
-0x15 & {\small ISZERO} & 1 & 1 & Simple not operator. \\
-&&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \begin{cases} 1 & \text{if} \quad \boldsymbol{\mu}_\mathbf{s}[0] = 0 \\ 0 & \text{otherwise} \end{cases}$ \\
+0x15 & {\small ISZERO} & 1 & 1 & Opérateur de négation simple. \\
+&&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \begin{cases} 1 & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[0] = 0 \\ 0 & \text{sinon} \end{cases}$ \\
 \midrule
-0x16 & {\small AND} & 2 & 1 & Bitwise AND operation. \\
+0x16 & {\small AND} & 2 & 1 & Opérateur AND bit à bit. \\
 &&&& $\forall i \in [0..255]: \boldsymbol{\mu}'_\mathbf{s}[0]_i \equiv \boldsymbol{\mu}_\mathbf{s}[0]_i \wedge \boldsymbol{\mu}_\mathbf{s}[1]_i$ \\
 \midrule
-0x17 & {\small OR} & 2 & 1 & Bitwise OR operation. \\
+0x17 & {\small OR} & 2 & 1 & Opérateur OR bit à bit. \\
 &&&& $\forall i \in [0..255]: \boldsymbol{\mu}'_\mathbf{s}[0]_i \equiv \boldsymbol{\mu}_\mathbf{s}[0]_i \vee \boldsymbol{\mu}_\mathbf{s}[1]_i$ \\
 \midrule
-0x18 & {\small XOR} & 2 & 1 & Bitwise XOR operation. \\
+0x18 & {\small XOR} & 2 & 1 & Opérateur XOR bit à bit. \\
 &&&& $\forall i \in [0..255]: \boldsymbol{\mu}'_\mathbf{s}[0]_i \equiv \boldsymbol{\mu}_\mathbf{s}[0]_i \oplus \boldsymbol{\mu}_\mathbf{s}[1]_i$ \\
 \midrule
-0x19 & {\small NOT} & 1 & 1 & Bitwise NOT operation. \\
-&&&& $\forall i \in [0..255]: \boldsymbol{\mu}'_\mathbf{s}[0]_i \equiv \begin{cases} 1 & \text{if} \quad \boldsymbol{\mu}_\mathbf{s}[0]_i = 0 \\ 0 & \text{otherwise} \end{cases}$ \\
+0x19 & {\small NOT} & 1 & 1 & Opérateur de négation bit à bit. \\
+&&&& $\forall i \in [0..255]: \boldsymbol{\mu}'_\mathbf{s}[0]_i \equiv \begin{cases} 1 & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[0]_i = 0 \\ 0 & \text{sinon} \end{cases}$ \\
 \midrule
-0x1a & {\small BYTE} & 2 & 1 & Retrieve single byte from word. \\
-&&&& $\forall i \in [0..255]: \boldsymbol{\mu}'_\mathbf{s}[0]_i \equiv \begin{cases} \boldsymbol{\mu}_\mathbf{s}[1]_{(i + 8\boldsymbol{\mu}_\mathbf{s}[0])} & \text{if} \quad i < 8 \wedge \boldsymbol{\mu}_\mathbf{s}[0] < 32 \\ 0 & \text{otherwise} \end{cases} $\\
-&&&& For Nth byte, we count from the left (i.e. N=0 would be the most significant in big endian). \\
+0x1a & {\small BYTE} & 2 & 1 & Retrouve tel octet d'un mot. \\
+&&&& $\forall i \in [0..255]: \boldsymbol{\mu}'_\mathbf{s}[0]_i \equiv \begin{cases} \boldsymbol{\mu}_\mathbf{s}[1]_{(i + 8\boldsymbol{\mu}_\mathbf{s}[0])} & \text{si} \quad i < 8 \wedge \boldsymbol{\mu}_\mathbf{s}[0] < 32 \\ 0 & \text{sinon} \end{cases} $\\
+&&&& Pour le Nème octet, on compte depuis la gauche \\
+&&&& (i.e. N=0 serait le plus significatif en grand-boutien). \\
 \bottomrule
 \end{tabular*}
 
@@ -1767,7 +1767,7 @@ Here given are the various exceptions to the state transition rules given in sec
 \toprule
 \multicolumn{5}{c}{\textbf{20s: SHA3}} \vspace{5pt} \\
 \textbf{Value} & \textbf{Mnemonic} & $\delta$ & $\alpha$ & \textbf{Description} \vspace{5pt} \\
-0x20 & {\small SHA3} & 2 & 1 & Compute Keccak-256 hash. \\
+0x20 & {\small SHA3} & 2 & 1 & Calcule l'empreinte Keccak-256. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \mathtt{\tiny Keccak}(\boldsymbol{\mu}_\mathbf{m}[ \boldsymbol{\mu}_\mathbf{s}[0] \dots (\boldsymbol{\mu}_\mathbf{s}[0] + \boldsymbol{\mu}_\mathbf{s}[1] - 1) ])$ \\
 &&&& $\boldsymbol{\mu}'_i \equiv M(\boldsymbol{\mu}_i, \boldsymbol{\mu}_\mathbf{s}[0], \boldsymbol{\mu}_\mathbf{s}[1])$ \\
 \bottomrule
@@ -1775,174 +1775,177 @@ Here given are the various exceptions to the state transition rules given in sec
 
 \begin{tabular*}{\columnwidth}[h]{rlrrl}
 \toprule
-\multicolumn{5}{c}{\textbf{30s: Environmental Information}} \vspace{5pt} \\
+\multicolumn{5}{c}{\textbf{30s: Informations d'environnement}} \vspace{5pt} \\
 \textbf{Value} & \textbf{Mnemonic} & $\delta$ & $\alpha$ & \textbf{Description} \vspace{5pt} \\
-0x30 & {\small ADDRESS} & 0 & 1 & Get address of currently executing account. \\
+0x30 & {\small ADDRESS} & 0 & 1 & Obtient l'adresse du compte en cours d'exécution. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv I_a$ \\
 \midrule
-0x31 & {\small BALANCE} & 1 & 1 & Get balance of the given account. \\
-&&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \begin{cases}\boldsymbol{\sigma}[\boldsymbol{\mu}_\mathbf{s}[0]]_b& \text{if} \quad \boldsymbol{\sigma}[\boldsymbol{\mu}_\mathbf{s}[0] \mod 2^{160}] \neq \varnothing\\0&\text{otherwise}\end{cases}$ \\
+0x31 & {\small BALANCE} & 1 & 1 & Obtient le solde du compte en argument. \\
+&&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \begin{cases}\boldsymbol{\sigma}[\boldsymbol{\mu}_\mathbf{s}[0]]_b& \text{if} \quad \boldsymbol{\sigma}[\boldsymbol{\mu}_\mathbf{s}[0] \mod 2^{160}] \neq \varnothing\\0&\text{sinon}\end{cases}$ \\
 \midrule
-0x32 & {\small ORIGIN} & 0 & 1 & Get execution origination address. \\
+0x32 & {\small ORIGIN} & 0 & 1 & Obtient l'adresse originelle d'exécution. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv I_o$ \\
-&&&& This is the sender of original transaction; it is never an account with non-empty \\
-&&&& associated code. \\
+&&&& C'est l'émetteur de la transaction de départ; Ce n'est jamais un compte avec du code \\
+&&&& associé non vide. \\
 \midrule
-0x33 & {\small CALLER} & 0 & 1 & Get caller address. \\
+0x33 & {\small CALLER} & 0 & 1 & Obtient l'adresse appelante. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv I_s$ \\
-&&&& This is the address of the account that is directly responsible for this execution. \\
+&&&& C'est l'adresse qui est directement responsable de l'exécution. \\
 \midrule
-0x34 & {\small CALLVALUE} & 0 & 1 & Get deposited value by the instruction/transaction responsible for this execution. \\
+0x34 & {\small CALLVALUE} & 0 & 1 & Obtient la valeur déposée par l'instruction/transaction responsable de cette exécution. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv I_v$ \\
 \midrule
-0x35 & {\small CALLDATALOAD} & 1 & 1 & Get input data of current environment. \\
+0x35 & {\small CALLDATALOAD} & 1 & 1 & Obtient les données en entrée de l'environnement courant. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv I_\mathbf{d}[ \boldsymbol{\mu}_\mathbf{s}[0] \dots (\boldsymbol{\mu}_\mathbf{s}[0] + 31) ] \quad \text{with} \quad I_\mathbf{d}[x] = 0 \quad \text{if} \quad x \geqslant \lVert I_\mathbf{d} \rVert$ \\
-&&&& This pertains to the input data passed with the message call instruction or transaction. \\
+&&&& Ceci se rapporte aux données passées en entrée \\
+&&&& du message d'appel de l'instruction ou transaction. \\
 \midrule
-0x36 & {\small CALLDATASIZE} & 0 & 1 & Get size of input data in current environment. \\
+0x36 & {\small CALLDATASIZE} & 0 & 1 & Obtient la taille des données en entrée de l'environnement courant. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \lVert I_\mathbf{d} \rVert$ \\
-&&&& This pertains to the input data passed with the message call instruction or transaction. \\
+&&&& Ceci se rapporte aux données passées en entrée \\
+&&&& du message d'appel de l'instruction ou transaction. \\
 \midrule
-0x37 & {\small CALLDATACOPY} & 3 & 0 & Copy input data in current environment to memory. \\
+0x37 & {\small CALLDATACOPY} & 3 & 0 & Obtient les données en entrée de l'environnement courant. \\
 &&&& $\forall_{i \in \{ 0 \dots \boldsymbol{\mu}_\mathbf{s}[2] - 1\} } \boldsymbol{\mu}'_\mathbf{m}[\boldsymbol{\mu}_\mathbf{s}[0] + i ] \equiv
-\begin{cases} I_\mathbf{d}[\boldsymbol{\mu}_\mathbf{s}[1] + i] & \text{if} \quad \boldsymbol{\mu}_\mathbf{s}[1] + i < \lVert I_\mathbf{d} \rVert \\ 0 & \text{otherwise} \end{cases}$\\
+\begin{cases} I_\mathbf{d}[\boldsymbol{\mu}_\mathbf{s}[1] + i] & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[1] + i < \lVert I_\mathbf{d} \rVert \\ 0 & \text{sinon} \end{cases}$\\
 &&&& $\boldsymbol{\mu}'_i \equiv M(\boldsymbol{\mu}_i, \boldsymbol{\mu}_\mathbf{s}[0], \boldsymbol{\mu}_\mathbf{s}[2])$ \\
-&&&& This pertains to the input data passed with the message call instruction or transaction. \\
+&&&& Ceci se rapporte aux données passées en entrée \\
+&&&& du message d'appel de l'instruction ou transaction. \\
 \midrule
-0x38 & {\small CODESIZE} & 0 & 1 & Get size of code running in current environment. \\
+0x38 & {\small CODESIZE} & 0 & 1 & Obtient la taille du code dans l'environnement courant. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \lVert I_\mathbf{b} \rVert$ \\
 \midrule
-0x39 & {\small CODECOPY} & 3 & 0 & Copy code running in current environment to memory. \\
+0x39 & {\small CODECOPY} & 3 & 0 & Copie les données en entrée de l'environnement courant en mémoire. \\
 &&&& $\forall_{i \in \{ 0 \dots \boldsymbol{\mu}_\mathbf{s}[2] - 1\} } \boldsymbol{\mu}'_\mathbf{m}[\boldsymbol{\mu}_\mathbf{s}[0] + i ] \equiv
-\begin{cases} I_\mathbf{b}[\boldsymbol{\mu}_\mathbf{s}[1] + i] & \text{if} \quad \boldsymbol{\mu}_\mathbf{s}[1] + i < \lVert I_\mathbf{b} \rVert \\ \text{\small STOP} & \text{otherwise} \end{cases}$\\
+\begin{cases} I_\mathbf{b}[\boldsymbol{\mu}_\mathbf{s}[1] + i] & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[1] + i < \lVert I_\mathbf{b} \rVert \\ \text{\small STOP} & \text{sinon} \end{cases}$\\
 &&&& $\boldsymbol{\mu}'_i \equiv M(\boldsymbol{\mu}_i, \boldsymbol{\mu}_\mathbf{s}[0], \boldsymbol{\mu}_\mathbf{s}[1])$ \\
 \midrule
-0x3a & {\small GASPRICE} & 0 & 1 & Get price of gas in current environment. \\
+0x3a & {\small GASPRICE} & 0 & 1 & Obtient le prix du gaz dans l'environnement courant. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv I_p$ \\
-&&&& This is gas price specified by the originating transaction.\\
+&&&& C'est le prix de gaz spécifié par la transaction d'origine.\\
 \midrule
-0x3b & {\small EXTCODESIZE} & 1 & 1 & Get size of an account's code. \\
+0x3b & {\small EXTCODESIZE} & 1 & 1 & Obtient la taille du code d'un compte. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \lVert \boldsymbol{\sigma}[\boldsymbol{\mu}_s[0] \mod 2^{160}]_c \rVert$ \\
 \midrule
-0x3c & {\small EXTCODECOPY} & 4 & 0 & Copy an account's code to memory. \\
+0x3c & {\small EXTCODECOPY} & 4 & 0 & Copie le code d'un compte en mémoire. \\
 &&&& $\forall_{i \in \{ 0 \dots \boldsymbol{\mu}_\mathbf{s}[3] - 1\} } \boldsymbol{\mu}'_\mathbf{m}[\boldsymbol{\mu}_\mathbf{s}[1] + i ] \equiv
-\begin{cases} \mathbf{c}[\boldsymbol{\mu}_\mathbf{s}[2] + i] & \text{if} \quad \boldsymbol{\mu}_\mathbf{s}[2] + i < \lVert \mathbf{c} \rVert \\ \text{\small STOP} & \text{otherwise} \end{cases}$\\
-&&&& where $\mathbf{c} \equiv \boldsymbol{\sigma}[\boldsymbol{\mu}_s[0] \mod 2^{160}]_c$ \\
+\begin{cases} \mathbf{c}[\boldsymbol{\mu}_\mathbf{s}[2] + i] & \text{if} \quad \boldsymbol{\mu}_\mathbf{s}[2] + i < \lVert \mathbf{c} \rVert \\ \text{\small STOP} & \text{sinon} \end{cases}$\\
+&&&& où $\mathbf{c} \equiv \boldsymbol{\sigma}[\boldsymbol{\mu}_s[0] \mod 2^{160}]_c$ \\
 &&&& $\boldsymbol{\mu}'_i \equiv M(\boldsymbol{\mu}_i, \boldsymbol{\mu}_\mathbf{s}[1], \boldsymbol{\mu}_\mathbf{s}[3])$ \\
 \bottomrule
 \end{tabular*}
 
 \begin{tabular*}{\columnwidth}[h]{rlrrl}
 \toprule
-\multicolumn{5}{c}{\textbf{40s: Block Information}} \vspace{5pt} \\
+\multicolumn{5}{c}{\textbf{40s: Informations de bloc}} \vspace{5pt} \\
 \textbf{Value} & \textbf{Mnemonic} & $\delta$ & $\alpha$ & \textbf{Description} \vspace{5pt} \\
-0x40 & {\small BLOCKHASH} & 1 & 1 & Get the hash of one of the 256 most recent complete blocks. \\
+0x40 & {\small BLOCKHASH} & 1 & 1 & Obtient l'empreinte de l'un des 256 derniers blocs complets. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv P(I_{H_p}, \boldsymbol{\mu}_\mathbf{s}[0], 0)$ \\
-&&&& where $P$ is the hash of a block of a particular number, up to a maximum age.\\
-&&&& 0 is left on the stack if the looked for block number is greater than the current block number \\
-&&&& or more than 256 blocks behind the current block. \\
-&&&& $P(h, n, a) \equiv \begin{cases} 0 & \text{if} \quad n > H_i \vee a = 256 \vee h = 0 \\ h & \text{if} \quad n = H_i \\ P(H_p, n, a + 1) & \text{otherwise} \end{cases}$ \\
-&&&& and we assert the header $H$ can be determined as its hash is the parent hash \\
-&&&& in the block following it. \\
+&&&& Où $P$ est l'empreinte d'un bloc d'ordre particulier, jusqu'à un âge maximum.\\
+&&&& 0 est mis sur la pile si le numéro de bloc demandé est plus grand que le numéro du bloc actuel \\
+&&&& ou plus éloigné que de 256 blocs du bloc actuel. \\
+&&&& $P(h, n, a) \equiv \begin{cases} 0 & \text{si} \quad n > H_i \vee a = 256 \vee h = 0 \\ h & \text{si} \quad n = H_i \\ P(H_p, n, a + 1) & \text{sinon} \end{cases}$ \\
+&&&& et on affirme que l'entête $H$ pouvant être déterminé comme son empreinte \\
+&&&& est l'empreinte parente du bloc qui le suit. \\
 \midrule
-0x41 & {\small COINBASE} & 0 & 1 & Get the block's beneficiary address. \\
+0x41 & {\small COINBASE} & 0 & 1 & Obtient l'adresse bénéficiaire du bloc. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv {I_H}_c$ \\
 \midrule
-0x42 & {\small TIMESTAMP} & 0 & 1 & Get the block's timestamp. \\
+0x42 & {\small TIMESTAMP} & 0 & 1 & Obtient le timestamp du bloc. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv {I_H}_s$ \\
 \midrule
-0x43 & {\small NUMBER} & 0 & 1 & Get the block's number. \\
+0x43 & {\small NUMBER} & 0 & 1 & Obtient le numéro d'ordre du bloc. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv {I_H}_i$ \\
 \midrule
-0x44 & {\small DIFFICULTY} & 0 & 1 & Get the block's difficulty. \\
+0x44 & {\small DIFFICULTY} & 0 & 1 & Obtient la difficulté du bloc. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv {I_H}_d$ \\
 \midrule
-0x45 & {\small GASLIMIT} & 0 & 1 & Get the block's gas limit. \\
+0x45 & {\small GASLIMIT} & 0 & 1 & Obtient la limite de gaz du bloc. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv {I_H}_l$ \\
 \bottomrule
 \end{tabular*}
 
 \begin{tabular*}{\columnwidth}[h]{rlrrl}
 \toprule
-\multicolumn{5}{c}{\textbf{50s: Stack, Memory, Storage and Flow Operations}} \vspace{5pt} \\
+\multicolumn{5}{c}{\textbf{50s: Opérations sur Pile, Mémoire, Stockage et Flux}} \vspace{5pt} \\
 \textbf{Value} & \textbf{Mnemonic} & $\delta$ & $\alpha$ & \textbf{Description} \vspace{5pt} \\
-0x50 & {\small POP} & 1 & 0 & Remove item from stack. \\
+0x50 & {\small POP} & 1 & 0 & Supprime un élément de la pile. \\
 \midrule
-0x51 & {\small MLOAD} & 1 & 1 & Load word from memory. \\
+0x51 & {\small MLOAD} & 1 & 1 & Charge un mot depuis la mémoire. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \boldsymbol{\mu}_\mathbf{m}[\boldsymbol{\mu}_\mathbf{s}[0] \dots (\boldsymbol{\mu}_\mathbf{s}[0] + 31) ]$ \\
 &&&& $\boldsymbol{\mu}'_i \equiv \max(\boldsymbol{\mu}_i, \ceil{ (\boldsymbol{\mu}_\mathbf{s}[0] + 32) \div 32 })$ \\
-&&&& The addition in the calculation of $\boldsymbol{\mu}'_i$ is not subject to the $2^{256}$ modulo. \\
+&&&& L'addition dans le calcul de $\boldsymbol{\mu}'_i$ n'est pas sujette au modulo $2^{256}$. \\
 \midrule
-0x52 & {\small MSTORE} & 2 & 0 & Save word to memory. \\
+0x52 & {\small MSTORE} & 2 & 0 & Sauve un mot en mémoire. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{m}[ \boldsymbol{\mu}_\mathbf{s}[0] \dots (\boldsymbol{\mu}_\mathbf{s}[0] + 31) ] \equiv \boldsymbol{\mu}_\mathbf{s}[1]$ \\
 &&&& $\boldsymbol{\mu}'_i \equiv \max(\boldsymbol{\mu}_i, \ceil{ (\boldsymbol{\mu}_\mathbf{s}[0] + 32) \div 32 })$ \\
-&&&& The addition in the calculation of $\boldsymbol{\mu}'_i$ is not subject to the $2^{256}$ modulo. \\
+&&&& L'addition dans le calcul de $\boldsymbol{\mu}'_i$ n'est pas sujette au modulo $2^{256}$. \\
 \midrule
-0x53 & {\small MSTORE8} & 2 & 0 & Save byte to memory. \\
+0x53 & {\small MSTORE8} & 2 & 0 & Sauve un octet en mémoire. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{m}[ \boldsymbol{\mu}_\mathbf{s}[0] ] \equiv (\boldsymbol{\mu}_\mathbf{s}[1] \bmod 256) $ \\
 &&&& $\boldsymbol{\mu}'_i \equiv \max(\boldsymbol{\mu}_i, \ceil{ (\boldsymbol{\mu}_\mathbf{s}[0] + 1) \div 32 })$ \\
-&&&& The addition in the calculation of $\boldsymbol{\mu}'_i$ is not subject to the $2^{256}$ modulo. \\
+&&&& L'addition dans le calcul de $\boldsymbol{\mu}'_i$ n'est pas sujette au modulo $2^{256}$. \\
 \midrule
-0x54 & {\small SLOAD} & 1 & 1 & Load word from storage. \\
+0x54 & {\small SLOAD} & 1 & 1 & Charge un mot depuis le stockage. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \boldsymbol{\sigma}[I_a]_\mathbf{s}[\boldsymbol{\mu}_\mathbf{s}[0]]$ \\
 \midrule
-0x55 & {\small SSTORE} & 2 & 0 & Save word to storage. \\
+0x55 & {\small SSTORE} & 2 & 0 & Sauve un mot dans le stockage. \\
 &&&& $\boldsymbol{\sigma}'[I_a]_\mathbf{s}[ \boldsymbol{\mu}_\mathbf{s}[0] ] \equiv \boldsymbol{\mu}_\mathbf{s}[1] $ \\
 &&&& $C_{\text{\tiny SSTORE}}(\boldsymbol{\sigma}, \boldsymbol{\mu}) \equiv \begin{cases}
-G_{sset} & \text{if} \quad \boldsymbol{\mu}_\mathbf{s}[1] \neq 0 \; \wedge \; \boldsymbol{\sigma}[I_a]_\mathbf{s}[\boldsymbol{\mu}_\mathbf{s}[0]] = 0 \\
-G_{sreset} & \text{otherwise}
+G_{sset} & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[1] \neq 0 \; \wedge \; \boldsymbol{\sigma}[I_a]_\mathbf{s}[\boldsymbol{\mu}_\mathbf{s}[0]] = 0 \\
+G_{sreset} & \text{sinon}
 \end{cases}$ \\
 &&&& $A'_{r} \equiv A_{r} + \begin{cases}
-R_{sclear} & \text{if} \quad \boldsymbol{\mu}_\mathbf{s}[1] = 0 \; \wedge \; \boldsymbol{\sigma}[I_a]_\mathbf{s}[\boldsymbol{\mu}_\mathbf{s}[0]] \neq 0 \\
-0 & \text{otherwise}
+R_{sclear} & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[1] = 0 \; \wedge \; \boldsymbol{\sigma}[I_a]_\mathbf{s}[\boldsymbol{\mu}_\mathbf{s}[0]] \neq 0 \\
+0 & \text{sinon}
 \end{cases}$ \\
 \midrule
-0x56 & {\small JUMP} & 1 & 0 & Alter the program counter. \\
+0x56 & {\small JUMP} & 1 & 0 & Altération du compteur du programme. \\
 &&&& $J_{\text{\tiny JUMP}}(\boldsymbol{\mu}) \equiv \boldsymbol{\mu}_\mathbf{s}[0] $ \\
-&&&& This has the effect of writing said value to $\boldsymbol{\mu}_{pc}$. See section \ref{ch:model}. \\
+&&&& Ceci a pour effet l'écriture de la dite value dans $\boldsymbol{\mu}_{pc}$. Voir section \ref{ch:model}. \\
 \midrule
-0x57 & {\small JUMPI} & 2 & 0 & Conditionally alter the program counter. \\
-&&&& $J_{\text{\tiny JUMPI}}(\boldsymbol{\mu}) \equiv \begin{cases} \boldsymbol{\mu}_\mathbf{s}[0] & \text{if} \quad \boldsymbol{\mu}_\mathbf{s}[1] \neq 0 \\ \boldsymbol{\mu}_{pc} + 1 & \text{otherwise} \end{cases} $ \\
-&&&& This has the effect of writing said value to $\boldsymbol{\mu}_{pc}$. See section \ref{ch:model}. \\
+0x57 & {\small JUMPI} & 2 & 0 & Altération conditionnelle du compteur du programme. \\
+&&&& $J_{\text{\tiny JUMPI}}(\boldsymbol{\mu}) \equiv \begin{cases} \boldsymbol{\mu}_\mathbf{s}[0] & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[1] \neq 0 \\ \boldsymbol{\mu}_{pc} + 1 & \text{sinon} \end{cases} $ \\
+&&&& Ceci a pour effet l'écriture de la dite value dans $\boldsymbol{\mu}_{pc}$. Voir section \ref{ch:model}. \\
 \midrule
-0x58 & {\small PC} & 0 & 1 & Get the value of the program counter \textit{prior} to the increment \\
-&&&&  corresponding to this instruction. \\
+0x58 & {\small PC} & 0 & 1 & Obtient la valeur du compteur du programme \textit{avant} l'incrément \\
+&&&&  correspondant à cette instruction. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \boldsymbol{\mu}_{pc}$ \\
 \midrule
-0x59 & {\small MSIZE} & 0 & 1 & Get the size of active memory in bytes. \\
+0x59 & {\small MSIZE} & 0 & 1 & Obtient la taille de la mémoire active en octets. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv 32\boldsymbol{\mu}_{i}$ \\
 \midrule
-0x5a & {\small GAS} & 0 & 1 & Get the amount of available gas, including the corresponding reduction \\
-&&&& for the cost of this instruction. \\
+0x5a & {\small GAS} & 0 & 1 & Obtient le montant de gaz disponible,  y compris la réduction correspondant \\
+&&&& au coût de cette instruction. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \boldsymbol{\mu}_{g}$ \\
 \midrule
-0x5b & {\small JUMPDEST} & 0 & 0 & Mark a valid destination for jumps. \\
-&&&& This operation has no effect on machine state during execution. \\
+0x5b & {\small JUMPDEST} & 0 & 0 & Marque une destination valide pour les sauts. \\
+&&&& Cette opération n'a pas d'effet sur l'état de la machine durant l'exécution. \\
 \bottomrule
 \end{tabular*}
 
 \begin{tabular*}{\columnwidth}[h]{rlrrl}
 \toprule
-\multicolumn{5}{c}{\textbf{60s \& 70s: Push Operations}} \vspace{5pt} \\
+\multicolumn{5}{c}{\textbf{60s \& 70s: Opérations de Push}} \vspace{5pt} \\
 \textbf{Value} & \textbf{Mnemonic} & $\delta$ & $\alpha$ & \textbf{Description} \vspace{5pt} \\
-0x60 & {\small PUSH1} & 0 & 1 & Place 1 byte item on stack. \\
+0x60 & {\small PUSH1} & 0 & 1 & Place 1 élément de 1 octet sur la pile. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv c(\boldsymbol{\mu}_{pc} + 1)$ \\
-&&&& $\text{where} \quad c(x) \equiv \begin{cases} I_\mathbf{b}[x] & \text{if} \quad x < \lVert I_\mathbf{b} \rVert \\ 0 & \text{otherwise} \end{cases}$ \\
-&&&& The bytes are read in line from the program code's bytes array. \\
-&&&& The function $c$ ensures the bytes default to zero if they extend past the limits.\\
-&&&& The byte is right-aligned (takes the lowest significant place in big endian). \\
+&&&& $\text{où} \quad c(x) \equiv \begin{cases} I_\mathbf{b}[x] & \text{si} \quad x < \lVert I_\mathbf{b} \rVert \\ 0 & \text{sinon} \end{cases}$ \\
+&&&& Les octets sont lus séquentiellement depuis le tableau d'octets du code du programme. \\
+&&&& La fonction $c$ assure que les octets sont mis à zéro si ils dépassent la limite.\\
+&&&& L'octet est aligné à droite (il prend la place la moins significative en grand-boutien). \\
 \midrule
-0x61 & {\small PUSH2} & 0 & 1 & Place 2-byte item on stack. \\
+0x61 & {\small PUSH2} & 0 & 1 & Place 1 élément de 2 octets sur la pile. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \boldsymbol{c}\big( (\boldsymbol{\mu}_{pc} + 1) \dots (\boldsymbol{\mu}_{pc} + 2) \big)$ \\
-&&&& with $\boldsymbol{c}(\boldsymbol{x}) \equiv (c(\boldsymbol{x}_0), ..., c(\boldsymbol{x}_{\lVert x \rVert -1})) $ with $c$ as defined as above. \\
-&&&& The bytes are right-aligned (takes the lowest significant place in big endian). \\
+&&&& avec $\boldsymbol{c}(\boldsymbol{x}) \equiv (c(\boldsymbol{x}_0), ..., c(\boldsymbol{x}_{\lVert x \rVert -1})) $ avec $c$ comme défini ci-dessus. \\
+&&&& Les octets sont alignés à droite (ils prennen la place la moins significative en grand-boutien). \\
 \midrule
 \multicolumn{1}{c}{\vdots} & \multicolumn{1}{c}{\vdots} & \vdots & \vdots & \multicolumn{1}{c}{\vdots} \\
 \midrule
-0x7f & {\small PUSH32} & 0 & 1 & Place 32-byte (full word) item on stack. \\
+0x7f & {\small PUSH32} & 0 & 1 & Place 1 élément de 32 octets (un mot entier) sur la pile. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \boldsymbol{c}\big((\boldsymbol{\mu}_{pc} + 1) \dots (\boldsymbol{\mu}_{pc} + 32) \big)$ \\
-&&&& where $\boldsymbol{c}$ is defined as above. \\
-&&&& The bytes are right-aligned (takes the lowest significant place in big endian). \\
+&&&& où $\boldsymbol{c}$ est défini comme ci-dessus. \\
+&&&& Les octets sont alignés à droite (ils prennent la place la moins significative en grand-boutien). \\
 \bottomrule
 \end{tabular*}
 
