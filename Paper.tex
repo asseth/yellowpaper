@@ -2075,24 +2075,17 @@ G_{newaccount} & \text{si} \quad \boldsymbol{\sigma}[\boldsymbol{\mu}_\mathbf{s}
 
 \begin{tabular*}{\columnwidth}[h]{rlrrl}
 \midrule
-0xf4 & {\small DELEGATECALL} & 6 & 1 & Appel de message à l'intérieur de ce compte avec le code d'un compte alternatif, mais persistant\\
-&&&& the current values for {\it sender} and {\it value}. \\
-<<<<<<< HEAD
-&&&& Exactly equivalent to {\small CALL} except: \\
-&&&& $(\boldsymbol{\sigma}', g', A^+, \mathbf{o}) \equiv \begin{cases}\begin{array}{l}\Theta(\boldsymbol{\sigma}^*, I_s, I_o, I_a, t,\\\quad \boldsymbol{\mu}_\mathbf{s}[0], I_p, 0, \boldsymbol{\mu}_\mathbf{s}[2], \mathbf{i}, I_e + 1)\end{array} & \text{if} \quad \boldsymbol{\mu}_\mathbf{s}[2] \leqslant \boldsymbol{\sigma}[I_a]_b \;\wedge\; I_e < 1024 \\ (\boldsymbol{\sigma}, g, \varnothing, \mathbf{o}) & \text{otherwise} \end{cases}$ \\
-&&&& Note the changes (in addition to that of the fourth parameter) to the second and eighth\\
-&&&& parameters to the call $\Theta$.\\
-=======
-&&&& Compared with {\small CALL}, {\small DELEGATECALL} takes one fewer arguments.  The omitted\\
-&&&& argument is $\boldsymbol{\mu}_\mathbf{s}[2]$. As a result, $\boldsymbol{\mu}_\mathbf{s}[3]$, $\boldsymbol{\mu}_\mathbf{s}[4]$, $\boldsymbol{\mu}_\mathbf{s}[5]$ and $\boldsymbol{\mu}_\mathbf{s}[6]$ in the definition of {\small CALL} \\
-&&&& should respectively be replaced with $\boldsymbol{\mu}_\mathbf{s}[2]$, $\boldsymbol{\mu}_\mathbf{s}[3]$, $\boldsymbol{\mu}_\mathbf{s}[4]$ and $\boldsymbol{\mu}_\mathbf{s}[5]$. \\
-&&&& Otherwise exactly equivalent to {\small CALL} except: \\
-&&&& $(\boldsymbol{\sigma}', g', A^+, \mathbf{o}) \equiv \begin{cases}\begin{array}{l}\Theta(\boldsymbol{\sigma}^*, I_s, I_o, I_a, t,\\\quad \boldsymbol{\mu}_\mathbf{s}[0], I_p, 0, I_v, \mathbf{i}, I_e + 1)\end{array} & \text{if} \quad I_v \leqslant \boldsymbol{\sigma}[I_a]_b \;\wedge\; I_e < 1024 \\ (\boldsymbol{\sigma}, g, \varnothing, \mathbf{o}) & \text{otherwise} \end{cases}$ \\
-&&&& Note the changes (in addition to that of the fourth parameter) to the second \\
-&&&& and ninth parameters to the call $\Theta$.\\
->>>>>>> upstream/master
-&&&& This means that the recipient is in fact the same account as at present, simply\\
-&&&& that the code is overwritten {\it and} the context is almost entirely identical.\\
+0xf4 & {\small DELEGATECALL} & 6 & 1 & Appel de message à l'intérieur de ce compte avec le code d'un autre compte, mais\\
+&&&& en laissant persistantes les valeurs courantes de {\it sender} et {\it value}. \\
+&&&& Par rapport à {\small CALL}, {\small DELEGATECALL} prend un argument de moins. L'argument\\
+&&&& omis est $\boldsymbol{\mu}_\mathbf{s}[2]$. En conséquence, $\boldsymbol{\mu}_\mathbf{s}[3]$, $\boldsymbol{\mu}_\mathbf{s}[4]$, $\boldsymbol{\mu}_\mathbf{s}[5]$ et $\boldsymbol{\mu}_\mathbf{s}[6]$ dans la définition de \\
+&&&&  {\small CALL} doivent être remplacées respectivement par $\boldsymbol{\mu}_\mathbf{s}[2]$, $\boldsymbol{\mu}_\mathbf{s}[3]$, $\boldsymbol{\mu}_\mathbf{s}[4]$ and $\boldsymbol{\mu}_\mathbf{s}[5]$. \\
+&&&& Par ailleurs exactement équivalent à {\small CALL} hormis: \\
+&&&& $(\boldsymbol{\sigma}', g', A^+, \mathbf{o}) \equiv \begin{cases}\begin{array}{l}\Theta(\boldsymbol{\sigma}^*, I_s, I_o, I_a, t,\\\quad \boldsymbol{\mu}_\mathbf{s}[0], I_p, 0, I_v, \mathbf{i}, I_e + 1)\end{array} & \text{si} \quad I_v \leqslant \boldsymbol{\sigma}[I_a]_b \;\wedge\; I_e < 1024 \\ (\boldsymbol{\sigma}, g, \varnothing, \mathbf{o}) & \text{sinon} \end{cases}$ \\
+&&&& On note les modifications (en plus de celle du quatrième paramètre) aux second \\
+&&&& et neuvième paramètres de l'appel $\Theta$.\\
+&&&& Cela signifie que le destinataire est en fait le même compte qu'à présent, simplement\\
+&&&& que le code est écrasé {\it et} que le contexte est presque entièrement identique.\\
 \midrule
 0xff & {\small SUICIDE} & 1 & 0 & Arrête l'exécution et enregistre le compte pour suppression ultérieure. \\
 &&&& $A'_\mathbf{s} \equiv A_\mathbf{s} \cup \{ I_a \}$ \\
