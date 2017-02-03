@@ -309,7 +309,7 @@ T_t \in \begin{cases} \mathbb{B}_{20} & \text{si} \quad T_t \neq \varnothing \\
 \subsection{Le Bloc} \label{ch:block}
 
 
-Le bloc dans Ethereum est l'ensemble de morceaux d'information pertinents (connu comme \textit{l'en-tête} du bloc), $H$, ainsi que l'information correspondant aux transactions incluses, $\mathbf{T}$, et un ensemble d'autres en-têtes $\mathbf{U}$ qui sont connus pour avoir un parent égal au parent du parent du bloc actuel  (ce genre de blocs sont connus en tant que (TODO\,: traduire ommer, dans la suite du doc aussi) \textit{ommers}\footnote{\textit{ommer} est le terme, neutre au niveau du genre, le plus répandu pour représenter «\,la fraternité du parent\,»\,; voir \url{http://nonbinary.org/wiki/Gender_neutral_language#Family_Terms}}). L'en-tête du bloc contient plusieurs parties d'information\,:
+Le bloc dans Ethereum est l'ensemble de morceaux d'information pertinents (connu comme \textit{l'en-tête} du bloc), $H$, ainsi que l'information correspondant aux transactions incluses, $\mathbf{T}$, et un ensemble d'autres en-têtes $\mathbf{U}$ qui sont connus pour avoir un parent égal au parent du parent du bloc actuel  (ce genre de blocs sont connus en tant que \textit{ommers}\footnote{\textit{ommer} est le terme, neutre au niveau du genre, le plus répandu pour représenter «\,la fraternité du parent\,»\,; voir \url{http://nonbinary.org/wiki/Gender_neutral_language#Family_Terms}}). L'en-tête du bloc contient plusieurs parties d'information\,:
 
 
 %\textit{TODO: Introduire les logs}
@@ -320,7 +320,7 @@ Le bloc dans Ethereum est l'ensemble de morceaux d'information pertinents (connu
 \item[beneficiary] L'addresse de 160 bits à laquelle seront envoyés tous les frais collectés par le minage réussi de ce bloc\,; $H_c$.
 \item[stateRoot]  L'empreinte Keccak de 256 bits du noeud racine du trie d'état, après que toutes les transactions sont exécutées et que les finalisations sont appliquées\,; $H_r$.
 \item[transactionsRoot] L'empreinte Keccak de 256 bits du noeud racine de la structure du trie, peuplé avec chaque transaction dans la section de la liste de transactions du bloc\,; $H_t$.
-\item[receiptsRoot] L'empreinte Keccak de 256 bits du noeud racine de la structure de  (TODO\,: trie) trie, peuplée avec les reçus de chaque transaction dans la section de la liste de transactions du bloc\,; $H_e$.
+\item[receiptsRoot] L'empreinte Keccak de 256 bits du noeud racine de la structure de trie, peuplé avec les reçus de chaque transaction dans la section de la liste de transactions du bloc\,; $H_e$.
 \item[logsBloom] Le filtre de Bloom composé de l'information indexable (l'adresse du logger et les sujets de log) contenu dans chaque entrée de log depuis le reçu de chaque transaction dans la liste de transactions\,; $H_b$.
 \item[difficulty] Une valeur scalaire correspondant au niveau de difficulté de ce bloc. Il peut être calculé à partir de la difficulté précédente et du timestamp\,; formellement $H_d$.
 \item[number] Une valeur scalaire égale au nombre de blocs ancêtre. Le bloc origine a un number de zéro\,; $H_i$.
@@ -506,7 +506,7 @@ n \leqslant \frac{2^{256}}{H_d} \quad \wedge \quad m = H_m
 \end{equation}
 avec $(n, m) = \mathtt{PoW}(H_{\hcancel{n}}, H_n, \mathbf{d})$.
 
-Où $H_{\hcancel{n}}$ est le nouvel en-tête de bloc $H$, mais \textit{sans} le nonce et le mixhash, $\mathbf{d}$ étant le DAG courant, un grand ensemble de données utilisé pour calculer le mixhash, et $\mathtt{PoW}$ étant la fonction de preuve-de-travail (voir section \ref{ch:pow})\,: ceci est évalué en un tableau dont le premier item est le mixhash, pour preuve qu'un DAG correct a été utilisé, et le second item est un nombre pseudo-aléatoire cryptographiquement dependant de $H$ et $\mathbf{d}$. Étant donnée une distribution approximativement uniforme sur l'intervalle $[0, 2^{64}]$, le temps estimé pour trouver une solution est proportionnel à la difficulté $H_d$.
+Où $H_{\hcancel{n}}$ est le nouvel en-tête de bloc $H$, mais \textit{sans} le nonce et le mixhash, $\mathbf{d}$ étant le DAG courant, un grand ensemble de données utilisé pour calculer le mixhash, et $\mathtt{PoW}$ étant la fonction de preuve-de-travail (voir section \ref{ch:pow})\,: ceci est évalué en un tableau dont le premier item est le mixhash, pour preuve qu'un DAG correct a été utilisé, et le second item est un nombre pseudo-aléatoire cryptographiquement dépendant de $H$ et $\mathbf{d}$. Étant donnée une distribution approximativement uniforme sur l'intervalle $[0, 2^{64}]$, le temps estimé pour trouver une solution est proportionnel à la difficulté $H_d$.
 
 Ceci est le fondement de la sécurité de la chaîne de blocs et est la raison fondamentale pour laquelle un code malicieux ne peut pas propager des blocs nouvellement forgés qui pourraient autrement écraser («\,réécrire\,») l'historique. Parce que le nonce doit satisfaire cette condition, et parce que cette satisfaction dépend du contenu du bloc et des transactions qui le composent, créer de nouveaux blocs valides est difficile et, avec le temps, demande  approximativement la puissance de calcul totale de la population de confiance parmi les pairs mineurs.
 
@@ -620,7 +620,7 @@ où $g$ est le montant de gaz restant après avoir déduit le montant de base de
 \begin{equation}
 g \equiv T_g - g_0
 \end{equation}
-et $T_o$ est l'auteur originel de la transaction, qui peut différer de l'expéditeur dans le cas d'un appel de message ou d'une création de contact qui n'a pas été directement déclenché par une transaction mais qui vient de l'exécution de code EVM.
+et $T_o$ est l'auteur originel de la transaction, qui peut différer de l'expéditeur dans le cas d'un appel de message ou d'une création de contrat qui n'a pas été directement déclenché par une transaction mais qui vient de l'exécution de code EVM.
 
 On remarque que nous utilisons $\Theta_{3}$ pour noter le fait que seuls les trois premiers composants de la valeur de la fonction sont pris\,; le composant final représente la valeur de sortie d'un appel de message (un tableau d'octets) et est inutilisé dans le contexte de l'évaluation d'une transaction.
 
@@ -660,7 +660,7 @@ Ils sont utilisés pour aider à définir le reçu de la transaction qui sera d�
 
 \section{Création de contrat} \label{ch:create}
 
-Il existe un certain nombre de paramètres intrinsèques utilisés quand on crée un compte\,: expéditeur ($s$), \textbf{\textit{transactor}} originel ($o$), prix du gaz ($p$), dotation ($v$) assemblés avec un tableau d'octets de longueur variable, $\mathbf{i}$, le code EVM d'initialisation et enfin la profondeur actuelle de la pile d'appel de message/création de contrat ($e$)
+Il existe un certain nombre de paramètres intrinsèques utilisés quand on crée un compte\,: expéditeur ($s$), \textbf{\textit{transactor}} originel ($o$), prix du gaz ($p$), dotation ($v$), assemblés avec un tableau d'octets de longueur variable, $\mathbf{i}$, le code EVM d'initialisation et enfin la profondeur actuelle de la pile d'appel de message/création de contrat ($e$)
 
 Nous définissons formellement la fonction de création comme la fonction $\Lambda$ qui évalue, à partir de ces valeurs et de l'état $\boldsymbol{\sigma}$, le tuple contenant le nouvel état, le gaz restant et le substrat de transaction augmenté $(\boldsymbol{\sigma}', g', A)$, comme en section  \ref{ch:transactions}\,:
 \begin{equation}
