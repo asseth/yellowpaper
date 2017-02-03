@@ -744,7 +744,7 @@ L'exception dans la détermination de $\boldsymbol{\sigma}'$ dicte que $\mathbf{
 On remarque que l'intention à partir du bloc \firsthomesteadblock\  ({\it Homestead}) est que le résultat est soit un nouveau contrat créé avec succès avec sa dotation, soit aucun contrat et aucun transfert de valeur. Avant {\it Homestead}, s'il n'y avait pas assez de gaz pour payer $c$, un compte était créé à l'adresse du nouveau contrat, en même temps que tous les effets secondaires de l'initialisation, et la valeur était transférée mais aucun code de contrat n'était déployé.
 
 \subsection{Subtilités}
-Notons qu'alors que le code d'initialisation est en train de s'exécuter, l'adresse nouvellement crééee existe mais sans code de corps intrinsèque. Un appel de message qu'il reçoit pendant ce temps n'engendre donc aucune exécution de code. Si l'exécution de l'initialisation se termine par une instruction {\small SUICIDE}, cela importe peu puisque le compte est supprimé avant la fin de la transaction. Pour un code {\small STOP}, ou si le code renvoyé est vide, alors l'état reste avec un compte zombie et tout solde résiduel reste à jamais verrouillé dans ce compte.
+Notons qu'alors que le code d'initialisation est en train de s'exécuter, l'adresse nouvellement créée existe mais sans code de corps intrinsèque. Un appel de message qu'il reçoit pendant ce temps n'engendre donc aucune exécution de code. Si l'exécution de l'initialisation se termine par une instruction {\small SUICIDE}, cela importe peu puisque le compte est supprimé avant la fin de la transaction. Pour un code {\small STOP}, ou si le code renvoyé est vide, alors l'état reste avec un compte zombie et tout solde résiduel reste à jamais verrouillé dans ce compte.
 
 \section{Appel de message} \label{ch:call}
 Lors de l'exécution d'un appel de message, plusieurs paramètres sont requis\,: émetteur ($s$), créateur de la transaction ($o$), récepteur ($r$), le compte dont le code doit être exécuté ($c$, habituellement le même que le récepteur), le gaz disponible ($g$), valeur ($v$) et prix du gaz ($p$) ensemble avec un tableau d'octets de longueur arbitraire, $\mathbf{d}$, les données d'entrée de l'appel de message et finalement la hauteur actuelle de la pile du appel de message ou de la création de contrat ($e$).
@@ -802,7 +802,7 @@ I_e & \equiv & e \\
 
 On suppose que le client aura stocké la paire $(\mathtt{\tiny KEC}(I_\mathbf{b}), I_\mathbf{b})$ préalablement pour pouvoir déterminer $I_\mathbf{b}$.
 
-Comme on pourra voir, il y a quatre exceptions au framework général d'exécution $\Xi$ lors de l'évaluation d'un appel de message\,: ce sont les quatre contrats «\,précompilés\,», compris comme des éléments d'architecture préliminaires qui pourront ultérieurement devenir des \textit{extensions natives}. Les quatre contrats aux adresses 1, 2, 3 et 4 executent la fonction de récupération de la clé publique de courbe elliptique, le schema d'empreinte SHA2 256-bit, le schema d'empreinte RIPEMD 160-bit et la fonction d'identité respectivement.
+Comme on pourra voir, il y a quatre exceptions au framework général d'exécution $\Xi$ lors de l'évaluation d'un appel de message\,: ce sont les quatre contrats «\,précompilés\,», compris comme des éléments d'architecture préliminaires qui pourront ultérieurement devenir des \textit{extensions natives}. Les quatre contrats aux adresses 1, 2, 3 et 4 exécutent la fonction de récupération de la clé publique de courbe elliptique, le schéma d'empreinte SHA2 256-bit, le schéma d'empreinte RIPEMD 160-bit et la fonction d'identité respectivement.
 
 Leur définition formelle complète est dans l'Annexe \ref{app:precompiled}.
 
@@ -812,7 +812,7 @@ Le modèle d'exécution spécifie la façon dont l'état du système est altér�
 
 \subsection{Fondamentaux}
 
-L'EVM est une architecture simple basée sur une pile. La taille des mots de la machine (et donc la taille de l'élément de la pile) est de 256 bits. Ce choix est destiné à faciliter le mécanisme d'empreinte Keccak-256 et les calculs de courbes elliptiques. Le modèle de mémoire est un simple tableau d'octets adressé par mots. La pile a une taille maximale de $1024$. La machine comporte également un modèle de stockage indépendant, conceptuellement similaire à celui de la mémoire mais, au lieu d'un tableau d'octets, il s'agit d'un tableau de mots adressé par mots. Au contraire de la mémoire, qui est volatile, le stockage est non volatil et est maintenu comme partie de l'état du système. Tous les emplacements tant en stockage qu'en mémoire sont définis à zéro à l'initialisation.
+L'EVM est une architecture simple basée sur une pile. La taille des mots de la machine (et donc la taille de l'élément de la pile) est de 256 bits. Ce choix est destiné à faciliter le mécanisme d'empreinte Keccak-256 et les calculs de courbes elliptiques. Le modèle de mémoire est un simple tableau d'octets adressé par mots. La pile a une taille maximale de $1024$. La machine comporte également un modèle de stockage indépendant, conceptuellement similaire à celui de la mémoire mais, au lieu d'un tableau d'octets, il s'agit d'un tableau de mots adressé par mots. Au contraire de la mémoire, qui est volatile, le stockage est non volatile et est maintenu comme partie de l'état du système. Tous les emplacements tant en stockage qu'en mémoire sont définis à zéro à l'initialisation.
 
 La machine n'est pas conçue selon l'architecture standard de Von Neumann. Au lieu de stocker le code des programmes dans une mémoire transitoire ou permanente générique, il est mis à part dans une ROM virtuelle avec laquelle seule une instruction spécialisée peut interagir.
 
@@ -934,11 +934,11 @@ Z(\boldsymbol{\sigma}, \boldsymbol{\mu}, I) \equiv
 \end{array}
 \end{equation}
 
-Cela établit que l'éxécution se trouve dans un état d'arrêt exceptionnel s'il n'y a pas assez de gaz, si l'instruction est invalide (et donc son \textit{subscript} est indéfini), s'il n'y a pas suffisamment d'éléments de pile, si une destination de {\small JUMP}/{\small JUMPI} est invalide ou si la nouvelle taille de la pile serait supérieure à 1024. Le lecteur attentif aura compris que cela signifie également qu'aucune instruction ne peut, par son exécution, provoquer un arrêt exceptionnel.
+Cela établit que l'éxécution se trouve dans un état d'arrêt exceptionnel s'il n'y a pas assez de gaz, si l'instruction est invalide (et donc son \textit{subscript} est indéfini), s'il n'y a pas suffisamment d'éléments de pile, si une destination de {\small JUMP}/{\small JUMPI} était invalide ou si la nouvelle taille de la pile était supérieure à 1024. Le lecteur attentif aura compris que cela signifie également qu'aucune instruction ne peut, par son exécution, provoquer un arrêt exceptionnel.
 
 \subsubsection{Validité d'une destination de saut}
 
-Nous avons auparavant utilisé $D$ comme fonction pour déterminer l'ensemble des destinations de saut valides étant donné le code en train de tourner. Nous définission ceci comme toute position dans le code occupée par une instruction {\small JUMPDEST}.
+Nous avons auparavant utilisé $D$ comme fonction pour déterminer l'ensemble des destinations de saut valides étant donné le code en train de tourner. Nous définissons ceci comme toute position dans le code occupée par une instruction {\small JUMPDEST}.
 
 Toutes ces positions doivent se trouver sur des limites d'instruction valides au lieu d'occuper la partie de données des opération {\small PUSH} et doivent apparaître dans la portion explicitement définie du code (et non dans les opérations {\small STOP} implicitement définies qui les suivent).
 
