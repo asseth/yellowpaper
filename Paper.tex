@@ -58,7 +58,7 @@
 \begin{abstract}
 Le paradigme de la blockchain, lorsqu'il est couplé à un mécanisme de transaction sécurisé par la cryptographie, a prouvé son utilité non seulement avec Bitcoin mais aussi dans de nombreux projets. Chacun de ces projets peut être vu comme une simple application basée sur une ressource de calcul décentralisée mais unitaire. Nous pouvons appeler ce paradigme une machine transactionnelle unique à état partagé.
 
-Ethereum implémente ce paradigme de façon généraliste. De plus, Ethereum permet une pluralité de telles ressources, chacune possédant un état distinct et un code fonctionnel, mais néanmoins susceptibles d'interagir via un framework d'échange de messages. Nous discuterons de sa conception, des problèmes d'implémentation, des opportunités que cela fournit et des obstacles que nous anticipons.
+Ethereum implémente ce paradigme de façon généraliste. De plus, Ethereum permet une multiplicité de telles ressources, chacune possédant un état distinct et un code fonctionnel, mais néanmoins susceptibles d'interagir via un framework d'échange de messages. Nous discuterons de sa conception, des problèmes d'implémentation, des opportunités que cela ouvre et des obstacles que nous anticipons.
 \end{abstract}
 
 \maketitle
@@ -150,13 +150,13 @@ Tout au long du présent document, toute référence à une valeur ou à l'Ether
 
 Puisque le système est décentralisé et que toutes les parties ont une opportunité de créer un nouveau bloc sur un bloc préexistant, la structure résultante est nécessairement un arbre de blocs. Il est nécessaire de disposer d’un schéma de passage consensuel dans cette structure, c’est-à-dire un chemin depuis la racine (le bloc originel) jusqu'à la feuille (le bloc contenant les transactions les plus récentes) qui fasse consensus à travers cette structure d'arbre connue sous le nom de blockchain. Si jamais il y a un désaccord entre les n\oe{}uds sur quel des chemins de l'arbre des blocs constitue la «\,meilleure\,» blockchain, alors il y a fourche ou scission (\textit{fork}).
 
-Cela voudrait dire que passé un point donné dans le temps (bloc), plusieurs états du système peuvent coexister\,: certains n\oe{}uds croyant qu'un bloc contient les transactions canoniques, tandis que d'autres n\oe{}uds croyant être canonique un autre bloc, celui-ci contenant potentiellement des transactions radicalement différentes ou incompatibles. Ceci est à éviter à tout prix, tout comme l'incertitude qui s'ensuivrait et qui pourrait tuer la confiance dans le système entier.
+Cela voudrait dire que passé un point donné dans le temps (bloc), plusieurs états du système peuvent coexister\,: certains n\oe{}uds croyant qu'un bloc contient les transactions canoniques, tandis que d'autres n\oe{}uds croyant être canonique un autre bloc, celui-ci contenant potentiellement des transactions radicalement différentes ou incompatibles. Ceci est à éviter à tout prix, car l'incertitude qui s'ensuivrait pourrait tuer la confiance dans le système entier.
 
 Le schéma que nous utilisons pour générer un consensus est une version simplifiée du protocole GHOST, introduit par \cite{cryptoeprint:2013:881}. Ce processus est décrit en détail dans la section \ref{ch:ghost}.
 
 \section{Conventions}\label{ch:conventions}
 
-J'utilise un nombre de conventions typographiques pour les notations formelles, quelques-unes sont un peu particulières au document présent\,:
+J'utilise un certain nombre de conventions typographiques pour les notations formelles, quelques-unes sont un peu particulières au document présent\,:
 
 Les deux ensembles de haut niveau, hautement structurés, des valeurs d'état, sont notés en minuscules grecques en gras. Ces valeurs relèvent de la catégorie de l'état du monde noté $\boldsymbol{\sigma}$ (ou une variante de celui-ci) ou de celle de l'état de la machine, $\boldsymbol{\mu}$.
 
