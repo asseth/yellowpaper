@@ -94,13 +94,13 @@ D'autres projets visent toujours à construire par-dessus le réseau Bitcoin lui
 
 Des travaux supplémentaires ont été effectués avec pour idée d'écarter les fondements de la décentralisation\,; Ripple, décrit par \cite{boutellier2014pirates}, a cherché à créer un système fédéré pour l'échange de devises constituant effectivement un nouveau système de compensation financière. Cela a démontré que de gros gains d'efficience peuvent être faits si le principe de la décentralisation est rejeté.
 
-Antérieurement un travail sur les smart contracts a été effectué par \cite{szabo1997formalizing} et \cite{miller1997future}. Autour des années 90 il est devenu clair que la résolution algorithmique des accords entre humains pouvait devenir une force significative dans la coopération. Bien qu'aucun système spécifique n'ait été proposé pour implémenter un tel système, il a été présumé que le futur du droit serait profondément affecté par ce genre de résolution. Dans cette optique, Ethereum peut être vu comme une implémentation généraliste d'un tel système de \textit{droit cryptographique}.
+Antérieurement, un travail sur les smart contracts a été effectué par \cite{szabo1997formalizing} et \cite{miller1997future}. Autour des années 90 il est devenu clair que la résolution algorithmique des accords entre humains pouvait devenir une force significative dans la coopération. Bien qu'aucun système spécifique n'ait été proposé pour implémenter un tel système, il a été présumé que le futur du droit serait profondément affecté par ce genre de résolution. Dans cette optique, Ethereum peut être vu comme une implémentation généraliste d'un tel système de \textit{droit cryptographique}.
 
 %E language?
 
 \section{Le paradigme de la blockchain} \label{ch:overview}
 
-Ethereum, pris dans son ensemble, peut être vu comme une machine à état basée sur des transactions\,: nous commençons avec un état originel, et exécutons des transactions de manière incrémentale pour le transformer en un état final. C'est cet état final que nous acceptons comme la «\,version\,» canonique du monde d'Ethereum. L'état peut inclure des informations telles que les soldes de comptes, la réputation, des accords de confiance, des données portant sur l'information du monde physique\,; en résumé, tout ce qui peut actuellement être représenté par un ordinateur est admissible. Les transactions représentent ainsi une passerelle valide entre deux états\,; l’aspect «\,valide\,» est important---il existe beaucoup plus de changements d'état invalides que de changements d'état valides. Les changements d'état invalides pourraient par exemple être la réduction du solde d'un compte sans compensation par ailleurs d'un montant équivalent. Un changement d'état valide est un changement produit par le truchement d’une transaction. Formellement\,:
+Ethereum, pris dans son ensemble, peut être vu comme une machine à état basée sur des transactions\,: nous commençons avec un état originel et nous exécutons des transactions de manière incrémentale pour le transformer en un état final. C'est cet état final que nous acceptons comme la «\,version\,» canonique du monde d'Ethereum. L'état peut inclure des informations telles que les soldes de comptes, la réputation, des accords de confiance, des données portant sur l'information du monde physique\,; en résumé, tout ce qui peut actuellement être représenté par un ordinateur est admissible. Les transactions représentent ainsi une passerelle valide entre deux états\,; l’aspect «\,valide\,» est important---il existe beaucoup plus de changements d'état invalides que de changements d'état valides. Les changements d'état invalides pourraient par exemple être la réduction du solde d'un compte sans compensation par ailleurs d'un montant équivalent. Un changement d'état valide est un changement produit par le truchement d’une transaction. Formellement\,:
 \begin{equation}
 \boldsymbol{\sigma}_{t+1} \equiv \Upsilon(\boldsymbol{\sigma}_t, T)
 \end{equation}
@@ -123,7 +123,7 @@ B & \equiv & (..., (T_0, T_1, ...) ) \\
 
 Où $\Omega$ est la fonction de changement d'état finalisant le bloc (une fonction qui récompense un ensemble désigné)\,; $B$ est ce bloc, qui inclut une série de transactions parmi d'autres éléments\,; et $\Pi$ est la fonction de changement d'état au niveau du bloc.
 
-Ceci est la base du paradigme de la blockchain, un modèle qui forme la colonne vertébrale non seulement d'Ethereum, mais aussi de tous les systèmes de transactions décentralisés basés sur consensus à l'heure actuelle.
+Ceci est la base du paradigme de la blockchain, un modèle qui forme la colonne vertébrale non seulement d'Ethereum, mais aussi de tous les systèmes de transactions décentralisés fondés sur le consensus à l'heure actuelle.
 
 \subsection{Valeur}
 
@@ -150,38 +150,38 @@ Tout au long du présent document, toute référence à une valeur ou à l'Ether
 
 Puisque le système est décentralisé et que toutes les parties ont une opportunité de créer un nouveau bloc sur un bloc préexistant, la structure résultante est nécessairement un arbre de blocs. Il est nécessaire de disposer d’un schéma de passage consensuel dans cette structure, c’est-à-dire un chemin depuis la racine (le bloc originel) jusqu'à la feuille (le bloc contenant les transactions les plus récentes) qui fasse consensus à travers cette structure d'arbre connue sous le nom de blockchain. Si jamais il y a un désaccord entre les n\oe{}uds sur quel des chemins de l'arbre des blocs constitue la «\,meilleure\,» blockchain, alors il y a fourche ou scission (\textit{fork}).
 
-Cela voudrait dire que passé un point donné dans le temps (bloc), plusieurs états du système peuvent coexister\,: certains n\oe{}uds croyant qu'un bloc contient les transactions canoniques, tandis que d'autres n\oe{}uds croyant être canonique un autre bloc, celui-ci contenant potentiellement des transactions radicalement différentes ou incompatibles. Ceci est à éviter à tout prix, car l'incertitude qui s'ensuivrait pourrait tuer la confiance dans le système entier.
+Cela voudrait dire que passé un point donné dans le temps (bloc), plusieurs états du système peuvent coexister\,: certains n\oe{}uds croient qu'un bloc contient les transactions canoniques alors que d'autres n\oe{}uds croient canonique un autre bloc, celui-ci contenant potentiellement des transactions radicalement différentes ou incompatibles. Ceci est à éviter à tout prix, car l'incertitude qui s'ensuivrait pourrait tuer la confiance dans le système entier.
 
 Le schéma que nous utilisons pour générer un consensus est une version simplifiée du protocole GHOST, introduit par \cite{cryptoeprint:2013:881}. Ce processus est décrit en détail dans la section \ref{ch:ghost}.
 
 \section{Conventions}\label{ch:conventions}
 
-J'utilise un certain nombre de conventions typographiques pour les notations formelles, quelques-unes sont un peu particulières au document présent\,:
+J'utilise un certain nombre de conventions typographiques pour les notations formelles, quelques-unes étant un peu particulières au document présent\,:
 
 Les deux ensembles de haut niveau, hautement structurés, des valeurs d'état, sont notés en minuscules grecques en gras. Ces valeurs relèvent de la catégorie de l'état du monde noté $\boldsymbol{\sigma}$ (ou une variante de celui-ci) ou de celle de l'état de la machine, $\boldsymbol{\mu}$.
 
-Les fonctions opérant sur ces valeurs hautement structurées sont notés en lettre Grecque majuscule, par exemple $\Upsilon$, la fonction de changement d'état d'Ethereum.
+Les fonctions opérant sur ces valeurs hautement structurées sont notés en lettre grecque majuscule, par exemple $\Upsilon$, la fonction de changement d'état d'Ethereum.
 
 Pour la plupart des fonctions, une lettre majuscule est utilisée, par exemple $C$, la fonction de coût général. Elles peuvent être indicées pour dénoter des variantes spécifiées, par exemple $C_\text{\tiny SSTORE}$,
-la fonction de coût pour l'opération {\tiny SSTORE}. Pour certaines fonctions spécialisées et éventuellement définies de manière externe, je peux utiliser une typographie particulière, par exemple la fonction de hachage Keccak-256 (la gagnante du concours SHA-3) est dénotée $\texttt{KEC}$ (et généralement référencée comme simple Keccak). Aussi, $\texttt{KEC512}$ fait référence à une fonction de hachage Keccak 512.
+la fonction de coût pour l'opération {\tiny SSTORE}. Pour certaines fonctions spécialisées et éventuellement définies de manière externe, je peux utiliser une typographie particulière, par exemple la fonction de hachage Keccak-256 (la gagnante du concours SHA-3) est dénotée $\texttt{KEC}$ (et généralement référencée comme simple Keccak). $\texttt{KEC512}$ fait référence à une fonction de hachage Keccak 512.
 
-Les tuples sont typiquement notés en lettres majuscules, par exemple $T$ est utilisé pour noter une transaction Ethereum. Ce symbole peut, s’il est défini en conséquence, être indicé pour faire référence à un composant individuel, \eg $T_n$, dénote le nonce de ladite transaction. la forme de l'indice est utilisée pour dénoter son type\,; par exemple des indices en majuscule font référence à des tuples avec des composants indiçables.
+Les n-uplets sont typiquement notés en lettres majuscules, par exemple $T$ est utilisé pour noter une transaction Ethereum. Ce symbole peut, s’il est défini en conséquence, être indicé pour faire référence à un composant individuel, \eg $T_n$, dénote le nonce de ladite transaction. la forme de l'indice est utilisée pour dénoter son type\,; par exemple des indices en majuscule font référence à des n-uplets avec des composants indiçables.
 
 Les scalaires et les séquences d'octets de taille fixe (analogue, les tableaux), sont notés avec une lettre normale minuscule, par exemple $n$ est utilisée pour représenter le nonce de telle transaction. Ceux qui ont une signification particulière peuvent être grecs, par exemple $\delta$, le nombre d'éléments requis dans la pile pour une opération donnée.
 
-Des séquences de longueur arbitraire sont typiquement notés en lettre minuscule et en gras, par exemple $\mathbf{o}$ est utilisé pour représenter la séquence d'octets en sortie d'un appel de message. Pour les valeurs particulièrement importantes, une lettre en majuscule et en gras peut être utilisée.
+Des séquences de longueur arbitraire sont typiquement notées en lettre minuscule et en gras, par exemple $\mathbf{o}$ est utilisé pour représenter la séquence d'octets en sortie d'un appel de message. Pour les valeurs particulièrement importantes, une lettre en majuscule et en gras peut être utilisée.
 
-Tout au long du document nous supposons que les valeurs scalaires sont des entiers positifs, et qu'elles appartiennent à l'ensemble $\mathbb{P}$. L'ensemble de toutes les séquences d'octets est $\mathbb{B}$, formellement défini dans l'annexe \ref{app:rlp}. Si un tel ensemble de séquences est restreint à celles d'une longueur particulière, cela est dénoté avec un indice, ainsi, l'ensemble de toutes les séquences d'octets de longueur $32$  est nommé $\mathbb{B}_{32}$ et l'ensemble de tous les entiers positifs plus petits que $2^{256}$ est nommé $\mathbb{P}_{256}$. Cela formalisé dans la section \ref{ch:block}.
+Tout au long du document nous supposons que les valeurs scalaires sont des entiers positifs, et qu'elles appartiennent à l'ensemble $\mathbb{P}$. L'ensemble de toutes les séquences d'octets est $\mathbb{B}$, formellement défini dans l'annexe \ref{app:rlp}. Si un tel ensemble de séquences est restreint à celles d'une longueur particulière, cela est dénoté avec un indice. C'est ainsi que l'ensemble de toutes les séquences d'octets de longueur $32$  est nommé $\mathbb{B}_{32}$ et l'ensemble de tous les entiers positifs plus petits que $2^{256}$ est nommé $\mathbb{P}_{256}$. Cela formalisé dans la section \ref{ch:block}.
 
 Les crochets sont utilisés pour indexer et référencer les composants individuels ou les sous-séquences de séquences, par exemple $\boldsymbol{\mu}_\mathbf{s}[0]$ représente le premier objet dans la pile de la machine. Pour les sous-séquences, les ellipses sont utilisées pour spécifier la tranche attendue en incluant les éléments au deux limites, par exemple $\boldsymbol{\mu}_\mathbf{m}[0..31]$ représente les 32 premiers objets de la mémoire de la machine.
 
-Dans le cas de l'état global $\boldsymbol{\sigma}$, qui est une séquence de comptes, eux-mêmes des tuples, les crochets sont utilisés pour référencer un compte individuel.
+Dans le cas de l'état global $\boldsymbol{\sigma}$, qui est une séquence de comptes, eux-mêmes des n-uplets, les crochets sont utilisés pour référencer un compte individuel.
 
-En considérant les variantes des valeurs existantes, je suis la règle qu'au sein d'un périmètre donné comme définition, si nous supposons que la valeur d'«\,input\,» non modifiée est désignée par le signe $\Box$ alors la valeur modifiée et utilisable est représentée comme $\Box'$, et les valeurs intermédiaires seraient alors $\Box^*$, $\Box^{**}$ etc. Dans des cas vraiment très particuliers, dans le but de maximiser la lisibilité et seulement si c'est d'un sens non ambigu, je peux utiliser des indices alphanumériques pour représenter des valeurs intermédiaires.
+En considérant les variantes des valeurs existantes, je suis la règle selon laquelle, au sein d'un périmètre donné comme définition, si nous supposons que la valeur d'«\,input\,» non modifiée est désignée par le signe $\Box$, alors la valeur modifiée et utilisable est représentée comme $\Box'$, et les valeurs intermédiaires sont alors $\Box^*$, $\Box^{**}$, etc. Dans des cas vraiment très particuliers, dans le but de maximiser la lisibilité et seulement si le sens est non ambigu, je peux utiliser des indices alphanumériques pour représenter des valeurs intermédiaires.
 
-En considérant l'utilisation de fonctions existantes, étant donnée une fonction $f$, la fonction $f^*$ représente une version similaire élément par élément, de la mise en correspondance (mapping) des éléments de la fonction plutôt qu'entre les séquences d’élements. Cela est précisément décrit dans la section \ref{ch:block}.
+En considérant l'utilisation de fonctions existantes, étant donnée une fonction $f$, la fonction $f^*$ représente une version similaire élément par élément de la mise en correspondance (mapping) des éléments de la fonction plutôt qu'entre les séquences d’élements. Cela est précisément décrit dans la section \ref{ch:block}.
 
-Je définis un nombre de fonctions utiles à travers ce document. Une des plus communes est $\ell$, qui évalue le dernier objet de la séquence donnée\,:
+Je définis un nombre de fonctions utiles au long de ce document. L'une des plus communes est $\ell$, qui évalue le dernier objet de la séquence donnée\,:
 
 \begin{equation}
 \ell(\mathbf{x}) \equiv \mathbf{x}[\lVert \mathbf{x} \rVert - 1]
@@ -193,7 +193,7 @@ Ayant introduit les concepts de base d'Ethereum, nous allons discuter de la sign
 
 \subsection{L'état du monde} \label{ch:state}
 
-L'état du monde (\textit{l'état}), est une mise en correspondance (\textit{mapping}) entre les adresses (identifiants de 160-bit) et l'état des comptes (une structure de données serialisée comme RLP (Recursive Length Prefix - Préfixe de Longueur Récursive), voir annexe \ref{app:rlp}). Bien que non stocké sur la blockchain, on suppose ce mapping maintenu par l'implémentation dans un arbre radix de Merkle modifié (\textit{trie}, voir annexe \ref{app:trie}). Le trie nécessite une base de données en arrière-plan qui maintienne un mapping de tableau de bytes à tableau de bytes\,; nous nommons cette base de données sous-jacente la base de données d'état. Elle a un grand nombre d'avantages\,; premièrement le n\oe{}ud racine de cette structure est cryptographiquement dépendant de toutes les données internes et son empreinte peut être utilisée comme une identité sécurisée pour l'état du système entier. Deuxièmement, étant une structure de données immutable, elle permet à n'importe quel état précédent (dont l'empreinte racine est connue) d’être appelé à nouveau en altérant simplement l'empreinte racine en fonction. Comme nous stockons toutes ces empreintes racines dans la blockchain, nous sommes capables de revenir aux anciens états de manière triviale.
+L'état du monde (\textit{l'état}), est une mise en correspondance (\textit{mapping}) entre les adresses (identifiants de 160-bit) et l'état des comptes (une structure de données sérialisée comme RLP (Recursive Length Prefix - Préfixe de Longueur Récursive), voir annexe \ref{app:rlp}). Bien que non stocké sur la blockchain, on suppose ce mapping maintenu par l'implémentation dans un arbre radix de Merkle modifié (\textit{trie}, voir annexe \ref{app:trie}). Le trie nécessite une base de données en arrière-plan qui maintienne un mapping de tableau d'octets à tableau d'octets\,; nous nommons cette base de données sous-jacente la base de données d'état. Elle a un grand nombre d'avantages\,; premièrement le n\oe{}ud racine de cette structure est cryptographiquement dépendant de toutes les données internes et son empreinte peut être utilisée comme une identité sécurisée pour l'état du système entier. Deuxièmement, étant une structure de données immutable, elle permet à n'importe quel état précédent (dont l'empreinte racine est connue) d’être appelé à nouveau en altérant simplement l'empreinte racine en fonction. Comme nous stockons toutes ces empreintes racines dans la blockchain, nous sommes capables de revenir aux anciens états de manière triviale.
 
 L'état d'un compte comprend les quatre champs suivants:
 
@@ -201,7 +201,7 @@ L'état d'un compte comprend les quatre champs suivants:
 \item[nonce] Une valeur scalaire égale au nombre de transactions envoyées depuis cette adresse, ou, dans le cas d'un compte contenant du code, le nombre de contrats créés par ce compte. Pour les comptes ou les adresses $a$ dans l'état $\boldsymbol{\sigma}$, cela sera représenté par $\boldsymbol{\sigma}[a]_n$.
 \item[balance] Une valeur scalaire égale au nombre de Wei possédés par cette adresse. Représentée par $\boldsymbol{\sigma}[a]_b$.
 \item[storageRoot] Une empreinte de 256-bit du n\oe{}ud racine d'un arbre radix de Merkle qui encode le stockage des contenus du compte (un mapping entre des valeurs entières de 256 bits), encodés dans le trie comme une correspondance entre l'empreinte Keccak 256 bits des clés entières de 256 bits et les valeurs entières encodées par RLP de 256 bits. L'empreinte est notée $\boldsymbol{\sigma}[a]_s$.
-\item[codeHash] L'empreinte du code EVM du compte---c'est le code qui est exécuté lorsque cette adresse reçoit un appel de message\,; il est immuable et ainsi, contrairement à tous les autres champs, ne peut pas être changé après construction. Tous ces fragments de code sont contenus dans la base de données d'état sous leur empreinte correspondante pour les récupérer plus tard. Cette empreinte est notée $\boldsymbol{\sigma}[a]_c$, ce qui fait que le code peut être représenté par $\mathbf{b}$, sachant que $\texttt{\small KEC}(\mathbf{b}) = \boldsymbol{\sigma}[a]_c$.
+\item[codeHash] L'empreinte du code EVM du compte---c'est le code qui est exécuté lorsque cette adresse reçoit un appel de message\,; il est immuable et, contrairement à tous les autres champs, ne peut donc pas être changé après construction. Tous ces fragments de code sont contenus dans la base de données d'état sous leur empreinte correspondante pour les récupérer plus tard. Cette empreinte est notée $\boldsymbol{\sigma}[a]_c$, ce qui fait que le code peut être représenté par $\mathbf{b}$, sachant que $\texttt{\small KEC}(\mathbf{b}) = \boldsymbol{\sigma}[a]_c$.
 \end{description}
 
 Comme je souhaite typiquement faire référence, non pas à l'empreinte racine du trie mais à l'ensemble des paires clé/valeur stockées à l'intérieur, je définis une équivalence pratique\,:
@@ -209,7 +209,7 @@ Comme je souhaite typiquement faire référence, non pas à l'empreinte racine d
 \texttt{\small TRIE}\big(L_I^*(\boldsymbol{\sigma}[a]_\mathbf{s})\big) \equiv \boldsymbol{\sigma}[a]_s
 \end{equation}
 
-la fonction d'effondrement ordinale pour l'ensemble de paires de clé/valeur dans le trie, $L_I^*$, est définie comme la transformation élément par élément de la fonction de base $L_I$, définie par\,:
+La fonction d'effondrement ordinale pour l'ensemble de paires de clé/valeur dans le trie, $L_I^*$, est définie comme la transformation élément par élément de la fonction de base $L_I$, définie par\,:
 \begin{equation}
 L_I\big( (k, v) \big) \equiv \big(\texttt{\small KEC}(k), \texttt{\small RLP}(v)\big)
 \end{equation}
@@ -232,7 +232,7 @@ où
 p(a) \equiv  \big(\texttt{\small KEC}(a), \texttt{\small RLP}\big( (\boldsymbol{\sigma}[a]_n, \boldsymbol{\sigma}[a]_b, \boldsymbol{\sigma}[a]_s, \boldsymbol{\sigma}[a]_c) \big) \big)
 \end{equation}
 
-cette fonction , $L_S$, est utilisée tout au long de la fonction de trie pour fournir une identité courte (hash) à l'état du monde. Nous supposons\,:
+Cette fonction, $L_S$, est utilisée tout au long de la fonction de trie pour fournir une identité courte (hash) à l'état du monde. Nous supposons\,:
 \begin{equation}
 \forall a: \boldsymbol{\sigma}[a] = \varnothing \; \vee \; (a \in \mathbb{B}_{20} \; \wedge \; v(\boldsymbol{\sigma}[a]))
 \end{equation}
@@ -241,22 +241,14 @@ où $v$ est la fonction de validité de compte\,:
 \quad v(x) \equiv x_n \in \mathbb{P}_{256} \wedge x_b \in \mathbb{P}_{256} \wedge x_s \in \mathbb{B}_{32} \wedge x_c \in \mathbb{B}_{32}
 \end{equation}
 
-\subsection{Homestead} \label{ch:homestead}
-
-Un numéro de bloc significatif pour la compatibilité avec le réseau public est le bloc marquant la transition entre les phases {\it Frontier} et {\it Homestead} de la plateforme, que nous représentons avec le symbole \firsthomesteadblock, défini ainsi
-\begin{equation}
-\firsthomesteadblock \equiv 1,\! 150,\! 000
-\end{equation}
-Le protocole a été mis à jour à ce bloc, donc ce symbole apparait dans quelques équations des comptes, pour les changements.
-
 \subsection{La Transaction} \label{ch:transaction}
 
-Une transaction ($T$) est une instruction de signature cryptographique unique construite par un acteur externe au périmètre d'Ethereum. Alors que nous supposons que l'ultime acteur externe sera humain par nature, des outils logiciels seront utilisés pour sa construction et sa propagation\footnote{Particulièrement, de tels «\,outils\,» pourraient en fin de compte devenir tellement disjoints de leur relation causale à une création humaine---ou bien les humains pourraient y devenir indifférents---qu'ils pourraient se comporter comme des agents autonomes. Par exemple les contrats pourraient offrir des primes aux humains pour avoir envoyé des transactions pour initier leur exécution.}. Il y a deux types de transactions\,: celles qui entraînent des appels de messages et celles qui entraînent la création de nouveaux comptes auxquels est associé du code (connues de manière informelle sous le nom de «\,créations de contrat\,»). Ces deux types de transaction spécifient un certain nombre de champs communs\,:
+Une transaction ($T$) est une instruction de signature cryptographique unique construite par un acteur externe au périmètre d'Ethereum. Alors que nous supposons que l'ultime acteur externe sera humain par nature, des outils logiciels seront utilisés pour sa construction et sa propagation\footnote{En particulier, de tels «\,outils\,» pourraient en fin de compte devenir tellement disjoints de leur relation causale à une création humaine---ou bien les humains pourraient y devenir si indifférents---qu'ils pourraient se comporter comme des agents autonomes. Par exemple les contrats pourraient offrir des primes aux humains pour avoir envoyé des transactions pour initier leur exécution.}. Il y a deux types de transactions\,: celles qui entraînent des appels de messages et celles qui entraînent la création de nouveaux comptes auxquels est associé du code (connues de manière informelle sous le nom de «\,créations de contrat\,»). Ces deux types de transaction spécifient un certain nombre de champs communs\,:
 
 \begin{description}
 \item[nonce] Une valeur scalaire égale au nombre de transactions émises par l'envoyeur $T_n$.
 \item[gasPrice] Une valeur scalaire égale au nombre de Wei à payer par unité de \textit{gas} pour tous les coûts de calcul engagés comme résultat de l'exécution de cette transaction\,; $T_p$.
-\item[gasLimit] Une valeur scalaire égale au montant maximum de gas qui peut être utilisé en exécutant cette transaction. Cela est payé en amont, avant que tout calcul soit fait et ne peut pas être augmenté plus tard\,; $T_g$.
+\item[gasLimit] Une valeur scalaire égale au montant maximum de gaz qui peut être utilisé en exécutant cette transaction. Cela est payé en amont, avant que tout calcul soit fait et ne peut pas être augmenté plus tard\,; $T_g$.
 \item[to] L'adresse de 160 bits du destinataire de l'appel de message ou, pour une transaction de création de contrat , $\varnothing$, utilisé ici pour noter le seul membre de $\mathbb{B}_0$\,; formellement $T_t$.
 \item[value] Une valeur scalaire égale au nombre de Wei à transférer au destinataire de l'appel de message ou, dans le cas d'une création de contrat, comme une dotation pour le nouveau compte à créer\,; $T_v$.
 \item[v, r, s] Les valeurs correspondantes à la signature de la transaction et utilisées pour déterminer l'emetteur de la transaction\,; formellement $T_w$, $T_r$ and $T_s$. Cela est détaillé dans l'annexe \ref{app:signing}.
@@ -308,8 +300,7 @@ T_t \in \begin{cases} \mathbb{B}_{20} & \text{si} \quad T_t \neq \varnothing \\
 
 \subsection{Le Bloc} \label{ch:block}
 
-
-Le bloc dans Ethereum est l'ensemble de morceaux d'information pertinents (connu comme \textit{l'en-tête} du bloc), $H$, ainsi que l'information correspondant aux transactions incluses, $\mathbf{T}$, et un ensemble d'autres en-têtes $\mathbf{U}$ qui sont connus pour avoir un parent égal au parent du parent du bloc actuel  (ce genre de blocs sont connus en tant que \textit{ommers}\footnote{\textit{ommer} est le terme, neutre au niveau du genre, le plus répandu pour représenter «\,la fraternité du parent\,»\,; voir \url{http://nonbinary.org/wiki/Gender_neutral_language#Family_Terms}}). L'en-tête du bloc contient plusieurs parties d'information\,:
+Le bloc dans Ethereum est l'ensemble des informations pertinentes (connu comme \textit{l'en-tête} du bloc), $H$, ainsi que l'information correspondant aux transactions incluses, $\mathbf{T}$, et un ensemble d'autres en-têtes $\mathbf{U}$ qui sont connus pour avoir un parent égal au parent du parent du bloc actuel  (ce genre de bloc est connu en tant qu'oncle ou \textit{ommer}\footnote{Dans l'original, \textit{ommer} est le terme, neutre au niveau du genre, le plus répandu pour représenter «\,la fraternité du parent\,»\,; voir \url{http://nonbinary.org/wiki/Gender_neutral_language#Family_Terms}}). L'en-tête du bloc contient plusieurs parties d'information\,:
 
 
 %\textit{TODO: Introduire les logs}
@@ -318,7 +309,7 @@ Le bloc dans Ethereum est l'ensemble de morceaux d'information pertinents (connu
 \item[parentHash] L'empreinte Keccak de 256 bits de l'en-tête du bloc parent, dans son entièreté\,; $H_p$.
 \item[ommersHash] L'empreinte Keccak de 256 bits de la section de liste des oncles de ce bloc\,; $H_o$.
 \item[beneficiary] L'addresse de 160 bits à laquelle seront envoyés tous les frais collectés par le minage réussi de ce bloc\,; $H_c$.
-\item[stateRoot]  L'empreinte Keccak de 256 bits du noeud racine du trie d'état, après que toutes les transactions sont exécutées et que les finalisations sont appliquées\,; $H_r$.
+\item[stateRoot]  L'empreinte Keccak de 256 bits du noeud racine du trie d'état, après que toutes les transactions ont été exécutées et que les finalisations ont été appliquées\,; $H_r$.
 \item[transactionsRoot] L'empreinte Keccak de 256 bits du noeud racine de la structure du trie, peuplé avec chaque transaction dans la section de la liste de transactions du bloc\,; $H_t$.
 \item[receiptsRoot] L'empreinte Keccak de 256 bits du noeud racine de la structure de trie, peuplé avec les reçus de chaque transaction dans la section de la liste de transactions du bloc\,; $H_e$.
 \item[logsBloom] Le filtre de Bloom composé de l'information indexable (l'adresse du logger et les sujets de log) contenu dans chaque entrée de log depuis le reçu de chaque transaction dans la liste de transactions\,; $H_b$.
@@ -329,37 +320,37 @@ Le bloc dans Ethereum est l'ensemble de morceaux d'information pertinents (connu
 \item[timestamp] Une valeur scalaire égale à un timestamp Unix raisonnable (time()) pour la naissance de ce bloc\,; $H_s$.
 \item[extraData] Un tableau d'octets de longueur arbitraire contenant des données relatives à ce bloc. Il doit être de 32 octets ou moins\,; $H_x$.
 \item[mixHash] Une empreinte de 256 bits qui prouve, combiné avec le nonce, qu'une quantité suffisante de calcul informatique a été consacré à ce bloc\,; $H_m$.
-\item[nonce] Une empreinte de 64 bits qui prouve, combiné avec mix-hash, qu'une quantité suffisante de calcul informatique a été consacré à ce bloc\,; $H_n$.
+\item[nonce] Une empreinte de 64 bits qui prouve, combiné avec le mixHash, qu'une quantité suffisante de calcul informatique a été consacrée à ce bloc\,; $H_n$.
 \end{description}
 
-Les deux derniers composants dans le bloc sont simplement une liste d'en-têtes de blocs ommer (du même format que ci-dessus) et une liste des transactions. Formellement, on peut noter le bloc $B$\,:
+Les deux derniers composants du bloc sont simplement une liste d'en-têtes de blocs oncles (du même format que ci-dessus) et une liste des transactions. Formellement, on peut noter le bloc $B$\,:
 \begin{equation}
 B \equiv (B_H, B_\mathbf{T}, B_\mathbf{U})
 \end{equation}
 
-\subsubsection{Quittance de transaction}
+\subsubsection{Reçu de transaction}
 
-De façon à pouvoir stocker l'information concernant une transaction, pour laquelle il peut être utile de fournir une preuve à divulgation nulle de connaissance, ou l'indexer à des fins de recherche, nous encodons un récépissé de chaque transaction contenant des informations à propos de son exécution. Chaque récépissé, noté $B_\mathbf{R}[i]$ pour la $i$ème transaction, est placé dans un trie indexé et la racine est encodée dans son en-tête comme $H_e$.
+De façon à pouvoir stocker l'information concernant une transaction, pour laquelle il peut être utile de fournir une preuve à divulgation nulle de connaissance, ou l'indexer à des fins de recherche, nous encodons un reçu (\textit{receipt}) de chaque transaction contenant des informations à propos de son exécution. Chaque reçu, noté $B_\mathbf{R}[i]$ pour la $i$ème transaction, est placé dans un trie indexé et la racine est encodée dans son en-tête comme $H_e$.
 
-Le récépissé de transaction est un tuple de quatre items comprenant l'état post-transaction $R_{\boldsymbol{\sigma}}$, la quantité cumulée du gaz consommé par le bloc contenant le récépissé de transaction avec celle usée immédiatement après sa ratification $R_u$, l'ensemble des journaux créés durant la transaction $R_\mathbf{l}$, et le filtre de Bloom composé par l'information dans ces journaux $R_b$\,:
+Le reçu de transaction est un n-uplet de quatre items comprenant l'état post-transaction $R_{\boldsymbol{\sigma}}$, la quantité cumulée du gaz consommé par le bloc contenant le reçu de transaction avec celle usée immédiatement après sa ratification $R_u$, l'ensemble des journaux créés durant la transaction $R_\mathbf{l}$, et le filtre de Bloom composé par l'information dans ces journaux $R_b$\,:
 \begin{equation}
 R \equiv (R_{\boldsymbol{\sigma}}, R_u, R_b, R_\mathbf{l})
 \end{equation}
 
-La fonction $L_R$ prépare simplement le récépissé de transaction à être transformé en un tableau d'octets ordonné RLP\,:
+La fonction $L_R$ prépare simplement le reçu de transaction à être transformé en un tableau d'octets ordonné RLP\,:
 \begin{equation}
 L_R(R) \equiv (\mathtt{\small TRIE}(L_S(R_{\boldsymbol{\sigma}})), R_u, R_b, R_\mathbf{l})
 \end{equation}
 ainsi l'état post-transaction $R_{\boldsymbol{\sigma}}$ est encodé dans une structure de trie, dont la racine est le premier item.
 
-On définit $R_u$, le gaz consommé comme un entier positif et les journaux Bloom $R_b$, comme empreinte de taille 2048 bits (256 octets)\,:
+On pose que $R_u$, le gaz consommé, est un entier positif et que le Bloom des logs $R_b$, est une empreinte de 2048 bits (256 octets)\,:
 \begin{equation}
 R_u \in \mathbb{P} \quad \wedge \quad R_b \in \mathbb{B}_{256}
 \end{equation}
 
 %Notably $B_\mathbf{T}$ does not get serialised into the block by the block preparation function $L_B$; it is merely a convenience equivalence.
 
-Les rubriques de journalisation, $R_\mathbf{l}$, sont une série de traces, dénotées, par exemple, $(O_0, O_1, ...)$. Une trace $O$, est un tuple d'une adresse d'enregistreur $O_a$, d'une série de sujets de 32-octets de long $O_\mathbf{t}$, et d'un certain nombre d'octets de data, $O_\mathbf{d}$\,:
+Les entrées de log, $R_\mathbf{l}$, sont une série de traces notées, par exemple, $(O_0, O_1, ...)$. Une entrée de log $O$ est un n-uplet d'une adresse d'enregistreur $O_a$, d'une série de sujets de log de 32-octets de long $O_\mathbf{t}$, et d'un certain nombre d'octets de données, $O_\mathbf{d}$\,:
 \begin{equation}
 O \equiv (O_a, ({O_\mathbf{t}}_0, {O_\mathbf{t}}_1, ...), O_\mathbf{d})
 \end{equation}
@@ -367,12 +358,12 @@ O \equiv (O_a, ({O_\mathbf{t}}_0, {O_\mathbf{t}}_1, ...), O_\mathbf{d})
 O_a \in \mathbb{B}_{20} \quad \wedge \quad \forall_{t \in O_\mathbf{t}}: t \in \mathbb{B}_{32} \quad \wedge \quad O_\mathbf{d} \in \mathbb{B}
 \end{equation}
 
-On définit la fonction filtre de Bloom $M$, comme réduction d'une rubrique de journal en une empreinte de 256 octets\,:
+On définit la fonction filtre de Bloom $M$ comme la réduction d'une entrée de log en une empreinte de 256 octets\,:
 \begin{equation}
 M(O) \equiv \bigvee_{t \in \{O_a\} \cup O_\mathbf{t}} \big( M_{3:2048}(t) \big)
 \end{equation}
 
-où $M_{3:2048}$ est un filtre de Bloom spécialisé qui extrait trois bits de 2048, une série d'octets arbitraire étant donnée. Cela est fait en prenant les 11 bits de poids faible de chacune des trois premières paires d'octets dans une empreinte Keccak-256 de la série d'octets. Formellement\,:
+où $M_{3:2048}$ est un filtre de Bloom spécialisé qui extrait trois bits de 2048, étant donnée une série d'octets quelconque. Cela est fait en prenant les 11 bits de poids faible de chacune des trois premières paires d'octets dans une empreinte Keccak-256 de la série d'octets. Formellement\,:
 \begin{eqnarray}
 M_{3:2048}(\mathbf{x}: \mathbf{x} \in \mathbb{B}) & \equiv & \mathbf{y}: \mathbf{y} \in \mathbb{B}_{256} \quad \text{où:}\\
 \mathbf{y} & = & (0, 0, ..., 0) \quad \text{excepté:}\\
@@ -382,9 +373,9 @@ m(\mathbf{x}, i) &\equiv& \mathtt{\tiny KEC}(\mathbf{x})[i, i + 1] \bmod 2048
 
 Où $\mathcal{B}$ est la fonction binaire telle que $\mathcal{B}_j(\mathbf{x})$ égale le bit d'index $j$ (indexé à partir de 0) dans le tableau d'octets $\mathbf{x}$.
 
-\subsubsection{Validation synergique}
+\subsubsection{Validation holistique}
 
-On ne peut assurer la validité d'un bloc que s'il satisfait un certain nombre de conditions\,: il doit être cohérent avec le ommer et avec les empreintes de transactions du bloc, et les transactions données $B_\mathbf{T}$ (comme spécifié en section \ref{ch:finalisation}), exécutées dans l'ordre sur l'état de base $\boldsymbol{\sigma}$ (dérivé de l'état final du bloc parent), donnent comme résultat un nouvel état de l'identité $H_r$\,:
+On ne peut assurer la validité d'un bloc que s'il satisfait un certain nombre de conditions\,: il doit être cohérent avec l'oncle et avec les empreintes de transactions du bloc, et les transactions données $B_\mathbf{T}$ (comme spécifié en section \ref{ch:finalisation}), exécutées dans l'ordre sur l'état de base $\boldsymbol{\sigma}$ (dérivé de l'état final du bloc parent), donnent comme résultat un nouvel état de l'identité $H_r$\,:
 \begin{equation}
 \begin{array}[t]{lclc}
 H_r &\equiv& \mathtt{\small TRIE}(L_S(\Pi(\boldsymbol{\sigma}, B))) & \wedge \\
@@ -395,7 +386,7 @@ H_b &\equiv& \bigvee_{\mathbf{r} \in B_\mathbf{R}} \big( \mathbf{r}_b \big)
 \end{array}
 \end{equation}
 
-où $p(k, v)$ est simplement la paire RLP de l'index de la transaction dans le bloc d'une part, et du récépissé de la transaction d'autre part\,:
+où $p(k, v)$ est simplement la paire RLP de l'index de la transaction dans le bloc d'une part, et du reçu de la transaction d'autre part\,:
 \begin{equation}
 p(k, v) \equiv \big( \mathtt{\small RLP}(k), \mathtt{\small RLP}(v) \big)
 \end{equation}
@@ -405,13 +396,13 @@ En outre\,:
 \mathtt{\small TRIE}(L_S(\boldsymbol{\sigma})) = {P(B_H)_H}_r
 \end{equation}
 
-Ainsi $\texttt{\small TRIE}(L_S(\boldsymbol{\sigma}))$ est l'empreinte du noeud racine de l'arbre merkle radix contenant les paires clé-valeur de l'état $\boldsymbol{\sigma}$ avec des valeurs encodées par RLP, et $P(B_H)$ est le bloc parent de $B$, défini directement.
+Ainsi $\texttt{\small TRIE}(L_S(\boldsymbol{\sigma}))$ est l'empreinte du noeud racine de l'arbre de Merkle radix contenant les paires clé-valeur de l'état $\boldsymbol{\sigma}$ avec des valeurs encodées par RLP, et $P(B_H)$ est le bloc parent de $B$, défini directement.
 
-Les valeurs provenant du calcul des transactions, spécialement les récépissés de transaction $B_\mathbf{R}$, et ceux définis par la fonction d'aggrégation d'états $\Pi$, sont formalisés plus loin dans la section \ref{sec:statenoncevalidation}.
+Les valeurs provenant du calcul des transactions, spécialement les reçus de transaction $B_\mathbf{R}$, et ceux définis par la fonction d'agrégation d'états $\Pi$, sont formalisés plus loin dans la section \ref{sec:statenoncevalidation}.
 
 \subsubsection{Sérialisation}
 
-Les fonctions $L_B$ et $L_H$ Sont les fonctions préparatoires pour un bloc et un en-tête de bloc respectivement. De façon très semblable à la fonction de préparation du récépissé de transaction $L_R$, nous assumons que les types et ordre de la structure pour la transformation RLP sont\,:
+Les fonctions $L_B$ et $L_H$ sont respectivement les fonctions préparatoires pour un bloc et un en-tête de bloc. De façon très semblable à la fonction de préparation du reçu de transaction $L_R$, nous déclarons les types et l'ordre de la structure pour la transformation RLP\,:
 \begin{eqnarray}
 \quad L_H(H) & \equiv & (\begin{array}[t]{l}H_p, H_o, H_c, H_r, H_t, H_e, H_b, H_d,\\ H_i, H_l, H_g, H_s, H_x, H_m, H_n \; )\end{array} \\
 \quad L_B(B) & \equiv & \big( L_H(B_H), L_T^*(B_\mathbf{T}), L_H^*(B_\mathbf{U}) \big)
@@ -438,7 +429,7 @@ où
 \mathbb{B}_n = \{ B: B \in \mathbb{B} \wedge \lVert B \rVert = n \}
 \end{equation}
 
-Nous avons maintenant une spécification rigoureuse pour la construction de la structure formelle d'un bloc. La fonction RLP $\texttt{\small RLP}$ (voir Annexe \ref{app:rlp}) fournit la méthode de référence pour transformer cette structure en une sequence d'octets prêts à la transmission ou au stockage local.
+Nous avons maintenant une spécification rigoureuse pour la construction de la structure formelle d'un bloc. La fonction RLP $\texttt{\small RLP}$ (voir Annexe \ref{app:rlp}) fournit la méthode de référence pour transformer cette structure en une séquence d'octets prête à la transmission ou au stockage local.
 
 \subsubsection{Validation de l'en-tête de bloc}
 
@@ -506,7 +497,7 @@ n \leqslant \frac{2^{256}}{H_d} \quad \wedge \quad m = H_m
 \end{equation}
 avec $(n, m) = \mathtt{PoW}(H_{\hcancel{n}}, H_n, \mathbf{d})$.
 
-Où $H_{\hcancel{n}}$ est le nouvel en-tête de bloc $H$, mais \textit{sans} le nonce et le mixhash, $\mathbf{d}$ étant le DAG courant, un grand ensemble de données utilisé pour calculer le mixhash, et $\mathtt{PoW}$ étant la fonction de preuve-de-travail (voir section \ref{ch:pow})\,: ceci est évalué en un tableau dont le premier item est le mixhash, pour preuve qu'un DAG correct a été utilisé, et le second item est un nombre pseudo-aléatoire cryptographiquement dépendant de $H$ et $\mathbf{d}$. Étant donnée une distribution approximativement uniforme sur l'intervalle $[0, 2^{64}]$, le temps estimé pour trouver une solution est proportionnel à la difficulté $H_d$.
+Où $H_{\hcancel{n}}$ est le nouvel en-tête de bloc $H$, mais \textit{sans} le nonce et le mixHash, $\mathbf{d}$ étant le DAG courant, un grand ensemble de données utilisé pour calculer le mixHash, et $\mathtt{PoW}$ étant la fonction de preuve-de-travail (voir section \ref{ch:pow})\,: ceci est évalué en un tableau dont le premier item est le mixHash, pour preuve qu'un DAG correct a été utilisé, et le second item est un nombre pseudo-aléatoire cryptographiquement dépendant de $H$ et $\mathbf{d}$. Étant donnée une distribution approximativement uniforme sur l'intervalle $[0, 2^{64}]$, le temps estimé pour trouver une solution est proportionnel à la difficulté $H_d$.
 
 Ceci est le fondement de la sécurité de la chaîne de blocs et est la raison fondamentale pour laquelle un code malicieux ne peut pas propager des blocs nouvellement forgés qui pourraient autrement écraser («\,réécrire\,») l'historique. Parce que le nonce doit satisfaire cette condition, et parce que cette satisfaction dépend du contenu du bloc et des transactions qui le composent, créer de nouveaux blocs valides est difficile et, avec le temps, demande  approximativement la puissance de calcul totale de la population de confiance parmi les pairs mineurs.
 
@@ -556,12 +547,12 @@ Formellement, nous considérons la fonction $\Upsilon$, $T$ étant une transacti
 $\boldsymbol{\sigma}'$ est donc l'état post-transactionnel. Nous définissons également $\Upsilon^g$ pour évaluer le montant de gaz utilisé dans l'exécution d'une transaction et $\Upsilon^\mathbf{l}$ pour évaluer les items de logs ajoutés, les deux étant formellement définis plus loin.
 
 \subsection{Sous-état}
-Pendant l'exécution d'une transaction, nous voyons s'accroître certaines informations sur lesquelles on agit immédiatement à la suite de la transaction. Nous appelons ceci \textit{sous-état de transaction} et le représentons par $A$, qui est un tuple\,:
+Pendant l'exécution d'une transaction, nous voyons s'accroître certaines informations sur lesquelles on agit immédiatement à la suite de la transaction. Nous appelons ceci \textit{sous-état de transaction} et le représentons par $A$, qui est un n-uplet\,:
 \begin{equation}
 A \equiv (A_\mathbf{s}, A_\mathbf{l}, A_r)
 \end{equation}
 
-Le contenu du tuple comprend $A_\mathbf{s}$, l'ensemble de suicide\,: un ensemble de comptes qui sera mis au rebut après la fin de la transaction. $A_\mathbf{l}$ est la série de logs\,: il s'agit d'une série de «\,points de contrôle\,» dans l'exécution du code de la VM qui permet de facilement tracer les appels de contrats par des observateurs extérieurs au monde Ethereum (comme des frontaux d'applications décentralisées). Enfin, il y a $A_r$, le solde de remboursement, accru par l'utilisation de l'instruction {\small SSTORE} afin de remettre la mémoire de stockage à zéro à partir d'une valeur différente de zéro. Bien qu'il ne soit pas immédiatement remboursé, il lui est permis de compenser partiellement les coûts totaux d'exécution.
+Le contenu du n-uplet comprend $A_\mathbf{s}$, l'ensemble de suicide\,: un ensemble de comptes qui sera mis au rebut après la fin de la transaction. $A_\mathbf{l}$ est la série de logs\,: il s'agit d'une série de «\,points de contrôle\,» dans l'exécution du code de la VM qui permet de facilement tracer les appels de contrats par des observateurs extérieurs au monde Ethereum (comme des frontaux d'applications décentralisées). Enfin, il y a $A_r$, le solde de remboursement, accru par l'utilisation de l'instruction {\small SSTORE} afin de remettre la mémoire de stockage à zéro à partir d'une valeur différente de zéro. Bien qu'il ne soit pas immédiatement remboursé, il lui est permis de compenser partiellement les coûts totaux d'exécution.
 
 Dans un souci de concision, nous définissons le sous-état vide $A^0$ comme n'ayant pas de suicide, pas de logs et un solde de remboursement à zéro\,:
 \begin{equation}
@@ -608,7 +599,7 @@ Nous définissons l'état au point de contrôle $\boldsymbol{\sigma}_0$\,:
 \boldsymbol{\sigma}_0[S(T)]_n & \equiv & \boldsymbol{\sigma}[S(T)]_n + 1
 \end{eqnarray}
 
-L'évaluation de $\boldsymbol{\sigma}_P$ à partir de $\boldsymbol{\sigma}_0$ dépend du type de la transaction, création de contrat ou appel de message\,; nous définissons le tuple\,: état provisionnel de post-exécution $\boldsymbol{\sigma}_P$, gaz restant $g'$ et sous-état $A$\,:
+L'évaluation de $\boldsymbol{\sigma}_P$ à partir de $\boldsymbol{\sigma}_0$ dépend du type de la transaction, création de contrat ou appel de message\,; nous définissons le n-uplet\,: état provisionnel de post-exécution $\boldsymbol{\sigma}_P$, gaz restant $g'$ et sous-état $A$\,:
 \begin{equation}
 (\boldsymbol{\sigma}_P, g', A) \equiv \begin{cases}
 \Lambda(\boldsymbol{\sigma}_0, S(T), T_o, &\\ \quad\quad g, T_p, T_v, T_\mathbf{i}, 0) & \text{si} \quad T_t = \varnothing \\
@@ -662,7 +653,7 @@ Ils sont utilisés pour aider à définir le reçu de la transaction qui sera d�
 
 Il existe un certain nombre de paramètres intrinsèques utilisés quand on crée un compte\,: expéditeur ($s$), \textbf{\textit{transactor}} originel ($o$), prix du gaz ($p$), dotation ($v$), assemblés avec un tableau d'octets de longueur variable, $\mathbf{i}$, le code EVM d'initialisation et enfin la profondeur actuelle de la pile d'appel de message/création de contrat ($e$)
 
-Nous définissons formellement la fonction de création comme la fonction $\Lambda$ qui évalue, à partir de ces valeurs et de l'état $\boldsymbol{\sigma}$, le tuple contenant le nouvel état, le gaz restant et le substrat de transaction augmenté $(\boldsymbol{\sigma}', g', A)$, comme en section  \ref{ch:transactions}\,:
+Nous définissons formellement la fonction de création comme la fonction $\Lambda$ qui évalue, à partir de ces valeurs et de l'état $\boldsymbol{\sigma}$, le n-uplet contenant le nouvel état, le gaz restant et le substrat de transaction augmenté $(\boldsymbol{\sigma}', g', A)$, comme en section  \ref{ch:transactions}\,:
 \begin{equation}
 (\boldsymbol{\sigma}', g', A) \equiv \Lambda(\boldsymbol{\sigma}, s, o, g, p, v, \mathbf{i}, e)
 \end{equation}
@@ -693,7 +684,7 @@ v' \equiv \begin{cases}
 
 %It is asserted that the state database will also change such that it defines the pair $(\mathtt{\tiny KEC}(\mathbf{b}), \mathbf{b})$.
 
-Enfin, le compte est initialisé par l'exécution du code EVM d'initialisation $\mathbf{i}$ d'après le modèle d'exécution (voir la section \ref{ch:model}). L'exécution du code peut engendrer plusieurs événements qui ne sont pas internes à l'état d'exécution\,: la mémoire de stockage peut être altérée, des comptes supplémentaires peuvent être créés et d'autres appels de message peuvent être lancés. En tant que telle, la fonction d'exécution de code $\Xi$ donne un tuple de l'état résultant $\boldsymbol{\sigma}^{**}$, du gaz disponible restant $g^{**}$, du substrat accru $A$ et du code du corps du compte $\mathbf{o}$.
+Enfin, le compte est initialisé par l'exécution du code EVM d'initialisation $\mathbf{i}$ d'après le modèle d'exécution (voir la section \ref{ch:model}). L'exécution du code peut engendrer plusieurs événements qui ne sont pas internes à l'état d'exécution\,: la mémoire de stockage peut être altérée, des comptes supplémentaires peuvent être créés et d'autres appels de message peuvent être lancés. En tant que telle, la fonction d'exécution de code $\Xi$ donne un n-uplet de l'état résultant $\boldsymbol{\sigma}^{**}$, du gaz disponible restant $g^{**}$, du substrat accru $A$ et du code du corps du compte $\mathbf{o}$.
 
 \begin{equation}
 (\boldsymbol{\sigma}^{**}, g^{**}, A, \mathbf{o}) \equiv \Xi(\boldsymbol{\sigma}^*, g, I) \\
@@ -710,7 +701,7 @@ I_\mathbf{b} & \equiv & \mathbf{i} \\
 I_e & \equiv & e
 \end{eqnarray}
 
-$I_\mathbf{d}$ donne le tuple vide puisqu'il n'y a pas de données en entrée de cet appel. $I_H$ n'a pas de traitement spécial et est déterminé à partir de la blockchain.
+$I_\mathbf{d}$ donne le n-uplet vide puisqu'il n'y a pas de données en entrée de cet appel. $I_H$ n'a pas de traitement spécial et est déterminé à partir de la blockchain.
 
 L'exécution du code diminue le gaz, lequel ne peut pas descendre en-dessous de zéro, donc l'exécution peut sortir avant que le code ne soit arrivé à un état d'arrêt. Dans ces cas exceptionnel (et dans plusieurs autres), nous disons qu'une exception \textit{Out-of-Gas} (panne d'essence) s'est produite\,: l'état évalué est défini comme étant l'ensemble vide, $\varnothing$, et l'opération de création dans son intégralité ne doit avoir aucun effet sur l'état, le laissant dans les faits tel qu'il était immédiatement avant la tentative de création.
 
@@ -808,7 +799,7 @@ Leur définition formelle complète est dans l'Annexe \ref{app:precompiled}.
 
 \section{Modèle d'exécution} \label{ch:model}
 
-Le modèle d'exécution spécifie la façon dont l'état du système est altéré étant donné une série d'instructions de bytecode et un petit tuple de données environnementales. On le spécifie par un modèle formel d'une machine à état nommée Ethereum Virtual Machine (EVM). Il s'agit d'une machine de Turing quasi-complète\,; la qualification de \textit{quasi} vient de ce que le traitement est intrinsèquement borné par un paramètre, \textit{gas} (gaz), qui limite le traitement total effectué.
+Le modèle d'exécution spécifie la façon dont l'état du système est altéré étant donné une série d'instructions de bytecode et un petit n-uplet de données environnementales. On le spécifie par un modèle formel d'une machine à état nommée Ethereum Virtual Machine (EVM). Il s'agit d'une machine de Turing quasi-complète\,; la qualification de \textit{quasi} vient de ce que le traitement est intrinsèquement borné par un paramètre, \textit{gas} (gaz), qui limite le traitement total effectué.
 
 \subsection{Fondamentaux}
 
@@ -855,7 +846,7 @@ Voir l'appendice \ref{app:vm} pour une définition rigoureuse du coût en gaz de
 
 \subsection{Environnement d'exécution}
 
-En plus de l'état du système $\boldsymbol{\sigma}$ et du gaz restant pour le traitement $g$, l'agent d'exécution doit fournir plusieurs informations importantes utilisées dans l'environnement d'exécution, qui sont contenues dans le tuple $I$\,:
+En plus de l'état du système $\boldsymbol{\sigma}$ et du gaz restant pour le traitement $g$, l'agent d'exécution doit fournir plusieurs informations importantes utilisées dans l'environnement d'exécution, qui sont contenues dans le n-uplet $I$\,:
 
 \begin{itemize}
 \item $I_a$, l'adresse du compte qui possède le code en cours d'exécution.
@@ -901,12 +892,12 @@ où
 (a, b, c) \cdot d & \equiv & (a, b, c, d)
 \end{eqnarray}
 
-On remarque que nous devons omettre la quatrième valeur du tuple renvoyé par $X$ pour évaluer correctement $\Xi$, d'où la notation $X_{0,1,2,4}$.
+On remarque que nous devons omettre la quatrième valeur du n-uplet renvoyé par $X$ pour évaluer correctement $\Xi$, d'où la notation $X_{0,1,2,4}$.
 
 On cycle donc dans $X$ (ici, récursivement, mais on s'attend généralement à ce que les implémentations emploient une simple boucle itérative) jusqu'à ce que soit $Z$ devienne vrai, indiquant ainsi que l'état actuel est exceptionnel et que la machine doit être arrêtée en revenant sur toutes les modifications, ou jusqu'à ce que $H$ devienne une série (au lieu de l'ensemble vide) indiquant que la machine a atteint un arrêt contrôlé.
 
 \subsubsection{État de la machine}
-L'état de la machine $\boldsymbol{\mu}$ est défini par le tuple $(g, pc, \mathbf{m}, i, \mathbf{s})$ qui sont le gaz disponible, le compteur de programme $pc \in \mathbb{P}_{256}$, le contenu de la mémoire, le nombre de mots actifs en mémoire (en comptant en continu depuis la position 0) et le contenu de la pile. Le contenu de la mémoire $\boldsymbol{\mu}_\mathbf{m}$ est une série de zéros de taille $2^{256}$.
+L'état de la machine $\boldsymbol{\mu}$ est défini par le n-uplet $(g, pc, \mathbf{m}, i, \mathbf{s})$ qui sont le gaz disponible, le compteur de programme $pc \in \mathbb{P}_{256}$, le contenu de la mémoire, le nombre de mots actifs en mémoire (en comptant en continu depuis la position 0) et le contenu de la pile. Le contenu de la mémoire $\boldsymbol{\mu}_\mathbf{m}$ est une série de zéros de taille $2^{256}$.
 
 Dans un but de lisibilité, les mnémoniques d'instructions, écrites en petites capitales (comme {\small ADD}), doivent être interprétées comme leurs équivalents numériques\,; la table complète des instructions et de leurs spécificités est donnée à l'Appendice \ref{app:vm}.
 
@@ -1025,7 +1016,7 @@ Cela implique qu'étant donné un bloc $B$, $B_t$ est sa difficulté totale, $B'
 Le traitement de finalisation d'un bloc comporte quatre étapes\,:
 
 \begin{enumerate}
-\item Valider (ou, pour du minage, déterminer) les \textit{ommers} (oncles)\,;
+\item Valider (ou, pour du minage, déterminer) les \textit{oncles}\,;
 \item Valider (ou, pour du minage, déterminer) les transactions\,;
 \item Appliquer les récompenses\,;
 \item Vérifier (ou, pour du minage, calculer) l'état et le nonce.
@@ -1101,7 +1092,7 @@ $\mathbf{d}$ étant un ensemble de données tel que spécifié à l'appendice \r
 
 Comme on l'a spécifié au début du présent travail, $\Pi$ est la fonction de transition d'état, qui est définie en termes de $\Omega$, la fonction de finalisation de bloc, et de $\Upsilon$, la fonction d'évaluation d'état, toutes deux maintenant bien définies.
 
-Comme on l'a détaillé précédemment, $\mathbf{R}[n]_{\boldsymbol{\sigma}}$, $\mathbf{R}[n]_\mathbf{l}$ et $\mathbf{R}[n]_u$ sont les $n$ièmes états, logs et gaz cumulé correspondants utilisés après chaque transaction ($\mathbf{R}[n]_b$, le quatrième composant du tuple, a déjà été défini en termes de logs). Le précédent  est simplement défini comme l'état résultant de l'application de la transaction correspondante à l'état résultant de la transaction précédente (ou l'état initial du bloc dans le cas d'un première transaction de ce type)\,:
+Comme on l'a détaillé précédemment, $\mathbf{R}[n]_{\boldsymbol{\sigma}}$, $\mathbf{R}[n]_\mathbf{l}$ et $\mathbf{R}[n]_u$ sont les $n$ièmes états, logs et gaz cumulé correspondants utilisés après chaque transaction ($\mathbf{R}[n]_b$, le quatrième composant du n-uplet, a déjà été défini en termes de logs). Le précédent  est simplement défini comme l'état résultant de l'application de la transaction correspondante à l'état résultant de la transaction précédente (ou l'état initial du bloc dans le cas d'un première transaction de ce type)\,:
 \begin{equation}
 \mathbf{R}[n]_{\boldsymbol{\sigma}} = \begin{cases} \Gamma(B) & \text{si} \quad n < 0 \\ \Upsilon(\mathbf{R}[n - 1]_{\boldsymbol{\sigma}}, B_\mathbf{T}[n]) & \text{sinon} \end{cases}
 \end{equation}
@@ -1351,7 +1342,7 @@ Formellement, nous posons la valeur de sortie $\mathfrak{I}$, un ensemble conten
 \mathfrak{I} = \{ (\mathbf{k}_0 \in \mathbb{B}, \mathbf{v}_0 \in \mathbb{B}), (\mathbf{k}_1 \in \mathbb{B}, \mathbf{v}_1 \in \mathbb{B}), ... \}
 \end{equation}
 
-Quand on considère une telle séquence, nous utilisons la notation numérique souscrite courante pour nous référer à la clef ou à la valeur d'un tuple, comme ici\,;
+Quand on considère une telle séquence, nous utilisons la notation numérique souscrite courante pour nous référer à la clef ou à la valeur d'un n-uplet, comme ici\,;
 \begin{equation}
 \forall_{I \in \mathfrak{I}} I \equiv (I_0, I_1)
 \end{equation}
@@ -1526,7 +1517,7 @@ L'assertion selon laquelle l'expéditeur d'une transaction signée est égale à
 
 \section{Grille tarifaire}\label{app:fees}
 
-La grille tarifaire $G$ est un tuple de 31 valeurs scalaires correspondant aux coûts relatifs, en gaz, d'un certain nombre d'opérations abstraites qu'une transaction peut effectuer.
+La grille tarifaire $G$ est un n-uplet de 31 valeurs scalaires correspondant aux coûts relatifs, en gaz, d'un certain nombre d'opérations abstraites qu'une transaction peut effectuer.
 
 \begin{tabular*}{\columnwidth}[h]{lrl}
 \toprule
