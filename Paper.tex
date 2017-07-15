@@ -1069,7 +1069,7 @@ L'application des récompenses à un bloc implique d'augmenter le solde des comp
  \boldsymbol{\sigma}'[U_c]_b & = & \boldsymbol{\sigma}[U_c]_b + (1 + \frac{1}{8} (U_i - {B_H}_i)) R_b
 \end{eqnarray}
 
-S'il existe des collision des adresses de bénéficiaires entre les oncles et le bloc (c'est-à-dire deux oncles ave la même adresse de bénéficiaire ou un oncle avec la même adresse de bénéficiaire que celle du bloc actuel), les additions sont appliquées de manière cumulative.
+S'il existe des collisions des adresses de bénéficiaires entre les oncles et le bloc (c'est-à-dire deux oncles ave la même adresse de bénéficiaire ou un oncle avec la même adresse de bénéficiaire que celle du bloc actuel), les additions sont appliquées de manière cumulative.
 
 Nous définissons la récompense de bloc qui est de 5 Ether\,:
 \begin{equation}
@@ -1086,7 +1086,7 @@ Nous pouvons maintenant définir la fonction, $\Gamma$, qui fait correspondre un
 \end{cases}
 \end{equation}
 
-Ici, $\mathtt{\small TRIE}(L_S(\boldsymbol{\sigma}_i))$ signifie l'empreinte du n\oe{}ud racine du trie (arbre préfixe) d'état $\boldsymbol{\sigma}_i$\,; on suppose que les implémentations le stockeront dans la base d'état, ce qui est trivial et efficient puisque le trie est par nature une structure de données immuable.
+Ici, $\mathtt{\small TRIE}(L_S(\boldsymbol{\sigma}_i))$ signifie l'empreinte du n\oe{}ud racine du tree (arbre préfixe) d'état $\boldsymbol{\sigma}_i$\,; on suppose que les implémentations le stockeront dans la base d'état, ce qui est trivial et efficient puisque le trie est par nature une structure de données immuable.
 
 Et nous définissons finalement $\Phi$, la fonction de transition de bloc, qui fait correspondre un bloc incomplet $B$ à un bloc complet $B'$\,:
 \begin{eqnarray}
@@ -1129,9 +1129,9 @@ Donc le mécanisme de transition de bloc, moins  $\mathtt{PoW}$, la fonction de 
 \subsection{Preuve de travail de minage} \label{ch:pow}
 
 
-La preuve de travail de minage (PoW) existe comme nonce cryptographique sécurisé qui prouve au-delà du doute raisonnable qu'un montant particulier de calcul a été dépensé dans la détermination de telle valeur $n$ d'un token. Elle est utilisée pour renforcer la sécurité de la blockchain en donnant signification et crédibilité à la notion de difficulté (et, par extension, à la difficulté totale). Cependant, comme miner de nouveaux blocs apporte une récompense, la preuve de travail ne fonctionne pas seulement comme méthode de de sécurisation de la confiance dans le statut normatif de la blockchain pour le futur, mais aussi comme un moyen de distribution de la richesse.
+La preuve de travail de minage (PoW) existe comme nonce cryptographique sécurisé qui prouve au-delà du doute raisonnable qu'un montant particulier de calcul a été dépensé dans la détermination de telle valeur $n$ d'un token. Elle est utilisée pour renforcer la sécurité de la blockchain en donnant signification et crédibilité à la notion de difficulté (et, par extension, à la difficulté totale). Cependant, comme miner de nouveaux blocs apporte une récompense, la preuve de travail ne fonctionne pas seulement comme méthode de sécurisation de la confiance dans le statut normatif de la blockchain pour le futur, mais aussi comme un moyen de distribution de la richesse.
 
-Pour ces deux raisons, il y a deux buts importants assignés à la preuve de travail\,; premièrement, elle doit être aussi accessible que possible au plus grand nombre de personnes possibles. Le besoin de, ou rétribution par, des matériels spécialisés et spécifiques doit être minimisé. Ceci rend le modèle de distribution aussi ouvert que possible, et, dans l'idéal, fait de l'acte de miner une simble transformation de l'électricité en Ether à un taux grossièrement le même partout dans le monde.
+Pour ces deux raisons, il y a deux buts importants assignés à la preuve de travail\,; premièrement, elle doit être aussi accessible que possible au plus grand nombre de personnes possibles. Le besoin de, ou rétribution par, des matériels spécialisés et spécifiques doit être minimisé. Ceci rend le modèle de distribution aussi ouvert que possible, et, dans l'idéal, fait de l'acte de miner une simple transformation de l'électricité en Ether à un taux grossièrement le même partout dans le monde.
 
 Deuxièmement, il ne doit pas être possible de réaliser des profits surlinéaires, spécialement avec une barrière à l'entrée importante. Un tel mécanisme accorde à un adversaire fortuné un gain déséquilibrant de pouvoir de minage sur le réseau total et ainsi lui donne une récompense surlinéaire (et détourne de ce fait la distribution en sa faveur), réduisant en outre la sécurité du réseau.
 
@@ -1149,7 +1149,7 @@ Où $H_{\hcancel{n}}$ est le nouvel en-tête de bloc mais \textit{sans} le nonce
 \subsubsection{Ethash}
 Ethash est l'algorithme de preuve de travail pour la version 1.0 d'Ethereum. C'est la dernière version du Dagger-Hashimoto, présenté par \cite{dagger} et \cite{hashimoto}, malgré qu'il ne peut plus être appelé ainsi puisque nombre des fonctionnalités de ces deux algorithmes ont été grandement changées ces derniers mois de recherche et développement. Le comportement général de l'algorithme est le suivant\,:
 
-Il existe une graine qui peut être calculée pour chaque bloc en scannant son en-tête jusqu'à ce point. A pertir de la graine, on peut calculer un cache pseudo-aléatoire, de $J_{cacheinit}$ octets de taille initiale. Les clients légers stockent le cache. Depuis le cache on peut générer un ensemble de données, de $J_{datasetinit}$ octets de taille initiale, avec la propriété que chaque élément de l'ensemble de données dépend de seulement un petit nombre d'éléments du cache. Les clients complets et les mineurs stockent l'ensemble des données. L'ensemble des données croît linéairement avec le temps.
+Il existe une graine qui peut être calculée pour chaque bloc en scannant son en-tête jusqu'à ce point. A partir de la graine, on peut calculer un cache pseudo-aléatoire, de $J_{cacheinit}$ octets de taille initiale. Les clients légers stockent le cache. Depuis le cache on peut générer un ensemble de données, de $J_{datasetinit}$ octets de taille initiale, avec la propriété que chaque élément de l'ensemble de données dépend de seulement un petit nombre d'éléments du cache. Les clients complets et les mineurs stockent l'ensemble des données. L'ensemble des données croît linéairement avec le temps.
 
 
 Le minage consiste en sélectionnant des tranches de l'ensemble des données et en faisant des empreintes de leurs combinaisons. La vérification peut être faite avec peu de mémoire en utilisant le cache pour régénérer les éléments spécifiques de l'ensemble des données dont vous avez besoin, et ainsi vous n'avez besoin que de stocker le cache. L'ensemble des données est mis à jour tous les $J_{epoch}$ blocs, donc la grande majorité de l'effort de minage sera de lire les données, et non de les changer. Les paramètres cités comme l'algorithme lui-même sont décrits en annexe \ref{app:ethash}.
@@ -1164,19 +1164,19 @@ Un contrat de source de données fournit un simple service\,: il donne accès de
 Le modèle général implique un unique contrat dans Ethereum qui, à réception d'un appel de message, répond par une information en temps voulu concernant un phénomène extérieur, par exemple la température à New York. Cela peut être implémenté par un contrat qui renvoie cette valeur depuis un point connu dans la mémoire de stockage. Ce dernier doit être bien entendu maintenu avec la température correcte et la seconde partie du modèle implique donc un serveur externe faisant tourner un n\oe{}ud Ethereum qui, au moment précis de la découverte d'un nouveau bloc, crée une nouvelle transaction valide, envoyée au contrat, mettant la valeur en question dans la mémoire de stockage. Le code du contrat n'accepterait de mises à jour que depuis l'identité contenue dans le serveur.
 
 \subsection{Nombres aléatoires}
-La fourniture de nombres aléatoire au sein d'un système déterministe relève naturellement de l'impossible. Nous pouvons cependant aboutir à une approximation en utilisant des données qui sont généralement inconnues au moment de la transaction. Ces données comprennent l'empreinte du bloc, son horodatage et l'adresse de son bénéficiaire. Afin de compliquer le contrôle éventuel de ces valeurs par un mineur malveillant, il faudrait employer l'opération {\small BLOCKHASH} pour utiliser des empreintes des 256 blocs précédents comme nombres pseudo-aléatoires. Pour une série de ces nombres, une solution triviale consiste à y ajouter un montant constant et à prendre l'empreinte du résultat.
+La fourniture de nombres aléatoires au sein d'un système déterministe relève naturellement de l'impossible. Nous pouvons cependant aboutir à une approximation en utilisant des données qui sont généralement inconnues au moment de la transaction. Ces données comprennent l'empreinte du bloc, son horodatage et l'adresse de son bénéficiaire. Afin de compliquer le contrôle éventuel de ces valeurs par un mineur malveillant, il faudrait employer l'opération {\small BLOCKHASH} pour utiliser des empreintes des 256 blocs précédents comme nombres pseudo-aléatoires. Pour une série de ces nombres, une solution triviale consiste à y ajouter un montant constant et à prendre l'empreinte du résultat.
 
 \section{Future Directions} \label{ch:future}
 
-Dans le futur, la base de données à état ne sera pas forcée de maintenir tous les états passés des structures du trie. Elle devra maintenir un âge pour chaque noeud et eventuellement rejeter les noeuds qui ne sont ni assez récents, ni des checkpoints\,; les checkpoints, ou un ensemble de noeuds dans la base de donnée qui autorisent à traverser un trie d'état de bloc, peuvent être utilisés pour placer une limite maximum sur le volume de calcul nécessaire pour récupérer n'importe quel état à travers la blockchain.
+Dans le futur, la base de données à état ne sera pas forcée de maintenir tous les états passés des structures du tree. Elle devra maintenir un âge pour chaque noeud et eventuellement rejeter les noeuds qui ne sont ni assez récents, ni des checkpoints\,; les checkpoints, ou un ensemble de noeuds dans la base de donnée qui autorisent à traverser un tree d'état de bloc, peuvent être utilisés pour placer une limite maximum sur le volume de calcul nécessaire pour récupérer n'importe quel état à travers la blockchain.
 
-La consolidation de la blockchain peut être utilisée dans le but de réduire le nombre de blocs qu'un client a besoin de télécharger pour agir comme un mineur, un noeud complet. Une archive compressée de la structure du trie à des points donnés dans le temps (par exemple une tous les 10 000 blocs) peut être maintenue par le réseau de pairs, en renouvelant efficacement le bloc genesis. Cela pourrait réduire le volume à télécharger à une simple archive plus une limite maximum de blocs en dur.
+La consolidation de la blockchain peut être utilisée dans le but de réduire le nombre de blocs qu'un client a besoin de télécharger pour agir comme un mineur, un noeud complet. Une archive compressée de la structure du tree à des points donnés dans le temps (par exemple une tous les 10 000 blocs) peut être maintenue par le réseau de pairs, en renouvelant efficacement le bloc genesis. Cela pourrait réduire le volume à télécharger à une simple archive plus une limite maximum de blocs en dur.
 
-Enfin, la compression de la blockchain pourrait peut-être être menée\,: les noeuds dans un trie d'état qui n'ont pas envoyé/reçu de transaction dans un certain nombre de blocs donné pourraient être rejetés, réduisant les fuites d'ethers ainsi que l'accroissement de la base de donnée d'état.
+Enfin, la compression de la blockchain pourrait peut-être être menée\,: les noeuds dans un tree d'état qui n'ont pas envoyé/reçu de transaction dans un certain nombre de blocs donné pourraient être rejetés, réduisant les fuites d'ethers ainsi que l'accroissement de la base de donnée d'état.
 
 \subsection{extensibilité}
 
-L'extensibilité demeure un éternel problème. Avec une fonction de changement d'état généraliste, il devient difficile de partitionner et parallèliser les transactions pour appliquer la stratégie diviser pour régner. Négligée, la dynamique valeur-rang du système devient figée et quand la valeur des transactions moyenne augmente, les moindres d'entre elles se font ignorer, perdant leur intérêt économique à être intégrées dans la chaîne principale. Cependant, plusieurs stratégies existent ayant le potentiel de considérablement étendre l'exploitabilité du protocole.
+L'extensibilité demeure un éternel problème. Avec une fonction de changement d'état généraliste, il devient difficile de partitionner et parallèliser les transactions pour appliquer la stratégie diviser pour régner. Négligée, la dynamique valeur-rang du système devient figée et quand la valeur moyenne des transactions  augmente, les moindres d'entre elles se font ignorer, perdant leur intérêt économique à être intégrées dans la chaîne principale. Cependant, plusieurs stratégies existent ayant le potentiel de considérablement étendre l'exploitabilité du protocole.
 
 Certaines formes de structure hiérarchique, construites soit en combinant plusieurs petites chaînes de poids inférieur dans les blocs principaux, soit en fabriquant le bloc principal par aggrégation incrémentale (via preuve de travail) d'ensembles de transactions plus petits, peuvent permettre la parallélisation des combinaisons de transactions et des constructions de blocs. La parallélisation peut aussi venir par un ensemble priorisé de blockchains traitées en parallèle, consolidant ainsi chaque bloc et rejetant les transactions surnuméraires ou invalides.
 
@@ -1225,7 +1225,7 @@ De nombreux remerciements vont à Aeron Buchanan pour l'écriture des révisions
   L'acte de passer un message d'un Compte vers un autre. Si le compte de destination est associé à du Code EVM non vide, alors la VM sera démarrée avec l'état de l'objet en question et le Message donnera lieu à une action. Si l'expéditeur du message est un Objet autonome, l'Appel passe toute donnée renvoyée de l'opération de la VM.
 
 \item[Gaz (\textit{gas})\,]
-  L'unité de coût fondamentale du réseau. Payée exclusivement en Ether (au moment du PoC-4), qui est librement converti en Gaz et inversement selon les besoins. Le Gaz n'existe pas hors du moteur de calcul interne d'Ethereum\,; son prix est fixé par la Transaction et les mineurs sont libres d'ignorer les Transactions dont le prix en Gaz est trop bas.
+  L'unité de coût fondamentale du réseau. Payée exclusivement en Ether (au moment du PoC-4), qui est librement convertie en Gaz et inversement selon les besoins. Le Gaz n'existe pas hors du moteur de calcul interne d'Ethereum\,; son prix est fixé par la Transaction et les mineurs sont libres d'ignorer les Transactions dont le prix en Gaz est trop bas.
 
 \item[Contrat (\textit{contract})\,]
   Terme informel employé pour signifier à la fois un bout de Code EV qui peut être associé à un compte, et un Objet autonome.
@@ -1252,7 +1252,7 @@ De nombreux remerciements vont à Aeron Buchanan pour l'écriture des révisions
   La forme humainement lisible du Code EVM.
 
 \item[LLL\,] \
-  textit{Lisp-like Low-level Language}, un langage humainement utilisable pour créer des contrats simples et une boîte à outils de lanage généraliste de bas niveau vers laquelle on transcompile.
+  textit{Lisp-like Low-level Language}, un langage humainement utilisable pour créer des contrats simples et une boîte à outils de langage généraliste de bas niveau vers laquelle on transcompile.
 
 \end{description}
 
@@ -1325,7 +1325,7 @@ Quand on interprète les données RLP, si un fragment inattendu est décodé com
 Il n'existe pas de format d'encodage canonique pour les valeurs signées ou en virgule flottante.
 
 \section{Encodage \textit{hex-prefix}}\label{app:hexprefix}
-L'encodage \textit{hex-prefix} est une méthode efficace d'encodage d'un nombre quelconque de \textit{nibbles} ou quartets dans un tableau d'octets. Il est capable de stocker un indicateur supplémentaire qui, quand on l'emploie dans le contexte d'un trie ou arbre préfixe (le seul contexte dans lequel il est utilisé), permet de discriminer les types de n\oe{}uds.
+L'encodage \textit{hex-prefix} est une méthode efficace d'encodage d'un nombre quelconque de \textit{nibbles} ou quartets dans un tableau d'octets. Il est capable de stocker un indicateur supplémentaire qui, quand on l'emploie dans le contexte d'un tree ou arbre préfixe (le seul contexte dans lequel il est utilisé), permet de discriminer les types de n\oe{}uds.
 
 Il est défini par la fonction $\mathtt{\tiny HP}$ qui fait correspondre une séquence de quartets (représentés par l'ensemble  $\mathbb{Y}$) avec une valeur booléenne à une séquence d'octets (représentés par l'ensemble $\mathbb{B}$)\,:
 
@@ -1339,10 +1339,10 @@ Il est défini par la fonction $\mathtt{\tiny HP}$ qui fait correspondre une sé
 f(t) & \equiv & \begin{cases} 2 & \text{si} \quad t \neq 0 \\ 0 & \text{sinon} \end{cases}
 \end{eqnarray}
 
-Le quartet de poids fort du premier octet contient deux indicateurs\,: le bit de poids faible code la parité de la longueur et le deuxième bit de poids faible code l'indicateur $t$. L'octet de poids faible du premier octet est à zéro dans le cas d'une nombre de quartets pair et au premier quartet dans le cas d'un nombre impair. Tous les quartets restants (maintenant un nombre pair) s'adaptent correctemetn dans les octets restants.
+Le quartet de poids fort du premier octet contient deux indicateurs\,: le bit de poids faible code la parité de la longueur et le deuxième bit de poids faible code l'indicateur $t$. L'octet de poids faible du premier octet est à zéro dans le cas d'une nombre de quartets pair et au premier quartet dans le cas d'un nombre impair. Tous les quartets restants (maintenant un nombre pair) s'adaptent correctement dans les octets restants.
 
 \section{Arbre de Merkle Patricia modifié}\label{app:trie}
-L'arbre de Merkle modifié (trie) fournit une structure de données persistante pour faire correspondre des données binaire de longueur quelconque (tableaux d'octets). On le définit en termes d'une structure de données modifiables pour faire correspondre des fragments binaires de 256 bits et des données binaires de longueur quelconque, en général implémentés dans une base de données. L'essence du trie, et son seul prérequis en terme de spécification du protocole, consiste à fournir une valeur unique qui identifie un ensemble donné de paires clef-valeur, qui peut être soit une séquence de 32 octets, soit la séquence d'octets vide. On laisse libre le choix de l'implémentation du stockage et de la maintenance de la structure du trie de manière à respecter le protocole de manière exacte et efficiente.
+L'arbre de Merkle modifié (tree) fournit une structure de données persistante pour faire correspondre des données binaires de longueur quelconque (tableaux d'octets). On le définit en termes d'une structure de données modifiables pour faire correspondre des fragments binaires de 256 bits et des données binaires de longueur quelconque, en général implémentés dans une base de données. L'essence du tree, et son seul prérequis en terme de spécification du protocole, consiste à fournir une valeur unique qui identifie un ensemble donné de paires clef-valeur, qui peut être soit une séquence de 32 octets, soit la séquence d'octets vide. On laisse libre le choix de l'implémentation du stockage et de la maintenance de la structure du trie de manière à respecter le protocole de manière exacte et efficiente.
 
 Formellement, nous posons la valeur de sortie $\mathfrak{I}$, un ensemble contenant les paires de séquences d'octets\,:
 \begin{equation}
@@ -1364,12 +1364,12 @@ y(\mathfrak{I}) & = & \{ (\mathbf{k}_0' \in \mathbb{Y}, \mathbf{v}_0 \in \mathbb
 \end{cases}
 \end{eqnarray}
 
-Nous définissons la fonction $\texttt{\small TRIE}$, qui donne la racine du trie qui représente cet ensemble quand il est codé dans cette structure\,:
+Nous définissons la fonction $\texttt{\small TRIE}$, qui donne la racine du tree qui représente cet ensemble quand il est codé dans cette structure\,:
 \begin{equation}
 \texttt{\small TRIE}(\mathfrak{I}) \equiv \texttt{\small KEC}(c(\mathfrak{I}, 0))
 \end{equation}
 
-Nous posons également une fonction $n$, la fonction de \textbf{\textit{cap}} de n\oe{}uds du trie. Au moment de composer un n\oe{}ud, nous utilisons RLP pour coder la structure. Afin de réduire la complexité du stockage, pour les n\oe{}uds dont le RLP composé fait moins de 32 octets, nous stockons celui-ci directement\,; pour ceux les plus grands, nous supposons une prescience du tableau d'octets dont l'évaluation de l'empreinte Keccak donne notre référence. Nous définissons donc en termes de $c$, la fonction de composition de n\oe{}ud\,:
+Nous posons également une fonction $n$, la fonction de \textbf{\textit{cap}} de n\oe{}uds du tree. Au moment de composer un n\oe{}ud, nous utilisons RLP pour coder la structure. Afin de réduire la complexité du stockage, pour les n\oe{}uds dont le RLP composé fait moins de 32 octets, nous stockons celui-ci directement\,; pour ceux les plus grands, nous supposons une prescience du tableau d'octets dont l'évaluation de l'empreinte Keccak donne notre référence. Nous définissons donc en termes de $c$, la fonction de composition de n\oe{}ud\,:
 \begin{equation}
 n(\mathfrak{I}, i) \equiv \begin{cases}
 () & \text{si} \quad \mathfrak{I} = \varnothing \\
@@ -1378,7 +1378,7 @@ c(\mathfrak{I}, i) & \text{si} \quad \lVert c(\mathfrak{I}, i)\rVert < 32 \\
 \end{cases}
 \end{equation}
 
-D'une façon similaire à un arbre radix, quand le trie est traversé de la racine à une feuille, on peut construire une paire clef-valeur unique. La clef est accumulée pendant la traversée en acquiérant un quartet par n\oe{}ud de branches (comme pour un arbre radix). À la différence d'un arbre radix, dans le cas de clefs multiples partageant le même préfixe ou dans le cas d'une clef unique possédant un suffixe unique, deux n\oe{}uds d'optimisation sont fournis. Donc, en traversant, on peut acquérir potentiellement plusieurs quartets de chacun des deux autres types de n\oe{}uds, extension et feuille. Il existe trois sortes de n\oe{}uds dans le trie\,:
+D'une façon similaire à un arbre radix, quand le tree est traversé de la racine à une feuille, on peut construire une paire clef-valeur unique. La clef est accumulée pendant la traversée en acquiérant un quartet par n\oe{}ud de branches (comme pour un arbre radix). À la différence d'un arbre radix, dans le cas de clefs multiples partageant le même préfixe ou dans le cas d'une clef unique possédant un suffixe unique, deux n\oe{}uds d'optimisation sont fournis. Donc, en traversant, on peut acquérir potentiellement plusieurs quartets de chacun des deux autres types de n\oe{}uds, extension et feuille. Il existe trois sortes de n\oe{}uds dans le tree\,:
 \begin{description}
 \item[Feuille]
   Une structure à deux éléments dont le premier correspond aux quartets dans la clef qui n'ont pas encore été pris en compte par l'accumulation des clefs et des branches traversées depuis la racine. La méthode d'encodage hex-prefix est utilisée et le second paramètre de la fonction doit être à $true$.
@@ -1404,9 +1404,9 @@ I_1 & \text{si} \quad \exists I: I \in \mathfrak{I} \wedge \lVert I_0 \rVert = i
 \end{equation}
 
 \subsection{Base de données trie}
-Aucune supposition explicite n'est donc faite concernant les données stockées ou non, puisque cette considération relève de l'implémentation\,; nous nous contentons de définir la fonction d'identité faisant correspondre l'ensemble de clefs-valeurs $\mathfrak{I}$ à une empreinte de 32 octets et nous posons qu'une seule telle empreinte existe pour tout $\mathfrak{I}$, ce qui, bien que n'étant pas strictement vrai, est exact avec une précision acceptable étant donnée la résistance à la collision de l'empreinte Keccak. En réalité, une implémentation raisonnable ne recalculera pas complètement l'empreinte racine du trie pour chaque ensemble.
+Aucune supposition explicite n'est donc faite concernant les données stockées ou non, puisque cette considération relève de l'implémentation\,; nous nous contentons de définir la fonction d'identité faisant correspondre l'ensemble de clefs-valeurs $\mathfrak{I}$ à une empreinte de 32 octets et nous posons qu'une seule telle empreinte existe pour tout $\mathfrak{I}$, ce qui, bien que n'étant pas strictement vrai, est exact avec une précision acceptable étant donnée la résistance à la collision de l'empreinte Keccak. En réalité, une implémentation raisonnable ne recalculera pas complètement l'empreinte racine du tree pour chaque ensemble.
 
-Cette implémentation maintiendra une base de données de nœuds déterminée à partir du calcul de plusieurs tries ou, plus formellement, elle va mémoïser la fonction $c$. Cette stratégie utilise la nature du trie tant pour rappeler facilement le contenu de tout ensemble de clefs-valeurs que pour stocker plusieurs de ces ensembles de manière très efficiente. En raison de la relation de dépendances, les preuves de Merkle doivent être construites avec un prérequis d'espace $O(\log N)$ qui peut démontrer qu'une feuille donnée doit exister dans un trie d'une empreinte racine de trie donnée.
+Cette implémentation maintiendra une base de données de nœuds déterminée à partir du calcul de plusieurs tree ou, plus formellement, elle va mémorïser la fonction $c$. Cette stratégie utilise la nature du tree tant pour rappeler facilement le contenu de tout ensemble de clefs-valeurs que pour stocker plusieurs de ces ensembles de manière très efficiente. En raison de la relation de dépendances, les preuves de Merkle doivent être construites avec un prérequis d'espace $O(\log N)$ qui peut démontrer qu'une feuille donnée doit exister dans un tree d'une empreinte racine de trie donnée.
 
 \section{Contrats précompilés}\label{app:precompiled}
 
@@ -1473,7 +1473,7 @@ Nous posons les fonctions $\mathtt{\small ECDSASIGN}$, $\mathtt{\small ECDSAREST
 \mathtt{\small ECDSARECOVER}(e \in \mathbb{B}_{32}, v \in \mathbb{B}_{1}, r \in \mathbb{B}_{32}, s \in \mathbb{B}_{32}) & \equiv & p_u \in \mathbb{B}_{64}
 \end{eqnarray}
 
-où $p_u$ est la clef publique, que l'on suppose un tableau d'octets de taille 64 (formé à partir de la concaténation de deux entiers positifs chacun $< 2^{256}$) et $p_r$ est la clef privée, un tableau de taille 32 (ou un simple entier positif dans l'intervalle susmentionné). On suppose que $v$ est l'«\,identifiant de recouvrement\,», une valeur sur un octet spécifiant le signe et la finitude du point de la courbe\,; cette valeur se trouve dans l'intervalle $[27, 30]$ mais nous déclarons les deux possibilité supérieures, représentant des valeurs infinies, invalides.
+où $p_u$ est la clef publique, que l'on suppose un tableau d'octets de taille 64 (formé à partir de la concaténation de deux entiers positifs chacun $< 2^{256}$) et $p_r$ est la clef privée, un tableau de taille 32 (ou un simple entier positif dans l'intervalle susmentionné). On suppose que $v$ est l'«\,identifiant de recouvrement\,», une valeur sur un octet spécifiant le signe et la finitude du point de la courbe\,; cette valeur se trouve dans l'intervalle $[27, 30]$ mais nous déclarons les deux possibilités supérieures, représentant des valeurs infinies, invalides.
 
 \newcommand{\slimit}{\ensuremath{\text{s-limit}}}
 
