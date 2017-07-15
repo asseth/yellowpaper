@@ -519,17 +519,17 @@ Notons que \textbf{extraData} doit être au plus de 32 octets.
 
 \section{Gaz et paiement} \label{ch:payment}
 
-Pour éviter d'avoir des problèmes d'abus du réseau et pour contourner les inévitables questions découlant de la complétude au sens de Turing, tout calcul programmable dans Ethereum est sujet à des frais. Le barème des frais est spécifié en unités de \textit{gaz} (voir Annexe \ref{app:fees} pour les frais associés avec divers calculs). Ainsi tout fragment donné de calcul programmable (ceci inclut créer des contrats, lancer des appels de messages, accéder et utiliser les données associées aux comptes, et exécuter des opérations sur la machine virtuelle) a un coût en gaz universellement approuvé.
+Pour éviter d'avoir des problèmes d'abus du réseau et pour contourner les inévitables questions découlant de la complétude au sens de Turing, tout calcul programmable dans Ethereum est sujet à des frais (\textit{fees}). Le barème des frais est spécifié en unités de \textit{gaz} (voir Annexe \ref{app:fees} pour les frais associés avec divers calculs). Ainsi tout fragment donné de calcul programmable (ceci inclut la création de contrats, le lancement d'appels de messages, l'accès et l'utilisation de données associées aux comptes et l'exécution d'opérations sur la machine virtuelle) a un coût en gaz universellement approuvé.
 
-Toute transaction a un montant spécifique de gaz qui lui est associé\,: \textbf{gasLimit}. C'est le montant en gaz qui est implicitement prélevé sur le compte de l'expéditeur. L'achat est fait à la valeur de \textbf{gasPrice}, également spécifié dans la transaction. La transaction est considérée comme invalide si le solde du compte ne peut assurer l'achat. Il est nommé \textbf{gasLimit} parce que toute quantité de gaz non utilisée est rendue (au même taux d'achat) au compte de l'expéditeur. Le gaz n'existe pas en dehors de l'exécution d'une transaction. Ainsi pour des comptes avec du code de confiance associé, une limite relativement haute de gaz peut être ainsi réservée.
+Toute transaction se voit associer un montant spécifique en gaz\,: \textbf{gasLimit}. C'est ce montant qui est implicitement prélevé sur le compte de l'expéditeur. L'achat est fait à la valeur de \textbf{gasPrice}, également spécifié dans la transaction. La transaction est considérée comme invalide si le solde du compte ne peut assurer l'achat. Il est nommé \textbf{gasLimit} parce que toute quantité de gaz non utilisée est rendue (au même taux d'achat) au compte de l'expéditeur. Le gaz n'existe pas en dehors de l'exécution d'une transaction. Ainsi, pour des comptes avec du code de confiance associé, une limite relativement haute en gaz peut-elle être ainsi réservée.
 
-En général, l'Ether utilisé pour acheter du gaz qui n'est pas rendu est délivré à l'adresse du \textit{bénéficiaire}, adresse typiquement sous le contrôle du mineur. Les contractants sont libres de spécifier tout \textbf{gasPrice} qui leur convienne, cependant les mineurs sont libres d'ignorer les transactions lors de leur choix. Un prix de gaz plus élevé pour une transaction coûtera davantage d'Ether à son expéditeur et donnera davantage au mineur, et donc elle sera plus aisément sélectionnée pour inclusion par davantage de mineurs. Les mineurs, en général, choisiront d'annoncer le prix du gaz minimum pour lequel ils exécuteront des transactions et les contractants seront libres de marchander ces prix en déterminant quel prix du gaz offrir. Comme il y aura une distribution (pondérée) des minima des prix du gaz, les contractants devront nécessairement marchander entre baisser le prix du gaz et maximiser les chances que leurs transactions seront minées avec rapidité.
+En général, l'Ether utilisé pour acheter du gaz qui n'est pas rendu est livré à l'adresse du \textit{bénéficiaire}, adresse typiquement sous le contrôle du mineur. Les contractants sont libres de spécifier un \textbf{gasPrice} à leur convenance mais les mineurs sont libres d'ignorer les transactions lors de leur choix. Un prix de gaz plus élevé pour une transaction coûtera davantage d'Ether à son expéditeur et donnera davantage au mineur, et donc elle sera plus aisément sélectionnée pour inclusion par davantage de mineurs. Les mineurs, en général, choisiront d'annoncer le prix du gaz minimum pour lequel ils exécuteront des transactions et les contractants seront libres de marchander ces prix en déterminant quel prix du gaz offrir. Comme il y aura une distribution (pondérée) des minima des prix du gaz, les contractants devront nécessairement marchander entre baisser le prix du gaz et maximiser les chances que leurs transactions seront minées avec rapidité.
 
 %\subsubsection{Determining Computation Costs}
 
 \section{Exécution de transaction} \label{ch:transactions}
 
-L'exécution d'une transaction est la partie la plus complexe du protocole Ethereum\,: il définit la fonction de transition d'état $\Upsilon$. On suppose que toutes transactions exécutées passent d'abord les tests de validité intrinsèques. Les voici\,:
+L'exécution d'une transaction est la partie la plus complexe du protocole Ethereum\,: elle définit la fonction de transition d'état $\Upsilon$. On suppose que toutes les transactions exécutées passent d'abord les tests de validité intrinsèques. Les voici\,:
 
 \begin{enumerate}
 \item La transaction est un RLP bien formé sans octets additionnels à la fin\,;
@@ -552,22 +552,22 @@ Pendant l'exécution d'une transaction, nous voyons s'accroître certaines infor
 A \equiv (A_\mathbf{s}, A_\mathbf{l}, A_r)
 \end{equation}
 
-Le contenu du n-uplet comprend $A_\mathbf{s}$, l'ensemble de suicide\,: un ensemble de comptes qui sera mis au rebut après la fin de la transaction. $A_\mathbf{l}$ est la série de logs\,: il s'agit d'une série de «\,points de contrôle\,» dans l'exécution du code de la VM qui permet de facilement tracer les appels de contrats par des observateurs extérieurs au monde Ethereum (comme des frontaux d'applications décentralisées). Enfin, il y a $A_r$, le solde de remboursement, accru par l'utilisation de l'instruction {\small SSTORE} afin de remettre la mémoire de stockage à zéro à partir d'une valeur différente de zéro. Bien qu'il ne soit pas immédiatement remboursé, il lui est permis de compenser partiellement les coûts totaux d'exécution.
+Le contenu du n-uplet comprend $A_\mathbf{s}$, l'ensemble d'autodestruction\,: un ensemble de comptes qui sera mis au rebut après la fin de la transaction. $A_\mathbf{l}$ est la série de logs\,: il s'agit d'une série de «\,points de contrôle\,» dans l'exécution du code de la VM qui permet de facilement tracer les appels de contrats par des observateurs extérieurs au monde Ethereum (comme des frontaux d'applications décentralisées). Enfin, il y a $A_r$, le solde de remboursement, accru par l'utilisation de l'instruction {\small SSTORE} afin de remettre la mémoire de stockage à zéro à partir d'une valeur différente de zéro. Bien qu'il ne soit pas immédiatement remboursé, il lui est permis de compenser partiellement les coûts totaux d'exécution.
 
-Dans un souci de concision, nous définissons le sous-état vide $A^0$ comme n'ayant pas de suicide, pas de logs et un solde de remboursement à zéro\,:
+Dans un souci de concision, nous définissons le sous-état vide $A^0$ comme n'ayant pas d'autodestruction, pas de logs et un solde de remboursement à zéro\,:
 \begin{equation}
 A^0 \equiv (\varnothing, (), 0)
 \end{equation}
 
 \subsection{Exécution}
-Nous définissons le gaz $g_0$, le montant de gaz que cette transaction demande pour être payée avant exécution, comme suit\,:
+Nous définissons le gaz intrinsèque $g_0$ comme le montant de gaz que cette transaction demande pour être payée avant exécution, comme suit\,:
 \begin{align}
 g_0 \equiv {} & \sum_{i \in T_\mathbf{i}, T_\mathbf{d}} \begin{cases} G_{txdatazero} & \text{si} \quad i = 0 \\ G_{txdatanonzero} & \text{sinon} \end{cases} \\
 {} & + \begin{cases} G_\text{txcreate} & \text{si} \quad T_t = \varnothing \wedge H_i \geq \firsthomesteadblock \\ 0 & \text{sinon} \end{cases} \\
 {} & + G_{transaction}
 \end{align}
 
-où $T_\mathbf{i},T_\mathbf{d}$ signifie la série d'octets des données et du code EVM associés à la transaction, selon que la transaction sert à une création de contrat ou un a un appel de message. $G_\text{txcreate}$ est ajouté si la transaction crée un message mais ce n'est pas le cas s'il s'agit d'un résultat de code EVM ou avant la {\it transition Homestead}. $G$ est totalement défini à l'Annexe  \ref{app:fees}.
+où $T_\mathbf{i},T_\mathbf{d}$ signifie la série d'octets des données et du code d'initialisation de l'EVM associés à la transaction, selon que la transaction sert à une création de contrat ou un a un appel de message. $G_\text{txcreate}$ est ajouté si la transaction crée un message mais ce n'est pas le cas s'il s'agit d'un résultat de code EVM. $G$ est totalement défini à l'Annexe  \ref{app:fees}.
 
 %todo Explain g_d reason?
 
@@ -576,7 +576,7 @@ Le coût de départ $v_0$ est calculé par\,:
 v_0 \equiv T_g T_p + T_v
 \end{equation}
 
-La validité est déterminée comme\,:
+La validité est déterminée par\,:
 \begin{equation}
 \begin{array}[t]{rcl}
 S(T) & \neq & \varnothing \quad \wedge \\
@@ -599,7 +599,7 @@ Nous définissons l'état au point de contrôle $\boldsymbol{\sigma}_0$\,:
 \boldsymbol{\sigma}_0[S(T)]_n & \equiv & \boldsymbol{\sigma}[S(T)]_n + 1
 \end{eqnarray}
 
-L'évaluation de $\boldsymbol{\sigma}_P$ à partir de $\boldsymbol{\sigma}_0$ dépend du type de la transaction, création de contrat ou appel de message\,; nous définissons le n-uplet\,: état provisionnel de post-exécution $\boldsymbol{\sigma}_P$, gaz restant $g'$ et sous-état $A$\,:
+L'évaluation de $\boldsymbol{\sigma}_P$ à partir de $\boldsymbol{\sigma}_0$ dépend du type de la transaction, selon qu'il s'agit d'un création de contrat ou d'un appel de message\,; nous définissons le n-uplet de l'état provisoire de post-exécution $\boldsymbol{\sigma}_P$, gaz restant $g'$ et sous-état $A$\,:
 \begin{equation}
 (\boldsymbol{\sigma}_P, g', A) \equiv \begin{cases}
 \Lambda(\boldsymbol{\sigma}_0, S(T), T_o, &\\ \quad\quad g, T_p, T_v, T_\mathbf{i}, 0) & \text{si} \quad T_t = \varnothing \\
@@ -622,7 +622,7 @@ g^* \equiv g' + \min \{ \Big\lfloor \dfrac{T_g - g'}{2} \Big\rfloor, A_r \}
 
 Le montant total à rembourser est le gaz légitimement restant $g'$, ajouté à $A_r$, ce dernier composant étant limité à un maximum de la moitié (tronquée) du montant total utilisé $T_g - g'$.
 
-L'Ether du gaz est donné au mineur dont l'adresse est spécifiée comme bénéficiaire du bloc présent $B$. Nous définissons donc l'état pré-final $\boldsymbol{\sigma}^*$ en termes d'état provisionnel  $\boldsymbol{\sigma}_P$\,:
+L'Ether du gaz est donné au mineur dont l'adresse est spécifiée comme bénéficiaire du bloc présent $B$. Nous définissons donc l'état pré-final $\boldsymbol{\sigma}^*$ en termes d'état provisoire $\boldsymbol{\sigma}_P$\,:
 \begin{eqnarray}
 \boldsymbol{\sigma}^* & \equiv & \boldsymbol{\sigma}_P \quad \text{except} \\
 \boldsymbol{\sigma}^*[S(T)]_b & \equiv & \boldsymbol{\sigma}_P[S(T)]_b + g^* T_p \\
@@ -630,7 +630,7 @@ L'Ether du gaz est donné au mineur dont l'adresse est spécifiée comme bénéf
 m & \equiv & {B_H}_c
 \end{eqnarray}
 
-L'état final, $\boldsymbol{\sigma}'$, est atteint après la suppression de tous les comptes qui apparaissent dans la liste de suicide\,:
+L'état final, $\boldsymbol{\sigma}'$, est atteint après la suppression de tous les comptes qui apparaissent dans la liste d'autodestruction\,:
 \begin{eqnarray}
 \boldsymbol{\sigma}' & \equiv & \boldsymbol{\sigma}^* \quad \text{except} \\
 \forall i \in A_\mathbf{s}: \boldsymbol{\sigma}'[i] & \equiv & \varnothing
@@ -651,7 +651,7 @@ Ils sont utilisés pour aider à définir le reçu de la transaction qui sera d�
 
 \section{Création de contrat} \label{ch:create}
 
-Il existe un certain nombre de paramètres intrinsèques utilisés quand on crée un compte\,: expéditeur ($s$), \textbf{\textit{transactor}} originel ($o$), prix du gaz ($p$), dotation ($v$), assemblés avec un tableau d'octets de longueur variable, $\mathbf{i}$, le code EVM d'initialisation et enfin la profondeur actuelle de la pile d'appel de message/création de contrat ($e$)
+Un certain nombre de paramètres intrinsèques sont utilisés quand on crée un compte\,: expéditeur ($s$), négociateur (\textit{transactor}) originel ($o$), prix du gaz ($p$), dotation ($v$), assemblés avec un tableau d'octets de longueur variable, $\mathbf{i}$, le code EVM d'initialisation et enfin la profondeur actuelle de la pile d'appel de message/création de contrat ($e$)
 
 Nous définissons formellement la fonction de création comme la fonction $\Lambda$ qui évalue, à partir de ces valeurs et de l'état $\boldsymbol{\sigma}$, le n-uplet contenant le nouvel état, le gaz restant et le substrat de transaction augmenté $(\boldsymbol{\sigma}', g', A)$, comme en section  \ref{ch:transactions}\,:
 \begin{equation}
@@ -703,7 +703,7 @@ I_e & \equiv & e
 
 $I_\mathbf{d}$ donne le n-uplet vide puisqu'il n'y a pas de données en entrée de cet appel. $I_H$ n'a pas de traitement spécial et est déterminé à partir de la blockchain.
 
-L'exécution du code diminue le gaz, lequel ne peut pas descendre en-dessous de zéro, donc l'exécution peut sortir avant que le code ne soit arrivé à un état d'arrêt. Dans ces cas exceptionnel (et dans plusieurs autres), nous disons qu'une exception \textit{Out-of-Gas} (panne d'essence) s'est produite\,: l'état évalué est défini comme étant l'ensemble vide, $\varnothing$, et l'opération de création dans son intégralité ne doit avoir aucun effet sur l'état, le laissant dans les faits tel qu'il était immédiatement avant la tentative de création.
+L'exécution du code diminue le gaz, lequel ne peut pas descendre en-dessous de zéro, donc l'exécution peut sortir avant que le code ne soit arrivé à un état d'arrêt. Dans ces cas exceptionnels (et dans plusieurs autres), nous disons qu'une exception \textit{Out-of-Gas} (panne d'essence) s'est produite\,: l'état évalué est défini comme étant l'ensemble vide, $\varnothing$, et l'opération de création dans son intégralité ne doit avoir aucun effet sur l'état, le laissant dans les faits tel qu'il était immédiatement avant la tentative de création.
 
 Si le code d'initialisation se termine avec succès, un coût final de création de contrat est payé, le coût de dépôt du code, $c$, étant proportionnel à la taille du code du contrat créé\,:
 \begin{equation}
@@ -714,7 +714,7 @@ S'il n'y a pas assez de gaz restant pour payer ceci, c'est-à-dire $g^{**} < c$,
 
 Le gaz restant sera à zéro dans ces circonstances exceptionnelles, c'est-à-dire que si la création a été conduite à la réception d'une transaction, alors cela n'affecte pas le paiement du coût intrinsèque de la création du contrat\,; celui-ci est payé de toute manière. Cependant, la valeur de la transaction n'est pas transférée à l'adresse du contrat avorté quand nous sommes Out-of-Gas.
 
-Si ce type d'exception ne se produit pas, alors le gaz restant est renvoyé à l'\textbf{\textit{originator}} et l'état maintenant altéré a le droit de persister. Nous pouvons donc formellement spécifier l'état, le gaz et le sous-état résultants par $(\boldsymbol{\sigma}', g', A)$ où\,:
+Si ce type d'exception ne se produit pas, alors le gaz restant est renvoyé à l'initiateur et l'état maintenant altéré a le droit de persister. Nous pouvons donc formellement spécifier l'état, le gaz et le sous-état résultants par $(\boldsymbol{\sigma}', g', A)$ où\,:
 
 \begin{align}
 \quad g' &\equiv \begin{cases}
@@ -732,15 +732,15 @@ g^{**} - c & \text{sinon} \\
 
 L'exception dans la détermination de $\boldsymbol{\sigma}'$ dicte que $\mathbf{o}$, la séquence d'octets résultant de l'exécution du code d'initialisation, spécifie le code final du corps du compte nouvellement créé.
 
-On remarque que l'intention à partir du bloc \firsthomesteadblock\  ({\it Homestead}) est que le résultat est soit un nouveau contrat créé avec succès avec sa dotation, soit aucun contrat et aucun transfert de valeur. Avant {\it Homestead}, s'il n'y avait pas assez de gaz pour payer $c$, un compte était créé à l'adresse du nouveau contrat, en même temps que tous les effets secondaires de l'initialisation, et la valeur était transférée mais aucun code de contrat n'était déployé.
+On remarque que l'intention à partir du bloc \firsthomesteadblock\  ({\it Homestead}) est que le résultat est soit un nouveau contrat créé avec succès avec sa dotation, soit aucun contrat et aucun transfert de valeur.
 
 \subsection{Subtilités}
-Notons qu'alors que le code d'initialisation est en train de s'exécuter, l'adresse nouvellement créée existe mais sans code de corps intrinsèque. Un appel de message qu'il reçoit pendant ce temps n'engendre donc aucune exécution de code. Si l'exécution de l'initialisation se termine par une instruction {\small SUICIDE}, cela importe peu puisque le compte est supprimé avant la fin de la transaction. Pour un code {\small STOP}, ou si le code renvoyé est vide, alors l'état reste avec un compte zombie et tout solde résiduel reste à jamais verrouillé dans ce compte.
+Notons qu'alors que le code d'initialisation est en train de s'exécuter, l'adresse nouvellement créée existe mais sans code intrinsèque. Un appel de message qu'il reçoit pendant ce temps n'engendre donc aucune exécution de code. Si l'exécution de l'initialisation se termine par une instruction {\small SELFDESTRUCT}, cela importe peu puisque le compte est supprimé avant la fin de la transaction. Pour un code {\small STOP}, ou si le code renvoyé est vide, alors l'état reste avec un compte zombie et tout solde résiduel reste à jamais verrouillé dans ce compte.
 
 \section{Appel de message} \label{ch:call}
-Lors de l'exécution d'un appel de message, plusieurs paramètres sont requis\,: émetteur ($s$), créateur de la transaction ($o$), récepteur ($r$), le compte dont le code doit être exécuté ($c$, habituellement le même que le récepteur), le gaz disponible ($g$), valeur ($v$) et prix du gaz ($p$) ensemble avec un tableau d'octets de longueur arbitraire, $\mathbf{d}$, les données d'entrée de l'appel de message et finalement la hauteur actuelle de la pile du appel de message ou de la création de contrat ($e$).
+Lors de l'exécution d'un appel de message, plusieurs paramètres sont requis\,: émetteur ($s$), créateur de la transaction ($o$), récepteur ($r$), le compte dont le code doit être exécuté ($c$, habituellement le même que le récepteur), le gaz disponible ($g$), valeur ($v$) et prix du gaz ($p$) ensemble dans un tableau d'octets de longueur arbitraire, $\mathbf{d}$, les données d'entrée de l'appel de message et finalement la hauteur actuelle de la pile du appel de message ou de la création de contrat ($e$).
 
-À part l'évaluation de nouveaux états et de leurs sous-états, un appel de message a aussi un autre composant---les données de sortie désignées par le tableau d'octets $\mathbf{o}$. Il est ignoré durant les exécutions de transactions, cependant les appels de message peuvent être lancés par l'exécution de code dans la VM et dans ce cas cette information est utilisée.
+À part l'évaluation de nouveaux états et de leurs sous-états, un appel de message a aussi un autre composant---les données de sortie désignées par le tableau d'octets $\mathbf{o}$. Il est ignoré durant les exécutions de transactions, mais les appels de message peuvent être lancés par l'exécution de code dans la VM et dans ce cas cette information est utilisée.
 \begin{equation}
 (\boldsymbol{\sigma}', g', A, \mathbf{o}) \equiv \Theta(\boldsymbol{\sigma}, s, o, r, c, g, p, v, \tilde{v}, \mathbf{d}, e)
 \end{equation}
@@ -751,7 +751,7 @@ On définit $\boldsymbol{\sigma}_1$, le premier état de transition comme l'éta
 \boldsymbol{\sigma}_1[r]_b \equiv \boldsymbol{\sigma}[r]_b + v \quad\wedge\quad \boldsymbol{\sigma}_1[s]_b \equiv \boldsymbol{\sigma}[s]_b - v
 \end{equation}
 
-Au long du présent travail, il est admis que si $\boldsymbol{\sigma}_1[r]$ était indéfini à l'origine, il sera créé comme un compte sans code ou état et avec zéro solde ou nonce. ainsi la précédente équation doit être interprétée comme suit\,:
+Au long du présent ouvrage, il est admis que si $\boldsymbol{\sigma}_1[r]$ était indéfini à l'origine, il sera créé comme un compte sans code ou état et avec zéro solde ou nonce. La précédente équation doit donc être interprétée comme suit\,:
 \begin{equation}
 \boldsymbol{\sigma}_1 \equiv \boldsymbol{\sigma}_1' \quad \text{except:} \\
 \end{equation}
@@ -793,21 +793,21 @@ I_e & \equiv & e \\
 
 On suppose que le client aura stocké la paire $(\mathtt{\tiny KEC}(I_\mathbf{b}), I_\mathbf{b})$ préalablement pour pouvoir déterminer $I_\mathbf{b}$.
 
-Comme on pourra voir, il y a quatre exceptions au framework général d'exécution $\Xi$ lors de l'évaluation d'un appel de message\,: ce sont les quatre contrats «\,précompilés\,», compris comme des éléments d'architecture préliminaires qui pourront ultérieurement devenir des \textit{extensions natives}. Les quatre contrats aux adresses 1, 2, 3 et 4 exécutent la fonction de récupération de la clé publique de courbe elliptique, le schéma d'empreinte SHA2 256-bit, le schéma d'empreinte RIPEMD 160-bit et la fonction d'identité respectivement.
+Comme on peut le voir, il y a quatre exceptions au framework général d'exécution $\Xi$ lors de l'évaluation d'un appel de message\,: ce sont les quatre contrats «\,précompilés\,», compris comme des éléments d'architecture préliminaires qui pourront ultérieurement devenir des \textit{extensions natives}. Les quatre contrats aux adresses 1, 2, 3 et 4 exécutent la fonction de récupération de la clé publique de courbe elliptique, le schéma d'empreinte SHA2 256-bit, le schéma d'empreinte RIPEMD 160-bit et la fonction d'identité respectivement.
 
-Leur définition formelle complète est dans l'Annexe \ref{app:precompiled}.
+Leur définition formelle complète se trouve en Annexe \ref{app:precompiled}.
 
 \section{Modèle d'exécution} \label{ch:model}
 
-Le modèle d'exécution spécifie la façon dont l'état du système est altéré étant donné une série d'instructions de bytecode et un petit n-uplet de données environnementales. On le spécifie par un modèle formel d'une machine à état nommée Ethereum Virtual Machine (EVM). Il s'agit d'une machine de Turing quasi-complète\,; la qualification de \textit{quasi} vient de ce que le traitement est intrinsèquement borné par un paramètre, \textit{gas} (gaz), qui limite le traitement total effectué.
+Le modèle d'exécution spécifie la façon dont l'état du système est altéré étant donnés une série d'instructions de bytecode et un petit n-uplet de données environnementales. On le spécifie par un modèle formel d'une machine à état nommée Ethereum Virtual Machine (EVM). Il s'agit d'une machine de Turing quasi-complète\,; la qualification de \textit{quasi} vient de ce que le traitement est intrinsèquement borné par un paramètre, \textit{gas} (gaz), qui limite le traitement total effectué.
 
 \subsection{Fondamentaux}
 
-L'EVM est une architecture simple basée sur une pile. La taille des mots de la machine (et donc la taille de l'élément de la pile) est de 256 bits. Ce choix est destiné à faciliter le mécanisme d'empreinte Keccak-256 et les calculs de courbes elliptiques. Le modèle de mémoire est un simple tableau d'octets adressé par mots. La pile a une taille maximale de $1024$. La machine comporte également un modèle de stockage indépendant, conceptuellement similaire à celui de la mémoire mais, au lieu d'un tableau d'octets, il s'agit d'un tableau de mots adressé par mots. Au contraire de la mémoire, qui est volatile, le stockage est non volatile et est maintenu comme partie de l'état du système. Tous les emplacements tant en stockage qu'en mémoire sont définis à zéro à l'initialisation.
+L'EVM est une architecture simple basée sur une pile. La taille des mots de la machine (et donc la taille de l'élément de la pile) est de 256 bits. Ce choix est destiné à faciliter le mécanisme d'empreinte Keccak-256 et les calculs de courbes elliptiques. Le modèle de mémoire est un simple tableau d'octets adressé par mots. La pile a une taille maximale de $1024$. La machine comporte également un modèle de stockage indépendant, conceptuellement similaire à celui de la mémoire mais, au lieu d'un tableau d'octets, il s'agit d'un tableau de mots adressé par mots. Au contraire de la mémoire, qui est volatile, le stockage est non volatile et est maintenu comme faisant partie de l'état du système. Tous les emplacements tant en stockage qu'en mémoire sont définis à zéro à l'initialisation.
 
 La machine n'est pas conçue selon l'architecture standard de Von Neumann. Au lieu de stocker le code des programmes dans une mémoire transitoire ou permanente générique, il est mis à part dans une ROM virtuelle avec laquelle seule une instruction spécialisée peut interagir.
 
-La machine peut entrer dans une exécution exceptionnelles pour plusieurs raisons, comme un dépassement de dépilage et des instructions invalides. Comme l'exception \textit{out-of-gas} (OOG), elles ne laissent pas les changements d'état intacts. La machine s'arrête immédiatement et rapporte le problème à l'agent d'exécution (soit le processeur de transactions, soit, récursivement, l'environnement d'exécution du lancement) qui le gèrera de son côté.
+La machine peut entrer dans une exécution exceptionnelle pour plusieurs raisons, comme un dépassement de dépilage et des instructions invalides. Comme l'exception \textit{out-of-gas} (OOG), elles ne laissent pas les changements d'état intacts. La machine s'arrête immédiatement et rapporte le problème à l'agent d'exécution (soit le processeur de transactions, soit, récursivement, l'environnement d'exécution du lancement) qui le gèrera de son côté.
 
 \subsection{Aperçu des frais}
 
@@ -860,9 +860,16 @@ En plus de l'état du système $\boldsymbol{\sigma}$ et du gaz restant pour le t
 \item $I_e$, la profondeur de l'appel de message actuel ou de la création de contrat actuelle (c.à.d. le nombre de {\small CALL} ou de {\small CREATE} exécutés à ce moment).
 \end{itemize}
 
-Le modèle d'exécution définit la fonction $\Xi$, qui peut calculer l'état résultant $\boldsymbol{\sigma}'$, le gaz restant $g'$, la liste de suicide $\mathbf{s}$, la série de logs $\mathbf{l}$, les remboursements $r$ et la sortie résultante, $\mathbf{o}$, étant données ces définitions\,:
+Le modèle d'exécution définit la fonction $\Xi$, qui peut calculer l'état résultant $\boldsymbol{\sigma}'$, le gaz restant $g'$, le sous-état accumulé et la sortie résultante, $\mathbf{o}$, étant données ces définitions. Dans le contexte présent, nous définissons\,:
+
 \begin{equation}
-(\boldsymbol{\sigma}', g', \mathbf{s}, \mathbf{l}, r, \mathbf{o}) \equiv \Xi(\boldsymbol{\sigma}, g, I)
+(\boldsymbol{\sigma}', g', A, \mathbf{o}) \equiv \Xi(\boldsymbol{\sigma}, g, I)
+\end{equation}
+
+où nous nous rappellerons que $A$, le sous-état accumulé, est défini comme le n-uplet de l'ensemble d'autodestruction $\mathbf{s}$, la série des logs $\mathbf{l}$ et les remboursements $r$:
+
+\begin{equation}
+A \equiv (\mathbf{s}, \mathbf{l}, r)
 \end{equation}
 
 \subsection{Aperçu de l'exécution}
@@ -892,7 +899,7 @@ où
 (a, b, c) \cdot d & \equiv & (a, b, c, d)
 \end{eqnarray}
 
-On remarque que nous devons omettre la quatrième valeur du n-uplet renvoyé par $X$ pour évaluer correctement $\Xi$, d'où la notation $X_{0,1,2,4}$.
+On remarque que nous devons omettre la quatrième valeur du n-uplet renvoyé par $X$ et extraire le gaz restant $\boldsymbol{\mu}'_g$ de l'état machine résultant $\boldsymbol{\mu}'$ pour évaluer correctement $\Xi$.
 
 On cycle donc dans $X$ (ici, récursivement, mais on s'attend généralement à ce que les implémentations emploient une simple boucle itérative) jusqu'à ce que soit $Z$ devienne vrai, indiquant ainsi que l'état actuel est exceptionnel et que la machine doit être arrêtée en revenant sur toutes les modifications, ou jusqu'à ce que $H$ devienne une série (au lieu de l'ensemble vide) indiquant que la machine a atteint un arrêt contrôlé.
 
@@ -931,7 +938,7 @@ Cela établit que l'éxécution se trouve dans un état d'arrêt exceptionnel s'
 
 Nous avons auparavant utilisé $D$ comme fonction pour déterminer l'ensemble des destinations de saut valides étant donné le code en train de tourner. Nous définissons ceci comme toute position dans le code occupée par une instruction {\small JUMPDEST}.
 
-Toutes ces positions doivent se trouver sur des limites d'instruction valides au lieu d'occuper la partie de données des opération {\small PUSH} et doivent apparaître dans la portion explicitement définie du code (et non dans les opérations {\small STOP} implicitement définies qui les suivent).
+Toutes ces positions doivent se trouver sur des limites d'instruction valides au lieu d'occuper la partie de données des opérations {\small PUSH} et doivent apparaître dans la portion explicitement définie du code (et non dans les opérations {\small STOP} implicitement définies qui les suivent).
 
 Formellement\,:
 \begin{equation}
@@ -965,7 +972,7 @@ H_{\text{\tiny RETURN}}(\boldsymbol{\mu}) & \text{si} \quad w = \text{\small RET
 \end{cases}
 \end{equation}
 
-L'opération d'arrêt renvoyant les données, \text{\small RETURN}, a une fonction spéciale $H_{\text{\tiny RETURN}}$, définie à l'Appendice \ref{app:vm}.
+L'opération d'arrêt renvoyant les données, \text{\small RETURN}, a une fonction spéciale $H_{\text{\tiny RETURN}}$, définie en Annexe \ref{app:vm}.
 
 \subsection{Le cycle d'exécution}
 
@@ -977,7 +984,7 @@ O\big((\boldsymbol{\sigma}, \boldsymbol{\mu}, A, I)\big) & \equiv & (\boldsymbol
 \quad \forall x \in [\mathbf{\alpha}_w, \lVert\boldsymbol{\mu}'_\mathbf{s}\rVert): \boldsymbol{\mu}'_\mathbf{s}[x] & \equiv & \boldsymbol{\mu}_\mathbf{s}[x+\Delta]
 \end{eqnarray}
 
-Le gaz est réduit du coût en gaz de l'instruction et, pour la plupart des instructions, le compteur de programme s'incrémente à chaque cycle, pour les trois exceptions, nous posons une fonction $J$, \textit{subscripted} par une ou deux instructions, qui donne les valeurs en accord avec\,:
+Le gaz est réduit du coût en gaz de l'instruction et, pour la plupart des instructions, le compteur de programme s'incrémente à chaque cycle. Pour les trois exceptions, nous posons une fonction $J$ souscrite par une instruction parmi deux, qui donne les valeurs en accord avec\,:
 \begin{eqnarray}
 \quad \boldsymbol{\mu}'_{g} & \equiv & \boldsymbol{\mu}_{g} - C(\boldsymbol{\sigma}, \boldsymbol{\mu}, I) \\
 \quad \boldsymbol{\mu}'_{pc} & \equiv & \begin{cases}
@@ -987,7 +994,7 @@ N(\boldsymbol{\mu}_{pc}, w) & \text{sinon}
 \end{cases}
 \end{eqnarray}
 
-En général, nous supposons que la mémoire, la liste de suicide et l'état du système ne changent pas\,:
+En général, nous supposons que la mémoire, l'ensemble d'autodestruction et l'état du système ne changent pas\,:
 \begin{eqnarray}
 \boldsymbol{\mu}'_\mathbf{m} & \equiv & \boldsymbol{\mu}_\mathbf{m} \\
 \boldsymbol{\mu}'_i & \equiv & \boldsymbol{\mu}_i \\
@@ -995,11 +1002,11 @@ A' & \equiv & A \\
 \boldsymbol{\sigma}' & \equiv & \boldsymbol{\sigma}
 \end{eqnarray}
 
-Cependant, les instructions altèrent typiquement une ou plusieurs composantes de ces valeurs. Les composantes altérées listées par instruction sont notées à l'Appendice \ref{app:vm}, accompagnées des valeurs de $\alpha$ et de $\delta$ avec une description formelle des exigences en gaz.
+Cependant, les instructions altèrent typiquement une ou plusieurs composantes de ces valeurs. Les composantes altérées listées par instruction sont notées à l'Annexe \ref{app:vm}, accompagnées des valeurs de $\alpha$ et de $\delta$ avec une description formelle des exigences en gaz.
 
 \section{De l'arbre des blocs à la chaîne des blocs} \label{ch:ghost}
 
-La blockchain typique est un chemin de la racine jusqu'à la feuille à travers toute l'arborescence des blocs. Pour atteindre le consensus sur ce chemin, conceptuellement, nous identifions celui où le plus de calculs ont été effectués, c'est-à-dire le chemin dont \textit{le poids est le plus élevé}. L'un des facteurs qui permettent de déterminer le chemin dont poids le plus élevé est clairement le numéro de bloc de la feuille, qui est équivalent au nombre de blocs sans compter le bloc \textit{genesis} non miné, dans le chemin. Plus le chemin est long, plus l'effort nécessaire pour arriver à la feuille a été grand. Ce principe est comparable à d'autres, comme ceux employés dans les protocoles dérivés de Bitcoin.
+La blockchain typique est un chemin de la racine jusqu'à la feuille à travers toute l'arborescence des blocs. Pour atteindre le consensus sur le chemin à suivre, conceptuellement, nous identifions celui où le plus de calculs ont été effectués, c'est-à-dire le chemin dont \textit{le poids est le plus élevé}. L'un des facteurs qui permettent de déterminer le chemin dont poids le plus élevé est clairement le numéro de bloc de la feuille, qui est équivalent au nombre de blocs sans compter le bloc \textit{genesis} non miné, dans le chemin. Plus le chemin est long, plus l'effort nécessaire pour arriver à la feuille a été grand. Ce principe est comparable à d'autres, comme ceux employés dans les protocoles dérivés de Bitcoin.
 
 Comme un en-tête de bloc inclut la difficulté, il suffit à lui seul à valider le calcul effectué. Chaque bloc contribue au calcul total, ou à la \textit{diffulté totale} d'une chaîne.
 
@@ -1016,7 +1023,7 @@ Cela implique qu'étant donné un bloc $B$, $B_t$ est sa difficulté totale, $B'
 Le traitement de finalisation d'un bloc comporte quatre étapes\,:
 
 \begin{enumerate}
-\item Valider (ou, pour du minage, déterminer) les \textit{oncles}\,;
+\item Valider (ou, pour du minage, déterminer) les oncles\,;
 \item Valider (ou, pour du minage, déterminer) les transactions\,;
 \item Appliquer les récompenses\,;
 \item Vérifier (ou, pour du minage, calculer) l'état et le nonce.
