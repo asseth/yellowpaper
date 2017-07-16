@@ -1099,7 +1099,7 @@ $\mathbf{d}$ étant un ensemble de données tel que spécifié à l'appendice \r
 
 Comme on l'a spécifié au début du présent travail, $\Pi$ est la fonction de transition d'état, qui est définie en termes de $\Omega$, la fonction de finalisation de bloc, et de $\Upsilon$, la fonction d'évaluation d'état, toutes deux maintenant bien définies.
 
-Comme on l'a détaillé précédemment, $\mathbf{R}[n]_{\boldsymbol{\sigma}}$, $\mathbf{R}[n]_\mathbf{l}$ et $\mathbf{R}[n]_u$ sont les $n$ièmes états, logs et gaz cumulé correspondants utilisés après chaque transaction ($\mathbf{R}[n]_b$, le quatrième composant du n-uplet, a déjà été défini en termes de logs). Le précédent  est simplement défini comme l'état résultant de l'application de la transaction correspondante à l'état résultant de la transaction précédente (ou l'état initial du bloc dans le cas d'un première transaction de ce type)\,:
+Comme on l'a détaillé précédemment, $\mathbf{R}[n]_{\boldsymbol{\sigma}}$, $\mathbf{R}[n]_\mathbf{l}$ et $\mathbf{R}[n]_u$ sont les $n$ièmes états, logs et gaz cumulé correspondants utilisés après chaque transaction ($\mathbf{R}[n]_b$, le quatrième composant du n-uplet, a déjà été défini en termes de logs). Le précédent est simplement défini comme l'état résultant de l'application de la transaction correspondante à l'état résultant de la transaction précédente (ou l'état initial du bloc dans le cas d'une première transaction de ce type)\,:
 \begin{equation}
 \mathbf{R}[n]_{\boldsymbol{\sigma}} = \begin{cases} \Gamma(B) & \text{si} \quad n < 0 \\ \Upsilon(\mathbf{R}[n - 1]_{\boldsymbol{\sigma}}, B_\mathbf{T}[n]) & \text{sinon} \end{cases}
 \end{equation}
@@ -1149,7 +1149,7 @@ Où $H_{\hcancel{n}}$ est le nouvel en-tête de bloc mais \textit{sans} le nonce
 \subsubsection{Ethash}
 Ethash est l'algorithme de preuve de travail pour la version 1.0 d'Ethereum. C'est la dernière version du Dagger-Hashimoto, présenté par \cite{dagger} et \cite{hashimoto}, malgré qu'il ne peut plus être appelé ainsi puisque nombre des fonctionnalités de ces deux algorithmes ont été grandement changées ces derniers mois de recherche et développement. Le comportement général de l'algorithme est le suivant\,:
 
-Il existe une graine qui peut être calculée pour chaque bloc en scannant son en-tête jusqu'à ce point. A pertir de la graine, on peut calculer un cache pseudo-aléatoire, de $J_{cacheinit}$ octets de taille initiale. Les clients légers stockent le cache. Depuis le cache on peut générer un ensemble de données, de $J_{datasetinit}$ octets de taille initiale, avec la propriété que chaque élément de l'ensemble de données dépend de seulement un petit nombre d'éléments du cache. Les clients complets et les mineurs stockent l'ensemble des données. L'ensemble des données croît linéairement avec le temps.
+Il existe une graine qui peut être calculée pour chaque bloc en scannant son en-tête jusqu'à ce point. A partir de la graine, on peut calculer un cache pseudo-aléatoire, de $J_{cacheinit}$ octets de taille initiale. Les clients légers stockent le cache. Depuis le cache on peut générer un ensemble de données, de $J_{datasetinit}$ octets de taille initiale, avec la propriété que chaque élément de l'ensemble de données dépend de seulement un petit nombre d'éléments du cache. Les clients complets et les mineurs stockent l'ensemble des données. L'ensemble des données croît linéairement avec le temps.
 
 
 Le minage consiste en sélectionnant des tranches de l'ensemble des données et en faisant des empreintes de leurs combinaisons. La vérification peut être faite avec peu de mémoire en utilisant le cache pour régénérer les éléments spécifiques de l'ensemble des données dont vous avez besoin, et ainsi vous n'avez besoin que de stocker le cache. L'ensemble des données est mis à jour tous les $J_{epoch}$ blocs, donc la grande majorité de l'effort de minage sera de lire les données, et non de les changer. Les paramètres cités comme l'algorithme lui-même sont décrits en annexe \ref{app:ethash}.
@@ -1164,7 +1164,7 @@ Un contrat de source de données fournit un simple service\,: il donne accès de
 Le modèle général implique un unique contrat dans Ethereum qui, à réception d'un appel de message, répond par une information en temps voulu concernant un phénomène extérieur, par exemple la température à New York. Cela peut être implémenté par un contrat qui renvoie cette valeur depuis un point connu dans la mémoire de stockage. Ce dernier doit être bien entendu maintenu avec la température correcte et la seconde partie du modèle implique donc un serveur externe faisant tourner un n\oe{}ud Ethereum qui, au moment précis de la découverte d'un nouveau bloc, crée une nouvelle transaction valide, envoyée au contrat, mettant la valeur en question dans la mémoire de stockage. Le code du contrat n'accepterait de mises à jour que depuis l'identité contenue dans le serveur.
 
 \subsection{Nombres aléatoires}
-La fourniture de nombres aléatoire au sein d'un système déterministe relève naturellement de l'impossible. Nous pouvons cependant aboutir à une approximation en utilisant des données qui sont généralement inconnues au moment de la transaction. Ces données comprennent l'empreinte du bloc, son horodatage et l'adresse de son bénéficiaire. Afin de compliquer le contrôle éventuel de ces valeurs par un mineur malveillant, il faudrait employer l'opération {\small BLOCKHASH} pour utiliser des empreintes des 256 blocs précédents comme nombres pseudo-aléatoires. Pour une série de ces nombres, une solution triviale consiste à y ajouter un montant constant et à prendre l'empreinte du résultat.
+La fourniture de nombres aléatoires au sein d'un système déterministe relève naturellement de l'impossible. Nous pouvons cependant aboutir à une approximation en utilisant des données qui sont généralement inconnues au moment de la transaction. Ces données comprennent l'empreinte du bloc, son horodatage et l'adresse de son bénéficiaire. Afin de compliquer le contrôle éventuel de ces valeurs par un mineur malveillant, il faudrait employer l'opération {\small BLOCKHASH} pour utiliser des empreintes des 256 blocs précédents comme nombres pseudo-aléatoires. Pour une série de ces nombres, une solution triviale consiste à y ajouter un montant constant et à prendre l'empreinte du résultat.
 
 \section{Future Directions} \label{ch:future}
 
@@ -1176,7 +1176,7 @@ Enfin, la compression de la blockchain pourrait peut-être être menée\,: les n
 
 \subsection{extensibilité}
 
-L'extensibilité demeure un éternel problème. Avec une fonction de changement d'état généraliste, il devient difficile de partitionner et parallèliser les transactions pour appliquer la stratégie diviser pour régner. Négligée, la dynamique valeur-rang du système devient figée et quand la valeur des transactions moyenne augmente, les moindres d'entre elles se font ignorer, perdant leur intérêt économique à être intégrées dans la chaîne principale. Cependant, plusieurs stratégies existent ayant le potentiel de considérablement étendre l'exploitabilité du protocole.
+L'extensibilité demeure un éternel problème. Avec une fonction de changement d'état généraliste, il devient difficile de partitionner et parallèliser les transactions pour appliquer la stratégie diviser pour régner. Négligée, la dynamique valeur-rang du système devient figée et quand la valeur moyenne des transactions augmente, les moindres d'entre elles se font ignorer, perdant leur intérêt économique à être intégrées dans la chaîne principale. Cependant, plusieurs stratégies existent ayant le potentiel de considérablement étendre l'exploitabilité du protocole.
 
 Certaines formes de structure hiérarchique, construites soit en combinant plusieurs petites chaînes de poids inférieur dans les blocs principaux, soit en fabriquant le bloc principal par aggrégation incrémentale (via preuve de travail) d'ensembles de transactions plus petits, peuvent permettre la parallélisation des combinaisons de transactions et des constructions de blocs. La parallélisation peut aussi venir par un ensemble priorisé de blockchains traitées en parallèle, consolidant ainsi chaque bloc et rejetant les transactions surnuméraires ou invalides.
 
@@ -1243,7 +1243,7 @@ De nombreux remerciements vont à Aeron Buchanan pour l'écriture des révisions
   (alias EVM) La machine virtuelle qui forme la partie essentielle du modèle d'exécution du Code EVM associé à un Compte.
 
 \item[Ethereum Runtime Environment\,]
-  (alias ERE) L'environnement qui est fourni à un Objet autonome en train de s'exécuter dans l'EM. Comprend l'EVM mais aussi la structure de l'état du monde sur laquelle l'EVM se base pour certaines instruction d'E/S, y compris CALL et CREATE.
+  (alias ERE) L'environnement qui est fourni à un Objet autonome en train de s'exécuter dans l'EM. Comprend l'EVM mais aussi la structure de l'état du monde sur laquelle l'EVM se base pour certaines instructions d'E/S, y compris CALL et CREATE.
 
 \item[Code EVM\,]
   Le bytecode que l'EVM peut exécuter nativement. Utilisé pour spécifier formellement la signification et les ramifications d'un message vers un Compte.
@@ -1252,7 +1252,7 @@ De nombreux remerciements vont à Aeron Buchanan pour l'écriture des révisions
   La forme humainement lisible du Code EVM.
 
 \item[LLL\,] \
-  textit{Lisp-like Low-level Language}, un langage humainement utilisable pour créer des contrats simples et une boîte à outils de lanage généraliste de bas niveau vers laquelle on transcompile.
+  textit{Lisp-like Low-level Language}, un langage humainement utilisable pour créer des contrats simples et une boîte à outils de langage généraliste de bas niveau vers laquelle on transcompile.
 
 \end{description}
 
@@ -1339,7 +1339,7 @@ Il est défini par la fonction $\mathtt{\tiny HP}$ qui fait correspondre une sé
 f(t) & \equiv & \begin{cases} 2 & \text{si} \quad t \neq 0 \\ 0 & \text{sinon} \end{cases}
 \end{eqnarray}
 
-Le quartet de poids fort du premier octet contient deux indicateurs\,: le bit de poids faible code la parité de la longueur et le deuxième bit de poids faible code l'indicateur $t$. L'octet de poids faible du premier octet est à zéro dans le cas d'une nombre de quartets pair et au premier quartet dans le cas d'un nombre impair. Tous les quartets restants (maintenant un nombre pair) s'adaptent correctemetn dans les octets restants.
+Le quartet de poids fort du premier octet contient deux indicateurs\,: le bit de poids faible code la parité de la longueur et le deuxième bit de poids faible code l'indicateur $t$. L'octet de poids faible du premier octet est à zéro dans le cas d'un nombre de quartets pair et au premier quartet dans le cas d'un nombre impair. Tous les quartets restants (maintenant un nombre pair) s'adaptent correctement dans les octets restants.
 
 \section{Arbre de Merkle Patricia modifié}\label{app:trie}
 L'arbre de Merkle modifié (trie) fournit une structure de données persistante pour faire correspondre des données binaire de longueur quelconque (tableaux d'octets). On le définit en termes d'une structure de données modifiables pour faire correspondre des fragments binaires de 256 bits et des données binaires de longueur quelconque, en général implémentés dans une base de données. L'essence du trie, et son seul prérequis en terme de spécification du protocole, consiste à fournir une valeur unique qui identifie un ensemble donné de paires clef-valeur, qui peut être soit une séquence de 32 octets, soit la séquence d'octets vide. On laisse libre le choix de l'implémentation du stockage et de la maintenance de la structure du trie de manière à respecter le protocole de manière exacte et efficiente.
@@ -1378,7 +1378,7 @@ c(\mathfrak{I}, i) & \text{si} \quad \lVert c(\mathfrak{I}, i)\rVert < 32 \\
 \end{cases}
 \end{equation}
 
-D'une façon similaire à un arbre radix, quand le trie est traversé de la racine à une feuille, on peut construire une paire clef-valeur unique. La clef est accumulée pendant la traversée en acquiérant un quartet par n\oe{}ud de branches (comme pour un arbre radix). À la différence d'un arbre radix, dans le cas de clefs multiples partageant le même préfixe ou dans le cas d'une clef unique possédant un suffixe unique, deux n\oe{}uds d'optimisation sont fournis. Donc, en traversant, on peut acquérir potentiellement plusieurs quartets de chacun des deux autres types de n\oe{}uds, extension et feuille. Il existe trois sortes de n\oe{}uds dans le trie\,:
+D'une façon similaire à un arbre radix, quand le trie est traversé de la racine à une feuille, on peut construire une paire clef-valeur unique. La clef est accumulée pendant la traversée en acquérant un quartet par n\oe{}ud de branches (comme pour un arbre radix). À la différence d'un arbre radix, dans le cas de clefs multiples partageant le même préfixe ou dans le cas d'une clef unique possédant un suffixe unique, deux n\oe{}uds d'optimisation sont fournis. Donc, en traversant, on peut acquérir potentiellement plusieurs quartets de chacun des deux autres types de n\oe{}uds, extension et feuille. Il existe trois sortes de n\oe{}uds dans le trie\,:
 \begin{description}
 \item[Feuille]
   Une structure à deux éléments dont le premier correspond aux quartets dans la clef qui n'ont pas encore été pris en compte par l'accumulation des clefs et des branches traversées depuis la racine. La méthode d'encodage hex-prefix est utilisée et le second paramètre de la fonction doit être à $true$.
@@ -1406,7 +1406,7 @@ I_1 & \text{si} \quad \exists I: I \in \mathfrak{I} \wedge \lVert I_0 \rVert = i
 \subsection{Base de données trie}
 Aucune supposition explicite n'est donc faite concernant les données stockées ou non, puisque cette considération relève de l'implémentation\,; nous nous contentons de définir la fonction d'identité faisant correspondre l'ensemble de clefs-valeurs $\mathfrak{I}$ à une empreinte de 32 octets et nous posons qu'une seule telle empreinte existe pour tout $\mathfrak{I}$, ce qui, bien que n'étant pas strictement vrai, est exact avec une précision acceptable étant donnée la résistance à la collision de l'empreinte Keccak. En réalité, une implémentation raisonnable ne recalculera pas complètement l'empreinte racine du trie pour chaque ensemble.
 
-Cette implémentation maintiendra une base de données de nœuds déterminée à partir du calcul de plusieurs tries ou, plus formellement, elle va mémoïser la fonction $c$. Cette stratégie utilise la nature du trie tant pour rappeler facilement le contenu de tout ensemble de clefs-valeurs que pour stocker plusieurs de ces ensembles de manière très efficiente. En raison de la relation de dépendances, les preuves de Merkle doivent être construites avec un prérequis d'espace $O(\log N)$ qui peut démontrer qu'une feuille donnée doit exister dans un trie d'une empreinte racine de trie donnée.
+Cette implémentation maintiendra une base de données de nœuds déterminée à partir du calcul de plusieurs tries ou, plus formellement, elle va mémoriser la fonction $c$. Cette stratégie utilise la nature du trie tant pour rappeler facilement le contenu de tout ensemble de clefs-valeurs que pour stocker plusieurs de ces ensembles de manière très efficiente. En raison de la relation de dépendances, les preuves de Merkle doivent être construites avec un prérequis d'espace $O(\log N)$ qui peut démontrer qu'une feuille donnée doit exister dans un trie d'une empreinte racine de trie donnée.
 
 \section{Contrats précompilés}\label{app:precompiled}
 
@@ -1706,7 +1706,7 @@ Ici sont données pour chaque instruction les diverses exceptions aux règles de
 \midrule
 0x08 & {\small ADDMOD} & 3 & 1 & Addition modulo. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \begin{cases}0 & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[2] = 0\\ (\boldsymbol{\mu}_\mathbf{s}[0] + \boldsymbol{\mu}_\mathbf{s}[1]) \mod \boldsymbol{\mu}_\mathbf{s}[2] & \text{sinon}\end{cases}$  \\
-&&&& Tous les calculs intérmédiaires de cette opération ne sont pas modulo $2^{256}$. \\
+&&&& Tous les calculs intermédiaires de cette opération ne sont pas modulo $2^{256}$. \\
 \midrule
 0x09 & {\small MULMOD} & 3 & 1 & Multiplication modulo. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \begin{cases}0 & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[2] = 0\\ (\boldsymbol{\mu}_\mathbf{s}[0] \times \boldsymbol{\mu}_\mathbf{s}[1]) \mod \boldsymbol{\mu}_\mathbf{s}[2] & \text{sinon}\end{cases}$  \\
@@ -2060,7 +2060,7 @@ G_{newaccount} & \text{si} \quad \boldsymbol{\sigma}[\boldsymbol{\mu}_\mathbf{s}
 \end{cases}$ \\
 \midrule
 0xf2 & {\small CALLCODE} & 7 & 1 & Appel de message à l'intérieur de ce compte avec le code d'un compte alternatif. \\
-&&&& Exactement equivalent à {\small CALL} excepté\,: \\
+&&&& Exactement équivalent à {\small CALL} excepté\,: \\
 &&&& $(\boldsymbol{\sigma}', g', A^+, \mathbf{o}) \equiv \begin{cases}\begin{array}{l}\Theta(\boldsymbol{\sigma}^*, I_a, I_o, I_a, t,\\\quad C_{\text{\tiny CALLGAS}}(\boldsymbol{\mu}), I_p, \boldsymbol{\mu}_\mathbf{s}[2], \boldsymbol{\mu}_\mathbf{s}[2], \mathbf{i}, I_e + 1)\end{array} & \begin{array}{l}\text{si} \quad \boldsymbol{\mu}_\mathbf{s}[2] \leqslant \boldsymbol{\sigma}[I_a]_b \;\wedge\\ \quad\quad{}I_e < 1024\end{array} \\ (\boldsymbol{\sigma}, g, \varnothing, \mathbf{o}) & \text{sinon} \end{cases}$ \\
 &&&& Noter le changement dans le 4ème paramètre de l'appel $\Theta$ depuis la 2ème valeur de pile $\boldsymbol{\mu}_\mathbf{s}[1]$\\
 &&&& (comme dans {\small CALL}) à l'adresse actuelle $I_a$. Cela signifie que le récepteur est bien le\\
@@ -2239,7 +2239,7 @@ E_\text{\tiny FNV}\big(\mathbf{m}, \mathbf{c}[E_\text{\tiny FNV}(i \oplus p, \ma
 \subsection{Fonction de preuve de travail}
 Il s'agit essentiellement de maintenir un «\,mix\,» de $J_{mixbytes}$ octets et de récupérer séquentiellement et de manière répétée $J_{mixbytes}$ octets de l'ensemble de données complet, et d'utiliser la fonction $E_\text{\tiny FNV}$ pour la combiner avec le mix. $J_{mixbytes}$ octets en accès séquentiel sont utilisés pour que chaque itération de l'algorithme récupère toujours une pleine page de la RAM, minimisant ainsi les accès infructueux au \textit{translation lookaside buffer} que les ASIC pourraient théoriquement éviter.
 
-Si la sortie de cet algorithme se trouve sous l'objectif désiré, le nonce est valide. On note que l'application supplémentaire de \texttt{KEC} à la fin assure qu'il existe un nonce intermédiaire qui peut être fourni pour prouver qu'au moin une petite quantité de travail a été effectuée\,; cette rapide vérification externe de preuve de travail peut être employée contre les DDOS. Elle sert également à fournir une assurance statistique que le résultat est un nombre sur 256 bits non faussé.
+Si la sortie de cet algorithme se trouve sous l'objectif désiré, le nonce est valide. On note que l'application supplémentaire de \texttt{KEC} à la fin assure qu'il existe un nonce intermédiaire qui peut être fourni pour prouver qu'au moins une petite quantité de travail a été effectuée\,; cette rapide vérification externe de preuve de travail peut être employée contre les DDOS. Elle sert également à fournir une assurance statistique que le résultat est un nombre sur 256 bits non faussé.
 
 La fonction de preuve de travail renvoie un tableau avec le mix compressé comme premier élément et l'empreinte Keccak-256 de la concaténation du mix compressé avec l'empreinte de la graine comme second élément\,:
 \begin{equation}
