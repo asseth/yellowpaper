@@ -967,7 +967,7 @@ La fonction d'arrêt normal $H$ est définie par\,:
 \begin{equation}
 H(\boldsymbol{\mu}, I) \equiv \begin{cases}
 H_{\text{\tiny RETURN}}(\boldsymbol{\mu}) & \text{si} \quad w = \text{\small RETURN} \\
-() & \text{si} \quad w \in \{ \text{\small STOP}, \text{\small SUICIDE} \} \\
+() & \text{si} \quad w \in \{ \text{\small STOP}, \text{\small SELFDESTRUCT} \} \\
 \varnothing & \text{sinon}
 \end{cases}
 \end{equation}
@@ -1131,64 +1131,69 @@ Donc le mécanisme de transition de bloc, moins  $\mathtt{PoW}$, la fonction de 
 
 La preuve de travail de minage (PoW) existe comme nonce cryptographique sécurisé qui prouve au-delà du doute raisonnable qu'un montant particulier de calcul a été dépensé dans la détermination de telle valeur $n$ d'un token. Elle est utilisée pour renforcer la sécurité de la blockchain en donnant signification et crédibilité à la notion de difficulté (et, par extension, à la difficulté totale). Cependant, comme miner de nouveaux blocs apporte une récompense, la preuve de travail ne fonctionne pas seulement comme méthode de de sécurisation de la confiance dans le statut normatif de la blockchain pour le futur, mais aussi comme un moyen de distribution de la richesse.
 
-Pour ces deux raisons, il y a deux buts importants assignés à la preuve de travail\,; premièrement, elle doit être aussi accessible que possible au plus grand nombre de personnes possibles. Le besoin de, ou rétribution par, des matériels spécialisés et spécifiques doit être minimisé. Ceci rend le modèle de distribution aussi ouvert que possible, et, dans l'idéal, fait de l'acte de miner une simble transformation de l'électricité en Ether à un taux grossièrement le même partout dans le monde.
+C'est pour ces deux raisons que deux buts importants sont assignés à la preuve de travail\,; premièrement, elle doit être aussi accessible que possible au plus grand nombre de personnes possibles. Le besoin de, ou rétribution par, des matériels spécialisés et spécifiques doit être minimisé. Ceci rend le modèle de distribution aussi ouvert que possible et, dans l'idéal, fait de l'acte de miner une simple transformation de l'électricité en Ether à un taux à peu près identique partout dans le monde.
 
-Deuxièmement, il ne doit pas être possible de réaliser des profits surlinéaires, spécialement avec une barrière à l'entrée importante. Un tel mécanisme accorde à un adversaire fortuné un gain déséquilibrant de pouvoir de minage sur le réseau total et ainsi lui donne une récompense surlinéaire (et détourne de ce fait la distribution en sa faveur), réduisant en outre la sécurité du réseau.
+Deuxièmement, il ne doit pas être possible de réaliser des profits super-linéaires, surtout avec une barrière à l'entrée importante. Un tel mécanisme accorde à un adversaire fortuné un gain fâcheux de pouvoir de minage sur le réseau total et ainsi lui donne une récompense super-linéaire (et détourne de ce fait la distribution en sa faveur), réduisant en outre la sécurité du réseau.
 
-Un fléau du monde Bitcoin est dû aux équipements ASIC. Ce sont des équipements informatiques spécialisés qui sont conçus pour effectuer une tâche unique. Dans le cas de Bitcoin cette tâche est la fonction SHA256. Comme les ASICs existent pour une fonction de preuve de travail, les deux objectifs ci-dessus sont menacés. C'est pourquoi une fonction de preuve de travail ASIC-résistante (c'est-à-dire difficile ou économiquement inefficiente dans ces équipements informatiques spécialisés) serait une panacée.
+L'un fléau du monde Bitcoin provient des équipements ASIC. Ce sont des équipements informatiques spécialisés qui sont conçus pour effectuer une tâche unique. Dans le cas de Bitcoin cette tâche est la fonction SHA256. Comme les ASICs existent pour une fonction de preuve de travail, les deux objectifs ci-dessus sont menacés. C'est pourquoi une fonction de preuve de travail ASIC-résistante (c'est-à-dire difficile ou économiquement inefficiente dans ces équipements informatiques spécialisés) serait une panacée.
 
-Il y a deux moyens d'obtenir l'ASIC-résistance\,; le premier est de le rendre séquentiel par exigence en mémoire, i.e. composer la fonction de façon à ce que la détermination du nonce requière une telle quantité de mémoire et de bande passante que la mémoire ne puisse être utilisée en parallèle pour découvrir simultanément de multiples nonces. Le second est de rendre le type de calcul demandé d'ordre général\,; la signification de «\,matériel spécialisé\,» pour un calcul d'ordre général est, naturellement, matériel généraliste et on peut escompter que les ordinateurs de bureau entrent dans une catégorie proche. Pour la version 1.0 d'Ethereum nous avons choisi le premier moyen.
+Il y a deux moyens d'obtenir l'ASIC-résistance\,; le premier est de le rendre séquentiel par exigence en mémoire, i.e. composer la fonction de façon à ce que la détermination du nonce requière une telle quantité de mémoire et de bande passante que la mémoire ne puisse être utilisée en parallèle pour découvrir simultanément de multiples nonces. Le second est de rendre le type de calcul demandé d'ordre général\,; la signification de «\,matériel spécialisé\,» pour un calcul d'ordre général est, naturellement, matériel généraliste, et on peut escompter que les ordinateurs de bureau entrent dans une catégorie proche. Pour la version 1.0 d'Ethereum nous avons choisi le premier moyen.
 
 Plus formellement, la fonction de preuve de travail prend la forme de $\mathtt{PoW}$ telle que\,:
 \begin{equation}
 m = H_m \quad \wedge \quad n \leqslant \frac{2^{256}}{H_d} \quad \text{with} \quad (m, n) = \mathtt{PoW}(H_{\hcancel{n}}, H_n, \mathbf{d})
 \end{equation}
 
-Où $H_{\hcancel{n}}$ est le nouvel en-tête de bloc mais \textit{sans} le nonce et les composants mix-hash\,; $H_n$ est le nonce du header\,; $\mathbf{d}$ est un grand ensemble de données nécessaire pour calculer le mix-hash et $H_d$ est la difficulté du nouveau block (i.e. la difficulté de la section \ref{ch:ghost}). $\mathtt{PoW}$ est la fonction preuve de travail qui produit un tableau avec le premier élément comme mixhash et le deuxième élément un nombre pseudo-aléatoire cryptographiquement dépendant de $H$ et $\mathbf{d}$. L'algorithme sous-jacent se nomme Ethash et est décrit ci-dessous.
+Où $H_{\hcancel{n}}$ est le nouvel en-tête de bloc mais \textit{sans} le nonce et les composants mix-hash\,; $H_n$ est le nonce du header\,; $\mathbf{d}$ est un grand ensemble de données nécessaire pour calculer le mixHash et $H_d$ est la difficulté du nouveau block (i.e. la difficulté de la section \ref{ch:ghost}). $\mathtt{PoW}$ est la fonction preuve de travail qui produit un tableau avec le premier élément comme mixhash et le deuxième élément un nombre pseudo-aléatoire cryptographiquement dépendant de $H$ et $\mathbf{d}$. L'algorithme sous-jacent se nomme Ethash et est décrit ci-dessous.
 
 \subsubsection{Ethash}
-Ethash est l'algorithme de preuve de travail pour la version 1.0 d'Ethereum. C'est la dernière version du Dagger-Hashimoto, présenté par \cite{dagger} et \cite{hashimoto}, malgré qu'il ne peut plus être appelé ainsi puisque nombre des fonctionnalités de ces deux algorithmes ont été grandement changées ces derniers mois de recherche et développement. Le comportement général de l'algorithme est le suivant\,:
+Ethash est l'algorithme de preuve de travail pour la version 1.0 d'Ethereum. C'est la dernière version du Dagger-Hashimoto, présenté par \cite{dagger} et \cite{hashimoto}, bien qu'il ne puisse plus être appelé ainsi puisque nombre des fonctionnalités de ces deux algorithmes ont été grandement changées ces derniers mois de recherche et développement. Le comportement général de l'algorithme est le suivant\,:
 
-Il existe une graine qui peut être calculée pour chaque bloc en scannant son en-tête jusqu'à ce point. A partir de la graine, on peut calculer un cache pseudo-aléatoire, de $J_{cacheinit}$ octets de taille initiale. Les clients légers stockent le cache. Depuis le cache on peut générer un ensemble de données, de $J_{datasetinit}$ octets de taille initiale, avec la propriété que chaque élément de l'ensemble de données dépend de seulement un petit nombre d'éléments du cache. Les clients complets et les mineurs stockent l'ensemble des données. L'ensemble des données croît linéairement avec le temps.
+Il existe une graine cryptographique, ou \textit{seed}, qui peut être calculée pour chaque bloc en examinant les en-têtes jusqu'à ce point. A partir de la graine, on peut calculer un cache pseudo-aléatoire, de $J_{cacheinit}$ octets de taille initiale. Les clients légers stockent le cache. Depuis le cache on peut générer un ensemble de données, de $J_{datasetinit}$ octets de taille initiale, avec la propriété que chaque élément de l'ensemble de données dépend de seulement un petit nombre d'éléments du cache. Les clients complets et les mineurs stockent l'ensemble des données. L'ensemble des données croît linéairement avec le temps.
 
-
-Le minage consiste en sélectionnant des tranches de l'ensemble des données et en faisant des empreintes de leurs combinaisons. La vérification peut être faite avec peu de mémoire en utilisant le cache pour régénérer les éléments spécifiques de l'ensemble des données dont vous avez besoin, et ainsi vous n'avez besoin que de stocker le cache. L'ensemble des données est mis à jour tous les $J_{epoch}$ blocs, donc la grande majorité de l'effort de minage sera de lire les données, et non de les changer. Les paramètres cités comme l'algorithme lui-même sont décrits en annexe \ref{app:ethash}.
+Le minage consiste à sélectionner des tranches de l'ensemble des données et à en faire des empreintes. La vérification peut être faite avec peu de mémoire en utilisant le cache pour régénérer les éléments spécifiques de l'ensemble des données dont vous avez besoin, et ainsi vous n'avez besoin que de stocker le cache. L'ensemble des données est mis à jour tous les $J_{epoch}$ blocs, donc la grande majorité de l'effort de minage sera de lire les données, et non de les changer. Les paramètres cités comme l'algorithme lui-même sont décrits en annexe \ref{app:ethash}.
 
 \section{Implémentation des contrats}
 
 IL existe plusieurs modèles d'ingénierie des contrats qui autorisent des fonctionnalités particulièrement utiles\,; je vais brièvement traiter de deux d'entre eux, les \textit{data feeds} (sources de données) et les nombres aléatoires.
 
 \subsection{Sources de données}
-Un contrat de source de données fournit un simple service\,: il donne accès depuis Ethereum à des informations du monde extérieur. L'exactitude en qualité et en temps de ces informations ne sont pas garanties et c'est la tâche d'un auteur de contrat secondaire -- le contrat qui utilise la source de données -- de déterminer la confiance qui peut être placée dans une source de données.
+Un contrat de source de données fournit un unique service\,: il donne accès depuis Ethereum à des informations du monde extérieur. L'exactitude en qualité et en temps de ces informations ne sont pas garanties et c'est la tâche d'un auteur de contrat secondaire -- le contrat qui utilise la source de données -- de déterminer la confiance qui peut être placée en celle-ci.
 
 Le modèle général implique un unique contrat dans Ethereum qui, à réception d'un appel de message, répond par une information en temps voulu concernant un phénomène extérieur, par exemple la température à New York. Cela peut être implémenté par un contrat qui renvoie cette valeur depuis un point connu dans la mémoire de stockage. Ce dernier doit être bien entendu maintenu avec la température correcte et la seconde partie du modèle implique donc un serveur externe faisant tourner un n\oe{}ud Ethereum qui, au moment précis de la découverte d'un nouveau bloc, crée une nouvelle transaction valide, envoyée au contrat, mettant la valeur en question dans la mémoire de stockage. Le code du contrat n'accepterait de mises à jour que depuis l'identité contenue dans le serveur.
 
 \subsection{Nombres aléatoires}
 La fourniture de nombres aléatoires au sein d'un système déterministe relève naturellement de l'impossible. Nous pouvons cependant aboutir à une approximation en utilisant des données qui sont généralement inconnues au moment de la transaction. Ces données comprennent l'empreinte du bloc, son horodatage et l'adresse de son bénéficiaire. Afin de compliquer le contrôle éventuel de ces valeurs par un mineur malveillant, il faudrait employer l'opération {\small BLOCKHASH} pour utiliser des empreintes des 256 blocs précédents comme nombres pseudo-aléatoires. Pour une série de ces nombres, une solution triviale consiste à y ajouter un montant constant et à prendre l'empreinte du résultat.
 
-\section{Future Directions} \label{ch:future}
+\section{Directions futures} \label{ch:future}
 
-Dans le futur, la base de données à état ne sera pas forcée de maintenir tous les états passés des structures du trie. Elle devra maintenir un âge pour chaque noeud et eventuellement rejeter les noeuds qui ne sont ni assez récents, ni des checkpoints\,; les checkpoints, ou un ensemble de noeuds dans la base de donnée qui autorisent à traverser un trie d'état de bloc, peuvent être utilisés pour placer une limite maximum sur le volume de calcul nécessaire pour récupérer n'importe quel état à travers la blockchain.
+À l'avenir, la base de données des états ne sera pas forcée de maintenir tous les états passés des structures du trie. Elle devra maintenir un âge pour chaque noeud et eventuellement rejeter les noeuds qui ne sont ni assez récents, ni des checkpoints\,; les checkpoints, ou un ensemble de noeuds dans la base de donnée qui autorisent à traverser un trie d'état de bloc, peuvent être utilisés pour placer une limite maximum sur le volume de calcul nécessaire pour récupérer n'importe quel état à travers la blockchain.
 
 La consolidation de la blockchain peut être utilisée dans le but de réduire le nombre de blocs qu'un client a besoin de télécharger pour agir comme un mineur, un noeud complet. Une archive compressée de la structure du trie à des points donnés dans le temps (par exemple une tous les 10 000 blocs) peut être maintenue par le réseau de pairs, en renouvelant efficacement le bloc genesis. Cela pourrait réduire le volume à télécharger à une simple archive plus une limite maximum de blocs en dur.
 
 Enfin, la compression de la blockchain pourrait peut-être être menée\,: les noeuds dans un trie d'état qui n'ont pas envoyé/reçu de transaction dans un certain nombre de blocs donné pourraient être rejetés, réduisant les fuites d'ethers ainsi que l'accroissement de la base de donnée d'état.
 
-\subsection{extensibilité}
+\subsection{Extensibilité}
 
-L'extensibilité demeure un éternel problème. Avec une fonction de changement d'état généraliste, il devient difficile de partitionner et parallèliser les transactions pour appliquer la stratégie diviser pour régner. Négligée, la dynamique valeur-rang du système devient figée et quand la valeur moyenne des transactions augmente, les moindres d'entre elles se font ignorer, perdant leur intérêt économique à être intégrées dans la chaîne principale. Cependant, plusieurs stratégies existent ayant le potentiel de considérablement étendre l'exploitabilité du protocole.
+L'extensibilité ou passage à l'échelle (\textit{scalability}) demeure un éternel problème. Avec une fonction de changement d'état généraliste, il devient difficile de partitionner et parallèliser les transactions pour appliquer la stratégie consistant à diviser pour régner. Négligée, la dynamique valeur-rang du système devient figée et, quand la valeur moyenne des transactions augmente, les moindres d'entre elles se font ignorer, perdant leur intérêt économique à être intégrées dans la chaîne principale. Cependant, plusieurs stratégies existent ayant le potentiel d'étendre considérablement les capacités de passage à l'échelle du protocole.
 
-Certaines formes de structure hiérarchique, construites soit en combinant plusieurs petites chaînes de poids inférieur dans les blocs principaux, soit en fabriquant le bloc principal par aggrégation incrémentale (via preuve de travail) d'ensembles de transactions plus petits, peuvent permettre la parallélisation des combinaisons de transactions et des constructions de blocs. La parallélisation peut aussi venir par un ensemble priorisé de blockchains traitées en parallèle, consolidant ainsi chaque bloc et rejetant les transactions surnuméraires ou invalides.
+Certaines formes de structure hiérarchique, construites soit en combinant plusieurs petites chaînes de poids inférieur dans les blocs principaux, soit en fabriquant le bloc principal par agrégation incrémentale (\textit{via} preuve de travail) d'ensembles de transactions plus petits, peuvent permettre la parallélisation des combinaisons de transactions et des constructions de blocs. La parallélisation peut aussi être mise en \oe{}uvre par un ensemble priorisé de blockchains traitées en parallèle, consolidant ainsi chaque bloc et rejetant les transactions surnuméraires ou invalides.
 
 Pour finir, le calcul vérifiable, s'il est rendu suffisamment abordable et efficient, pourrait ouvrir une voie à l'utilisation de la preuve de travail comme vérification de l'état final.
 
 \section{Conclusion} \label{ch:conclusion}
 
-J'ai ici introduit, discuté et défini formellement le protocole d'Ethereum. Par ce protocole le lecteur pourra implémenter un noeud sur le réseau Ethereum et joindre les autres dans un système d'exploitation social et décentralisé. Des contrats pourront être créés pour spécifier et rendre autonomes des règles d'échanges par l'utilisation d'algorithmes.
+J'ai ici présenté, discuté et défini formellement le protocole d'Ethereum. Par ce protocole le lecteur pourra implémenter un noeud sur le réseau Ethereum et joindre les autres dans un système d'exploitation social sûr et décentralisé. Des contrats pourront être créés pour spécifier de manière algorithmique et imposer en autonomie des règles d'échanges.
 
 \section{Remerciements}
 
-De nombreux remerciements vont à Aeron Buchanan pour l'écriture des révisions Homestead, à Christoph Jentzsch pour la description de l'algorithme Ethash et à Yoichi Hirai pour avoir traité la plupart des changements EIP-150. D'importantes mises à jour, des corrections et suggestions utiles ont été faites par nombre d'autres membres de l'Ethereum DEV organisation et de la communauté Ethereum au sens large, incluant Gustav Simonsson, Pawe\l{} Bylica, Jutta Steiner, Nick Savers, Viktor Tr\'{o}n, Marko Simovic, Giacomo Tazzari et, bien sûr, Vitalik Buterin.
+De nombreux remerciements vont à Aeron Buchanan pour l'écriture des révisions Homestead, à Christoph Jentzsch pour la création de l'algorithme Ethash et à Yoichi Hirai pour la plupart des changements à EIP-150. D'importantes mises à jour, des corrections et suggestions utiles ont été faites par bien d'autres membres de l'Ethereum DEV organisation et de la communauté Ethereum au sens large, entre autres Gustav Simonsson, Pawe\l{} Bylica, Jutta Steiner, Nick Savers, Viktor Tr\'{o}n, Marko Simovic, Giacomo Tazzari et, bien sûr, Vitalik Buterin.
+
+\section{Disponibilité}
+
+Le source de la version originale de cet article est maintenu sur \url{https://github.com/ethereum/yellowpaper/} et un PDF auto-généré se trouve sur \url{https://ethereum.github.io/yellowpaper/paper.pdf}.
+
+Le source de la version traduite est maintenu sur \url{https://github.com/asseth/yellowpaper/blob/french/Paper.tex} et un PDF auto-généré se trouve sur \url{https://github.com/asseth/yellowpaper/blob/french/Paper.pdf}
 
 \bibliography{Biblio}
 \bibliographystyle{plainnat}
@@ -1207,28 +1212,28 @@ De nombreux remerciements vont à Aeron Buchanan pour l'écriture des révisions
   Un code sur 160 bits utilisé pour identifier les Comptes.
 
 \item[Compte (\textit{account})\,]
-  Les Comptes ont une balance intrinsèque et un compteur de transactions maintenu dans l'état d'Ethereum. Ils ont également du Code EVM (éventuellement vide) et un État de stockage qui leur est associé. Bien qu'homogènes, il est admis de distinguer deux types de comptes\,: ceux avec un Code EVM vide (et dont le solde est contrôlé le cas échéant par une entité externe) et ceux dont le Code EVM associé n'est pas vide (le compte représente donc un Objet autonome. Chaque compte a une adresse unique qui l'identifie.
+  Les Comptes ont une balance intrinsèque et un compteur de transactions maintenu dans l'état d'Ethereum. Ils ont également du Code EVM (éventuellement vide) et un État de stockage qui leur est associé. Bien qu'homogènes, il est admis de distinguer deux types de comptes\,: ceux avec un Code EVM vide (et dont le solde est contrôlé le cas échéant par une entité externe) et ceux dont le Code EVM associé n'est pas vide (le compte représente donc un Objet Autonome. Chaque compte a une adresse unique qui l'identifie.
 
 \item[Transaction\,]
-  Des données, signées par un Acteur externe. Elle représente soit un Message soit un nouvel Objet autonome. Les transactions sont enregistrées dans chaque bloc de la blockchain.
+  Des données, signées par un Acteur externe. Elle représente soit un Message soit un nouvel Objet Autonome. Les transactions sont enregistrées dans chaque bloc de la blockchain.
 
-\item[Objet autonome (\textit{autonomous object})\,]
-  Un objet théorique qui n'existe que dans l'état hypothétique d'Ethereum. Possède une adresse intrinsèque et donc un compte associé\,; le compte aura un Code EVM associé non vide. N'est incorporé que comme État de stockage de ce compte.
+\item[Objet Autonome (\textit{autonomous object})\,]
+  Un objet théorique qui n'existe que dans l'état hypothétique d'Ethereum. Possède une adresse intrinsèque et donc un compte associé\,; le compte aura un Code EVM associé non vide. N'est incorporé que comme État de Stockage de ce compte.
 
 \item[État de stockage (\textit{storage state})\,]
   L'information spécifique à un Compte donné qui est conservée entre les occurrences de lancement du Code EVM associé au Compte.
 
 \item[Message\,]
-  Données (en tant qu'ensemble d'octets) et Valeur (spécifiée en Ether) qui sont passées entre deux Comptes, soit par l'opération déterministe d'un Objet autonome, soit par la signature sécurisée cryptographiquement de la Transaction.
+  Données (en tant qu'ensemble d'octets) et Valeur (spécifiée en Ether) qui sont passées entre deux Comptes, soit par l'opération déterministe d'un Objet Autonome, soit par la signature cryptographiquement sécurisée de la Transaction.
 
 \item[Appel de message (\textit{message call})\,]
-  L'acte de passer un message d'un Compte vers un autre. Si le compte de destination est associé à du Code EVM non vide, alors la VM sera démarrée avec l'état de l'objet en question et le Message donnera lieu à une action. Si l'expéditeur du message est un Objet autonome, l'Appel passe toute donnée renvoyée de l'opération de la VM.
+  Le fait de passer un message d'un Compte vers un autre. Si le compte de destination est associé à du Code EVM non vide, alors la VM sera démarrée avec l'état de l'Objet en question et le Message donnera lieu à une action. Si l'expéditeur du message est un Objet Autonome, l'Appel passe toute donnée renvoyée de l'opération de la VM.
 
 \item[Gaz (\textit{gas})\,]
   L'unité de coût fondamentale du réseau. Payée exclusivement en Ether (au moment du PoC-4), qui est librement converti en Gaz et inversement selon les besoins. Le Gaz n'existe pas hors du moteur de calcul interne d'Ethereum\,; son prix est fixé par la Transaction et les mineurs sont libres d'ignorer les Transactions dont le prix en Gaz est trop bas.
 
 \item[Contrat (\textit{contract})\,]
-  Terme informel employé pour signifier à la fois un bout de Code EV qui peut être associé à un compte, et un Objet autonome.
+  Terme informel employé pour signifier à la fois un bout de Code EV qui peut être associé à un compte et un Objet autonome.
 
 \item[Objet (\textit{object})\,]
   Synonyme d'Objet autonome.
@@ -1237,13 +1242,13 @@ De nombreux remerciements vont à Aeron Buchanan pour l'écriture des révisions
   Une application visible de l'utilisateur hébergée dans le Navigateur Ethereum.
 
 \item[Navigateur Ethereum (\textit{Ethereum Browser})\,]
-  (alias \textit{Ethereum Reference Client}) Une interface utilisateur graphique similaire à un navigateur simplifié (à la Chrome) capable d'héberger des applications en mode bac à sable dont la base arrière est purement sur le protocole Ethereum.
+  (alias \textit{Ethereum Reference Client}) Une interface utilisateur graphique similaire à un navigateur simplifié (à la Chrome) capable d'héberger des applications en mode bac à sable dont le backend repose purement sur le protocole Ethereum.
 
 \item[Ethereum Virtual Machine\,]
   (alias EVM) La machine virtuelle qui forme la partie essentielle du modèle d'exécution du Code EVM associé à un Compte.
 
 \item[Ethereum Runtime Environment\,]
-  (alias ERE) L'environnement qui est fourni à un Objet autonome en train de s'exécuter dans l'EM. Comprend l'EVM mais aussi la structure de l'état du monde sur laquelle l'EVM se base pour certaines instructions d'E/S, y compris CALL et CREATE.
+  (alias ERE) L'environnement qui est fourni à un Objet Autonome en train de s'exécuter dans l'EM. Comprend l'EVM mais aussi la structure de l'état du monde sur laquelle l'EVM se base pour certaines instructions d'E/S, y compris CALL et CREATE.
 
 \item[Code EVM\,]
   Le bytecode que l'EVM peut exécuter nativement. Utilisé pour spécifier formellement la signification et les ramifications d'un message vers un Compte.
@@ -1266,7 +1271,7 @@ Nous définissons l'ensemble des structures possibles $\mathbb{T}$\,:
 \mathbb{B} & \equiv & \{ \mathbf{b}: \mathbf{b} = ( \mathbf{b}[0], \mathbf{b}[1], ... ) \; \wedge \; \forall_{n < \lVert \mathbf{b} \rVert} \; \mathbf{b}[n] \in \mathbb{O} \}
 \end{eqnarray}
 
-où $\mathbb{O}$ est l'ensemble d'octets. $\mathbb{B}$  est donc l'ensemble de toutes les séquences d'octets (connues par ailleurs sous le nom de tableaux d'octets (et une feuille si on l'imagine comme un arbre), $\mathbb{L}$ est l'ensemble de tous les (sous-)structures arborescentes qui ne sont pas une feuille unique (un n\oe{}ud de branches si on l'imagine comme un arbre) et  $\mathbb{T}$ est l'ensemble de tous les tableaux d'octets et les séquences structurales similaires.
+où $\mathbb{O}$ est l'ensemble d'octets. $\mathbb{B}$  est donc l'ensemble de toutes les séquences d'octets (connues par ailleurs sous le nom de tableaux d'octets, et une feuille si on l'imagine comme un arbre), $\mathbb{L}$ est l'ensemble de toutes les (sous-)structures arborescentes qui ne sont pas une feuille unique (un n\oe{}ud de branches si on l'imagine comme un arbre) et  $\mathbb{T}$ est l'ensemble de tous les tableaux d'octets et les séquences structurales similaires.
 
 Nous définissons la fonction RLP par $\mathtt{\tiny RLP}$ grâce à deux sous-fonctions, la première gérant l'instance quand la valeur est un tableau d'octets, la seconde quand elle est une séquence de valeurs successives\,:
 \begin{equation}
@@ -1473,7 +1478,7 @@ Nous posons les fonctions $\mathtt{\small ECDSASIGN}$, $\mathtt{\small ECDSAREST
 \mathtt{\small ECDSARECOVER}(e \in \mathbb{B}_{32}, v \in \mathbb{B}_{1}, r \in \mathbb{B}_{32}, s \in \mathbb{B}_{32}) & \equiv & p_u \in \mathbb{B}_{64}
 \end{eqnarray}
 
-où $p_u$ est la clef publique, que l'on suppose un tableau d'octets de taille 64 (formé à partir de la concaténation de deux entiers positifs chacun $< 2^{256}$) et $p_r$ est la clef privée, un tableau de taille 32 (ou un simple entier positif dans l'intervalle susmentionné). On suppose que $v$ est l'«\,identifiant de recouvrement\,», une valeur sur un octet spécifiant le signe et la finitude du point de la courbe\,; cette valeur se trouve dans l'intervalle $[27, 30]$ mais nous déclarons les deux possibilité supérieures, représentant des valeurs infinies, invalides.
+où $p_u$ est la clef publique, que l'on suppose un tableau d'octets de taille 64 (formé à partir de la concaténation de deux entiers positifs chacun $< 2^{256}$) et $p_r$ est la clef privée, un tableau de taille 32 (ou un simple entier positif dans l'intervalle susmentionné). On suppose que $v$ est l'«\,identifiant de recouvrement\,», une valeur sur un octet spécifiant le signe et la finitude du point de la courbe\,; cette valeur se trouve dans l'intervalle $[27, 30]$ mais nous déclarons les deux possibilités supérieures, représentant des valeurs infinies, invalides.
 
 \newcommand{\slimit}{\ensuremath{\text{s-limit}}}
 
@@ -1545,17 +1550,17 @@ $G_{sset}$ & 20000 & Payé pour une opération {\small SSTORE} quand la l'état 
 $G_{sreset}$ & 5000 & Payé pour une opération {\small SSTORE} quand la valeur du stockage reste ou passe à zéro. \\
 $R_{sclear}$ & 15000 & Remboursement (ajouté au compteur de remboursement) quand la valeur du stockage \\
  & & passe de zéro à non-zéro. \\
-$R_{suicide}$ & 24000 & Remboursement (ajouté au compteur de remboursement) pour le suicide d'un compte. \\
-$G_{suicide}$ & 5000 & Montant en gaz à payer pour une opération {\small SUICIDE}. \\
+$R_{selfdestruct}$ & 24000 & Remboursement (ajouté au compteur de remboursement) pour l'autodestruction d'un compte. \\
+$G_{selfdestruct}$ & 5000 & Montant en gaz à payer pour une opération {\small SELFDESTRUCT}. \\
 $G_{create}$ & 32000 & Payé pour une opération {\small CREATE}. \\
 $G_{codedeposit}$ & 200 & Payé par octet pour qu'une opération {\small CREATE} réussise à placer le code dans l'état. \\
 $G_{call}$ & 700 & Payé pour une opération {\small CALL}. \\
 $G_{callvalue}$ & 9000 & Payé pour un transfert de valeur non nulle faisant partie de l'opération {\small CALL}. \\
 $G_{callstipend}$ & 2300 & Une allocation pour le contrat appelé, soustraite de $G_{callvalue}$ pour le transfert d'une \\
  & & valeur non nulle. \\
-$G_{newaccount}$ & 25000 & Payé pour une opération {\small CALL} ou {\small SUICIDE} qui crée un compte. \\
+$G_{newaccount}$ & 25000 & Payé pour une opération {\small CALL} ou {\small SELFDESTRUCT} qui crée un compte. \\
 $G_{exp}$ & 10 & Paiement partiel pour une opération {\small EXP}. \\
-$G_{expbyte}$ & 10 & Paiement partiel quand il est multiplié par $\lceil\log_{256}(exposant)\rceil$ pour l'opération {\small EXP}. \\
+$G_{expbyte}$ & 50 & Paiement partiel quand il est multiplié par $\lceil\log_{256}(exposant)\rceil$ pour l'opération {\small EXP}. \\
 $G_{memory}$ & 3 & Payé pour tout mot additionnel en augmentant la mémoire. \\
 $G_\text{txcreate}$ & 32000 & Payé par toutes les transactions de création de contrat après la {\it transition Homestead}.\\
 $G_{txdatazero}$ & 4 & Payé pour tout octet de données ou de code à zéro pour une transaction. \\
@@ -1598,7 +1603,7 @@ G_{log}+G_{logdata}\times\boldsymbol{\mu}_\mathbf{s}[1]+2G_{logtopic} & \text{si
 G_{log}+G_{logdata}\times\boldsymbol{\mu}_\mathbf{s}[1]+3G_{logtopic} & \text{si} \quad w = \text{\small LOG3} \\
 G_{log}+G_{logdata}\times\boldsymbol{\mu}_\mathbf{s}[1]+4G_{logtopic} & \text{si} \quad w = \text{\small LOG4} \\
 C_\text{\tiny CALL}(\boldsymbol{\sigma}, \boldsymbol{\mu}) & \text{si} \quad w = \text{\small CALL} \lor \text{\small CALLCODE} \lor \text{\small DELEGATECALL} \\
-C_\text{\tiny SUICIDE}(\boldsymbol{\sigma}, \boldsymbol{\mu}) & \text{si} \quad w = \text{\small SUICIDE} \\
+C_\text{\tiny SELFDESTRUCT}(\boldsymbol{\sigma}, \boldsymbol{\mu}) & \text{si} \quad w = \text{\small SELFDESTRUCT} \\
 G_{create} & \text{si} \quad w = \text{\small CREATE}\\
 G_{sha3}+G_{sha3word} \lceil \mathbf{s}[1] \div 32 \rceil & \text{si} \quad w = \text{\small SHA3}\\
 G_{jumpdest} & \text{si} \quad w = \text{\small JUMPDEST}\\
@@ -1625,7 +1630,7 @@ où\,:
 C_{mem}(a) \equiv G_{memory} \cdot a + \Big\lfloor \dfrac{a^2}{512} \Big\rfloor
 \end{equation}
 
-avec $C_\text{\tiny CALL}$, $C_\text{\tiny SUICIDE}$ et $C_\text{\tiny SSTORE}$ tels qu'ils sont spécifiés dans la section correspondante ci-dessous. Nous définissons les sous-ensembles suivants d'instructions\,:
+avec $C_\text{\tiny CALL}$, $C_\text{\tiny SELFDESTRUCT}$ et $C_\text{\tiny SSTORE}$ tels qu'ils sont spécifiés dans la section correspondante ci-dessous. Nous définissons les sous-ensembles suivants d'instructions\,:
 
 $W_{zero}$ = \{{\small STOP}, {\small RETURN}\}
 
@@ -1672,10 +1677,12 @@ Comme spécifié auparavant dans la section \ref{ch:model}, toutes ces définiti
 O(\boldsymbol{\sigma}, \boldsymbol{\mu}, A, I) \equiv (\boldsymbol{\sigma}', \boldsymbol{\mu}', A', I) \quad \text{avec exceptions, comme mentionné}
 \end{equation}
 
-Ici sont données pour chaque instruction les diverses exceptions aux règles de transition d'état données dans la section \ref{ch:model}, avec les définitions additionnelles de $J$ et $C$ spécifiques à cette instruction. Pour chaque instruction, est aussi spécifié $\alpha$, les éléments additionnels placés sur la pile et $\delta$, les éléments ôtés de la pile, comme définie dans la section \ref{ch:model}.
+Ici sont données pour chaque instruction les diverses exceptions aux règles de transition d'état données dans la section \ref{ch:model}, avec les définitions additionnelles de $J$ et $C$ spécifiques à cette instruction. Pour chaque instruction est aussi spécifié $\alpha$, les éléments additionnels placés sur la pile et $\delta$, les éléments ôtés de la pile, comme définie dans la section \ref{ch:model}.
+\clearpage
+
 \begin{tabular*}{\columnwidth}[h]{rlrrl}
 \toprule
-\multicolumn{5}{c}{\textbf{0s\,: opérations arithémtiques et Stop}} \\
+\multicolumn{5}{c}{\textbf{0s\,: Opérations d'arrêt et arithmétiques}} \\
 \multicolumn{5}{l}{Toutes les valeurs arithmétiques sont modulo $2^{256}$ sauf mention exprès.} \vspace{5pt} \\
 \textbf{Value} & \textbf{Mnemonic} & $\delta$ & $\alpha$ & \textbf{Description} \vspace{5pt} \\
 0x00 & {\small STOP} & 0 & 0 & Arrête l'exécution. \\
@@ -1694,23 +1701,24 @@ Ici sont données pour chaque instruction les diverses exceptions aux règles de
 \midrule
 0x05 & {\small SDIV} & 2 & 1 & Division entière signée (tronquée). \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \begin{cases}0 & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[1] = 0\\ -2^{255} & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[0] = -2^{255} \wedge \quad \boldsymbol{\mu}_\mathbf{s}[1] = -1\\ \mathbf{sgn} (\boldsymbol{\mu}_\mathbf{s}[0] \div \boldsymbol{\mu}_\mathbf{s}[1]) \lfloor |\boldsymbol{\mu}_\mathbf{s}[0] \div \boldsymbol{\mu}_\mathbf{s}[1]| \rfloor & \text{sinon}\end{cases}$  \\
-&&&& Où toutes les valeurs sont traitées comme des entiers de 256 bits signés en complément à deux. \\
-&&&& Noter la sémantique de dépassement quand $-2^{255}$ est négativé.\\
+&&&& Où toutes les valeurs sont traitées comme des entiers de 256 bits signés en complément \\
+&&&& à deux. Noter la sémantique de dépassement quand $-2^{255}$ est négativé.\\
 \midrule
 0x06 & {\small MOD} & 2 & 1 & Modulo. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \begin{cases}0 & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[1] = 0\\ \boldsymbol{\mu}_\mathbf{s}[0] \bmod \boldsymbol{\mu}_\mathbf{s}[1] & \text{sinon}\end{cases}$  \\
 \midrule
 0x07 & {\small SMOD} & 2 & 1 & Modulo signé. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \begin{cases}0 & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[1] = 0\\ \mathbf{sgn} (\boldsymbol{\mu}_\mathbf{s}[0]) |\boldsymbol{\mu}_\mathbf{s}[0]| \bmod |\boldsymbol{\mu}_\mathbf{s}[1]| & \text{sinon}\end{cases}$  \\
-&&&& Où toutes les valeurs sont traitées comme des entiers de 256 bits signés en complément à deux. \\
+&&&& Où toutes les valeurs sont traitées comme des entiers de 256 bits signés en complément \\
+&&&& à deux. \\
 \midrule
 0x08 & {\small ADDMOD} & 3 & 1 & Addition modulo. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \begin{cases}0 & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[2] = 0\\ (\boldsymbol{\mu}_\mathbf{s}[0] + \boldsymbol{\mu}_\mathbf{s}[1]) \mod \boldsymbol{\mu}_\mathbf{s}[2] & \text{sinon}\end{cases}$  \\
-&&&& Tous les calculs intermédiaires de cette opération ne sont pas modulo $2^{256}$. \\
+&&&& Les calculs intermédiaires de cette opération ne sont pas modulo $2^{256}$. \\
 \midrule
 0x09 & {\small MULMOD} & 3 & 1 & Multiplication modulo. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \begin{cases}0 & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[2] = 0\\ (\boldsymbol{\mu}_\mathbf{s}[0] \times \boldsymbol{\mu}_\mathbf{s}[1]) \mod \boldsymbol{\mu}_\mathbf{s}[2] & \text{sinon}\end{cases}$  \\
-&&&& Tous les calculs intérmédiaires de cette opération ne sont pas modulo $2^{256}$. \\
+&&&& Les calculs intermédiaires de cette opération ne sont pas modulo $2^{256}$. \\
 \midrule
 0x0a & {\small EXP} & 2 & 1 & Exponentielle. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \boldsymbol{\mu}_\mathbf{s}[0] ^ {\boldsymbol{\mu}_\mathbf{s}[1] }$ \\
@@ -1722,21 +1730,23 @@ Ici sont données pour chaque instruction les diverses exceptions aux règles de
 
 \begin{tabular*}{\columnwidth}[h]{rlrrl}
 \toprule
-\multicolumn{5}{c}{\textbf{10s\,: Comparaison \& Opérations Bit à Bit }} \\
+\multicolumn{5}{c}{\textbf{10s\,: Comparaison \& opérations bit à bit }} \\
 \textbf{Value} & \textbf{Mnemonic} & $\delta$ & $\alpha$ & \textbf{Description} \vspace{5pt} \\
-0x10 & {\small LT} & 2 & 1 & Plus petit que. \\
+0x10 & {\small LT} & 2 & 1 & Inférieur à. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \begin{cases} 1 & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[0] < \boldsymbol{\mu}_\mathbf{s}[1] \\ 0 & \text{sinon} \end{cases}$ \\
 \midrule
-0x11 & {\small GT} & 2 & 1 & Plus grand que. \\
+0x11 & {\small GT} & 2 & 1 & Supérieur à. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \begin{cases} 1 & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[0] > \boldsymbol{\mu}_\mathbf{s}[1] \\ 0 & \text{sinon} \end{cases}$ \\
 \midrule
-0x12 & {\small SLT} & 2 & 1 & Plus petit que signé. \\
+0x12 & {\small SLT} & 2 & 1 & Inférieur à signé. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \begin{cases} 1 & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[0] < \boldsymbol{\mu}_\mathbf{s}[1] \\ 0 & \text{sinon} \end{cases}$ \\
-&&&& Où toutes les valeurs sont traitées comme des entiers de 256 bits signés en complément à deux. \\
+&&&& Où toutes les valeurs sont traitées comme des entiers de 256 bits signés en complément \\
+&&&& à deux. \\
 \midrule
-0x13 & {\small SGT} & 2 & 1 & Plus grand que signé. \\
+0x13 & {\small SGT} & 2 & 1 & Supérieur à signé. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \begin{cases} 1 & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[0] > \boldsymbol{\mu}_\mathbf{s}[1] \\ 0 & \text{sinon} \end{cases}$ \\
-&&&& Où toutes les valeurs sont traitées comme des entiers de 256 bits signés en complément à deux. \\
+&&&& Où toutes les valeurs sont traitées comme des entiers de 256 bits signés en complément \\
+&&&& à deux. \\
 \midrule
 0x14 & {\small EQ} & 2 & 1 & Égalité \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \begin{cases} 1 & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[0] = \boldsymbol{\mu}_\mathbf{s}[1] \\ 0 & \text{sinon} \end{cases}$ \\
@@ -1753,10 +1763,10 @@ Ici sont données pour chaque instruction les diverses exceptions aux règles de
 0x18 & {\small XOR} & 2 & 1 & Opérateur XOR bit à bit. \\
 &&&& $\forall i \in [0..255]: \boldsymbol{\mu}'_\mathbf{s}[0]_i \equiv \boldsymbol{\mu}_\mathbf{s}[0]_i \oplus \boldsymbol{\mu}_\mathbf{s}[1]_i$ \\
 \midrule
-0x19 & {\small NOT} & 1 & 1 & Opérateur de négation bit à bit. \\
+0x19 & {\small NOT} & 1 & 1 & Opérateur NOT bit à bit. \\
 &&&& $\forall i \in [0..255]: \boldsymbol{\mu}'_\mathbf{s}[0]_i \equiv \begin{cases} 1 & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[0]_i = 0 \\ 0 & \text{sinon} \end{cases}$ \\
 \midrule
-0x1a & {\small BYTE} & 2 & 1 & Retrouve tel octet d'un mot. \\
+0x1a & {\small BYTE} & 2 & 1 & Récupère un octet d'un mot. \\
 &&&& $\forall i \in [0..255]: \boldsymbol{\mu}'_\mathbf{s}[0]_i \equiv \begin{cases} \boldsymbol{\mu}_\mathbf{s}[1]_{(i + 8\boldsymbol{\mu}_\mathbf{s}[0])} & \text{si} \quad i < 8 \wedge \boldsymbol{\mu}_\mathbf{s}[0] < 32 \\ 0 & \text{sinon} \end{cases} $\\
 &&&& Pour le Nème octet, on compte depuis la gauche \\
 &&&& (i.e. N=0 serait le plus significatif en grand-boutien). \\
@@ -1785,12 +1795,12 @@ Ici sont données pour chaque instruction les diverses exceptions aux règles de
 \midrule
 0x32 & {\small ORIGIN} & 0 & 1 & Obtient l'adresse originelle d'exécution. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv I_o$ \\
-&&&& C'est l'émetteur de la transaction de départ\,; Ce n'est jamais un compte avec du code \\
+&&&& C'est l'émetteur de la transaction de départ\,; ce n'est jamais un compte avec du code \\
 &&&& associé non vide. \\
 \midrule
 0x33 & {\small CALLER} & 0 & 1 & Obtient l'adresse appelante. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv I_s$ \\
-&&&& C'est l'adresse qui est directement responsable de l'exécution. \\
+&&&& Ceci est l'adresse directement responsable de l'exécution. \\
 \midrule
 0x34 & {\small CALLVALUE} & 0 & 1 & Obtient la valeur déposée par l'instruction/transaction responsable de cette exécution. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv I_v$ \\
@@ -1805,9 +1815,10 @@ Ici sont données pour chaque instruction les diverses exceptions aux règles de
 &&&& Ceci se rapporte aux données passées en entrée \\
 &&&& du message d'appel de l'instruction ou transaction. \\
 \midrule
-0x37 & {\small CALLDATACOPY} & 3 & 0 & Obtient les données en entrée de l'environnement courant. \\
+0x37 & {\small CALLDATACOPY} & 3 & 0 & Copie les données en entrée de l'environnement courant. \\
 &&&& $\forall_{i \in \{ 0 \dots \boldsymbol{\mu}_\mathbf{s}[2] - 1\} } \boldsymbol{\mu}'_\mathbf{m}[\boldsymbol{\mu}_\mathbf{s}[0] + i ] \equiv
 \begin{cases} I_\mathbf{d}[\boldsymbol{\mu}_\mathbf{s}[1] + i] & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[1] + i < \lVert I_\mathbf{d} \rVert \\ 0 & \text{sinon} \end{cases}$\\
+&&&& Les additions en $\boldsymbol{\mu}_\mathbf{s}[1] + i$ ne sont pas sujettes au modulo $2^{256}$. \\
 &&&& $\boldsymbol{\mu}'_i \equiv M(\boldsymbol{\mu}_i, \boldsymbol{\mu}_\mathbf{s}[0], \boldsymbol{\mu}_\mathbf{s}[2])$ \\
 &&&& Ceci se rapporte aux données passées en entrée \\
 &&&& du message d'appel de l'instruction ou transaction. \\
@@ -1815,7 +1826,7 @@ Ici sont données pour chaque instruction les diverses exceptions aux règles de
 0x38 & {\small CODESIZE} & 0 & 1 & Obtient la taille du code dans l'environnement courant. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \lVert I_\mathbf{b} \rVert$ \\
 \midrule
-0x39 & {\small CODECOPY} & 3 & 0 & Copie les données en entrée de l'environnement courant en mémoire. \\
+0x39 & {\small CODECOPY} & 3 & 0 & Copie le code tournant en entrée de l'environnement courant vers la mémoire. \\
 &&&& $\forall_{i \in \{ 0 \dots \boldsymbol{\mu}_\mathbf{s}[2] - 1\} } \boldsymbol{\mu}'_\mathbf{m}[\boldsymbol{\mu}_\mathbf{s}[0] + i ] \equiv
 \begin{cases} I_\mathbf{b}[\boldsymbol{\mu}_\mathbf{s}[1] + i] & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[1] + i < \lVert I_\mathbf{b} \rVert \\ \text{\small STOP} & \text{sinon} \end{cases}$\\
 &&&& $\boldsymbol{\mu}'_i \equiv M(\boldsymbol{\mu}_i, \boldsymbol{\mu}_\mathbf{s}[0], \boldsymbol{\mu}_\mathbf{s}[1])$ \\
@@ -1832,6 +1843,7 @@ Ici sont données pour chaque instruction les diverses exceptions aux règles de
 \begin{cases} \mathbf{c}[\boldsymbol{\mu}_\mathbf{s}[2] + i] & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[2] + i < \lVert \mathbf{c} \rVert \\ \text{\small STOP} & \text{sinon} \end{cases}$\\
 &&&& où $\mathbf{c} \equiv \boldsymbol{\sigma}[\boldsymbol{\mu}_s[0] \mod 2^{160}]_c$ \\
 &&&& $\boldsymbol{\mu}'_i \equiv M(\boldsymbol{\mu}_i, \boldsymbol{\mu}_\mathbf{s}[1], \boldsymbol{\mu}_\mathbf{s}[3])$ \\
+&&&& Les additions en $\boldsymbol{\mu}_\mathbf{s}[2] + i$ ne sont pas sujettes au modulo $2^{256}$. \\
 \bottomrule
 \end{tabular*}
 
@@ -1842,8 +1854,8 @@ Ici sont données pour chaque instruction les diverses exceptions aux règles de
 0x40 & {\small BLOCKHASH} & 1 & 1 & Obtient l'empreinte de l'un des 256 derniers blocs complets. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv P(I_{H_p}, \boldsymbol{\mu}_\mathbf{s}[0], 0)$ \\
 &&&& Où $P$ est l'empreinte d'un bloc d'ordre particulier, jusqu'à un âge maximum.\\
-&&&& 0 est mis sur la pile si le numéro de bloc demandé est plus grand que le numéro du bloc actuel \\
-&&&& ou plus éloigné que de 256 blocs du bloc actuel. \\
+&&&& 0 est mis sur la pile si le numéro de bloc demandé est plus grand que le numéro du \\
+&&&& bloc actuel ou plus éloigné que de 256 blocs du bloc actuel. \\
 &&&& $P(h, n, a) \equiv \begin{cases} 0 & \text{si} \quad n > H_i \vee a = 256 \vee h = 0 \\ h & \text{si} \quad n = H_i \\ P(H_p, n, a + 1) & \text{sinon} \end{cases}$ \\
 &&&& et on affirme que l'entête $H$ pouvant être déterminé comme son empreinte \\
 &&&& est l'empreinte parente du bloc qui le suit. \\
@@ -1867,7 +1879,7 @@ Ici sont données pour chaque instruction les diverses exceptions aux règles de
 
 \begin{tabular*}{\columnwidth}[h]{rlrrl}
 \toprule
-\multicolumn{5}{c}{\textbf{50s\,: Opérations sur Pile, Mémoire, Stockage et Flux}} \vspace{5pt} \\
+\multicolumn{5}{c}{\textbf{50s\,: Opérations sur pile, mémoire, stockage et flux}} \vspace{5pt} \\
 \textbf{Value} & \textbf{Mnemonic} & $\delta$ & $\alpha$ & \textbf{Description} \vspace{5pt} \\
 0x50 & {\small POP} & 1 & 0 & Supprime un élément de la pile. \\
 \midrule
@@ -1926,49 +1938,51 @@ R_{sclear} & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[1] = 0 \; \wedge \; \bo
 
 \begin{tabular*}{\columnwidth}[h]{rlrrl}
 \toprule
-\multicolumn{5}{c}{\textbf{60s \& 70s\,: Opérations de Push}} \vspace{5pt} \\
+\multicolumn{5}{c}{\textbf{60s \& 70s\,: Opérations d'empilement}} \vspace{5pt} \\
 \textbf{Value} & \textbf{Mnemonic} & $\delta$ & $\alpha$ & \textbf{Description} \vspace{5pt} \\
-0x60 & {\small PUSH1} & 0 & 1 & Place 1 élément de 1 octet sur la pile. \\
+0x60 & {\small PUSH1} & 0 & 1 & Place un élément de 1 octet sur la pile. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv c(\boldsymbol{\mu}_{pc} + 1)$ \\
 &&&& $\text{où} \quad c(x) \equiv \begin{cases} I_\mathbf{b}[x] & \text{si} \quad x < \lVert I_\mathbf{b} \rVert \\ 0 & \text{sinon} \end{cases}$ \\
 &&&& Les octets sont lus séquentiellement depuis le tableau d'octets du code du programme. \\
 &&&& La fonction $c$ assure que les octets sont mis à zéro si ils dépassent la limite.\\
 &&&& L'octet est aligné à droite (il prend la place la moins significative en grand-boutien). \\
 \midrule
-0x61 & {\small PUSH2} & 0 & 1 & Place 1 élément de 2 octets sur la pile. \\
+0x61 & {\small PUSH2} & 0 & 1 & Place un élément de 2 octets sur la pile. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \boldsymbol{c}\big( (\boldsymbol{\mu}_{pc} + 1) \dots (\boldsymbol{\mu}_{pc} + 2) \big)$ \\
 &&&& avec $\boldsymbol{c}(\boldsymbol{x}) \equiv (c(\boldsymbol{x}_0), ..., c(\boldsymbol{x}_{\lVert x \rVert -1})) $ avec $c$ comme défini ci-dessus. \\
-&&&& Les octets sont alignés à droite (ils prennent la place la moins significative en grand-boutien). \\
+&&&& Les octets sont alignés à droite (ils prennent la place la moins significative en \\
+&&&& grand-boutien). \\
 \midrule
 \multicolumn{1}{c}{\vdots} & \multicolumn{1}{c}{\vdots} & \vdots & \vdots & \multicolumn{1}{c}{\vdots} \\
 \midrule
-0x7f & {\small PUSH32} & 0 & 1 & Place 1 élément de 32 octets (un mot entier) sur la pile. \\
+0x7f & {\small PUSH32} & 0 & 1 & Place un élément de 32 octets (un mot entier) sur la pile. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \boldsymbol{c}\big((\boldsymbol{\mu}_{pc} + 1) \dots (\boldsymbol{\mu}_{pc} + 32) \big)$ \\
 &&&& où $\boldsymbol{c}$ est défini comme ci-dessus. \\
-&&&& Les octets sont alignés à droite (ils prennent la place la moins significative en grand-boutien). \\
+&&&& Les octets sont alignés à droite (ils prennent la place la moins significative en \\
+&&&& grand-boutien). \\
 \bottomrule
 \end{tabular*}
 
 \begin{tabular*}{\columnwidth}[h]{rlrrl}
 \toprule
-\multicolumn{5}{c}{\textbf{80s\,: Opérations de Duplication }} \vspace{5pt} \\
+\multicolumn{5}{c}{\textbf{80s\,: Opérations de duplication }} \vspace{5pt} \\
 \textbf{Value} & \textbf{Mnemonic} & $\delta$ & $\alpha$ & \textbf{Description} \vspace{5pt} \\
-0x80 & {\small DUP1} & 1 & 2 & Duplique 1er élément de la pile. \\
+0x80 & {\small DUP1} & 1 & 2 & Duplique le 1er élément de la pile. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \boldsymbol{\mu}_\mathbf{s}[0]$ \\
 \midrule
-0x81 & {\small DUP2} & 2 & 3 & Duplique 2ème élément de la pile. \\
+0x81 & {\small DUP2} & 2 & 3 & Duplique le 2ème élément de la pile. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \boldsymbol{\mu}_\mathbf{s}[1]$ \\
 \midrule
 \multicolumn{1}{c}{\vdots} & \multicolumn{1}{c}{\vdots} & \vdots & \vdots & \multicolumn{1}{c}{\vdots} \\
 \midrule
-0x8f & {\small DUP16} & 16 & 17 & Duplique 16ème élément de la pile. \\
+0x8f & {\small DUP16} & 16 & 17 & Duplique le 16ème élément de la pile. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \boldsymbol{\mu}_\mathbf{s}[15]$ \\
 \bottomrule
 \end{tabular*}
 
 \begin{tabular*}{\columnwidth}[h]{rlrrl}
 \toprule
-\multicolumn{5}{c}{\textbf{90s\,: Opérations d'Échange }} \vspace{5pt} \\
+\multicolumn{5}{c}{\textbf{90s\,: Opérations d'échange }} \vspace{5pt} \\
 \textbf{Value} & \textbf{Mnemonic} & $\delta$ & $\alpha$ & \textbf{Description} \vspace{5pt} \\
 0x90 & {\small SWAP1} & 2 & 2 & Échange les 1er et 2nd éléments de la pile. \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv \boldsymbol{\mu}_\mathbf{s}[1]$ \\
@@ -1988,21 +2002,23 @@ R_{sclear} & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[1] = 0 \; \wedge \; \bo
 
 \begin{tabular*}{\columnwidth}[h]{rlrrl}
 \toprule
-\multicolumn{5}{c}{\textbf{a0s\,: Opérations de Journalisation }} \vspace{5pt} \\
-\multicolumn{5}{l}{Pour toutes les opérations de journalisation, le changement d'état consiste à ajouter une nouvelle entrée de journal}\\
-\multicolumn{5}{l}{aux différents journaux du sous-état:}\\
+\multicolumn{5}{c}{\textbf{a0s\,: Opérations de journalisation }} \vspace{5pt} \\
+\multicolumn{5}{l}{Pour toutes les opérations de journalisation, le changement d'état consiste à ajouter une nouvelle entrée de log}\\
+\multicolumn{5}{l}{ à la série de logs du sous-état\,:}\\
 \multicolumn{5}{l}{$A'_\mathbf{l} \equiv A_\mathbf{l} \cdot (I_a, \mathbf{t}, \boldsymbol{\mu}_\mathbf{m}[ \boldsymbol{\mu}_\mathbf{s}[0] \dots (\boldsymbol{\mu}_\mathbf{s}[0] + \boldsymbol{\mu}_\mathbf{s}[1] - 1) ])$}\\
-\multicolumn{5}{l}{La rubrique donnée en entrée, $\mathbf{t}$, est diversifiée:}\vspace{5pt} \\
+\multicolumn{5}{l}{et à mettre à jour le compteur de consommation mémoire\,:}\\
+\multicolumn{5}{l}{$\boldsymbol{\mu}'_i \equiv M(\boldsymbol{\mu}_i, \boldsymbol{\mu}_\mathbf{s}[0], \boldsymbol{\mu}_\mathbf{s}[1])$}\\
+\multicolumn{5}{l}{La série de sujets de l'entrée, $\mathbf{t}$, diffère en conséquence\,:}\vspace{5pt} \\
 \textbf{Value} & \textbf{Mnemonic} & $\delta$ & $\alpha$ & \textbf{Description} \vspace{5pt} \\
-0xa0 & {\small LOG0} & 2 & 0 & Ajoute une entrée de journalisation sans rubriquer. \\
+0xa0 & {\small LOG0} & 2 & 0 & Ajoute une entrée de log sans sujet. \\
 &&&& $\mathbf{t} \equiv ()$ \\
 \midrule
-0xa1 & {\small LOG1} & 3 & 0 & Ajoute une entrée de journalisation avec une rubrique. \\
+0xa1 & {\small LOG1} & 3 & 0 & Ajoute une entrée de log avec un sujet. \\
 &&&& $\mathbf{t} \equiv (\boldsymbol{\mu}_\mathbf{s}[2])$ \\
 \midrule
 \multicolumn{1}{c}{\vdots} & \multicolumn{1}{c}{\vdots} & \vdots & \vdots & \multicolumn{1}{c}{\vdots} \\
 \midrule
-0xa4 & {\small LOG4} & 6 & 0 & Ajoute une entrée de journalisation avec quatre rubriques. \\
+0xa4 & {\small LOG4} & 6 & 0 & Ajoute une entrée de log avec quatre sujets. \\
 &&&& $\mathbf{t} \equiv (\boldsymbol{\mu}_\mathbf{s}[2], \boldsymbol{\mu}_\mathbf{s}[3], \boldsymbol{\mu}_\mathbf{s}[4], \boldsymbol{\mu}_\mathbf{s}[5])$ \\
 \bottomrule
 \end{tabular*}
@@ -2017,7 +2033,7 @@ R_{sclear} & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[1] = 0 \; \wedge \; \bo
 &&&& $\boldsymbol{\sigma}^* \equiv \boldsymbol{\sigma} \quad \text{excepté} \quad \boldsymbol{\sigma}^*[I_a]_n = \boldsymbol{\sigma}[I_a]_n + 1$ \\
 &&&& $A' \equiv A \Cup A^+$ qui implique\,: $A'_\mathbf{s} \equiv A_\mathbf{s} \cup A^+_\mathbf{s} \quad \wedge \quad A'_\mathbf{l} \equiv A_\mathbf{l} \cdot A^+_\mathbf{l} \quad \wedge \quad A'_\mathbf{r} \equiv A_\mathbf{r} + A^+_\mathbf{r}$ \\
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv x$ \\
-&&&& où $x=0$ si l'exécution du code pour cette opération s'arrête pour cause d'exception \\
+&&&& où $x=0$ si l'exécution du code pour cette opération subit un arrêt exceptionnel \\
 &&&& $Z(\boldsymbol{\sigma}^*, \boldsymbol{\mu}, I) = \top$ ou $I_e = 1024$ \\
 &&&& (la profondeur maximale d'appels est atteinte) ou $\boldsymbol{\mu}_\mathbf{s}[0] > \boldsymbol{\sigma}[I_a]_b$ (le solde de l'appelant\\
 &&&& est trop  bas pour assurer le transfert)\,; et sinon $x=A(I_a, \boldsymbol{\sigma}[I_a]_n)$,\\
@@ -2034,12 +2050,14 @@ R_{sclear} & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[1] = 0 \; \wedge \; \bo
 &&&& $\boldsymbol{\mu}'_\mathbf{s}[0] \equiv x$ \\
 &&&& $A' \equiv A \Cup A^+$ \\
 &&&& $t \equiv \boldsymbol{\mu}_\mathbf{s}[1] \mod 2^{160}$ \\
-&&&& où $x=0$ si l'exécution du code pour cette opération s'arrête pour cause d'exception \\
+&&&& où $x=0$ si l'exécution du code pour cette opération subit un arrêt exceptionnel \\
 &&&& $Z(\boldsymbol{\sigma}, \boldsymbol{\mu}, I) = \top$ ou si  \\
-&&&& $\boldsymbol{\mu}_\mathbf{s}[2] > \boldsymbol{\sigma}[I_a]_b$ (pas assez de fonds) ou $I_e = 1024$ (profondeur de niveaux d'appels atteinte)\\
+&&&& $\boldsymbol{\mu}_\mathbf{s}[2] > \boldsymbol{\sigma}[I_a]_b$ (pas assez de fonds) ou $I_e = 1024$ (limite de la profondeur de niveaux \\
+&&&& d'appels atteinte)\\
 &&&& $x=1$ sinon. \\
 &&&& $\boldsymbol{\mu}'_i \equiv M(M(\boldsymbol{\mu}_i, \boldsymbol{\mu}_\mathbf{s}[3], \boldsymbol{\mu}_\mathbf{s}[4]), \boldsymbol{\mu}_\mathbf{s}[5], \boldsymbol{\mu}_\mathbf{s}[6])$ \\
-&&&& Ainsi l'ordre des opérandes est\,: gaz, à, valeur, en décalage, en taille, décalage de sortie, taille de sortie. \\
+&&&& Ainsi l'ordre des opérandes est\,: gaz, à, valeur, décalage d'entrée, taille d'entrée, \\
+&&&& décalage de sortie, taille de sortie. \\
 &&&& $C_{\text{\tiny CALL}}(\boldsymbol{\sigma}, \boldsymbol{\mu}) \equiv C_{\text{\tiny GASCAP}}(\boldsymbol{\sigma}, \boldsymbol{\mu}) + C_{\text{\tiny EXTRA}}(\boldsymbol{\sigma}, \boldsymbol{\mu})$ \\
 &&&& $C_{\text{\tiny CALLGAS}}(\boldsymbol{\sigma}, \boldsymbol{\mu}) \equiv  \begin{cases}
 C_{\text{\tiny GASCAP}}(\boldsymbol{\sigma}, \boldsymbol{\mu}) + G_{callstipend} & \text{si} \quad \boldsymbol{\mu}_\mathbf{s}[2] \neq 0 \\
@@ -2062,9 +2080,9 @@ G_{newaccount} & \text{si} \quad \boldsymbol{\sigma}[\boldsymbol{\mu}_\mathbf{s}
 0xf2 & {\small CALLCODE} & 7 & 1 & Appel de message à l'intérieur de ce compte avec le code d'un compte alternatif. \\
 &&&& Exactement équivalent à {\small CALL} excepté\,: \\
 &&&& $(\boldsymbol{\sigma}', g', A^+, \mathbf{o}) \equiv \begin{cases}\begin{array}{l}\Theta(\boldsymbol{\sigma}^*, I_a, I_o, I_a, t,\\\quad C_{\text{\tiny CALLGAS}}(\boldsymbol{\mu}), I_p, \boldsymbol{\mu}_\mathbf{s}[2], \boldsymbol{\mu}_\mathbf{s}[2], \mathbf{i}, I_e + 1)\end{array} & \begin{array}{l}\text{si} \quad \boldsymbol{\mu}_\mathbf{s}[2] \leqslant \boldsymbol{\sigma}[I_a]_b \;\wedge\\ \quad\quad{}I_e < 1024\end{array} \\ (\boldsymbol{\sigma}, g, \varnothing, \mathbf{o}) & \text{sinon} \end{cases}$ \\
-&&&& Noter le changement dans le 4ème paramètre de l'appel $\Theta$ depuis la 2ème valeur de pile $\boldsymbol{\mu}_\mathbf{s}[1]$\\
-&&&& (comme dans {\small CALL}) à l'adresse actuelle $I_a$. Cela signifie que le récepteur est bien le\\
-&&&& même compte que l'actuel, mais que le code est simplement remplacé.\\
+&&&& On note le changement dans le 4ème paramètre de l'appel $\Theta$ depuis la 2ème valeur de \\
+&&&& pile $\boldsymbol{\mu}_\mathbf{s}[1]$ (comme dans {\small CALL}) à l'adresse actuelle $I_a$. Cela signifie que le récepteur est \\
+&&&& bien le même compte que l'actuel, mais que le code est simplement remplacé.\\
 \midrule
 0xf3 & {\small RETURN} & 2 & 0 & Arrête l'exécution et renvoie les données en sortie. \\
 &&&& $H_{\text{\tiny RETURN}}(\boldsymbol{\mu}) \equiv \boldsymbol{\mu}_\mathbf{m}[ \boldsymbol{\mu}_\mathbf{s}[0] \dots ( \boldsymbol{\mu}_\mathbf{s}[0] + \boldsymbol{\mu}_\mathbf{s}[1] - 1 ) ]$ \\
@@ -2087,15 +2105,17 @@ G_{newaccount} & \text{si} \quad \boldsymbol{\sigma}[\boldsymbol{\mu}_\mathbf{s}
 &&&& Cela signifie que le destinataire est en fait le même compte qu'à présent, simplement\\
 &&&& que le code est écrasé {\it et} que le contexte est presque entièrement identique.\\
 \midrule
-0xff & {\small SUICIDE} & 1 & 0 & Arrête l'exécution et enregistre le compte pour suppression ultérieure. \\
+0xfe & {\small INVALID} & $\varnothing$ & $\varnothing$ & Instruction désignée invalide. \\
+\midrule
+0xff & {\small SELFDESTRUCT} & 1 & 0 & Arrête l'exécution et enregistre le compte pour suppression ultérieure. \\
 &&&& $A'_\mathbf{s} \equiv A_\mathbf{s} \cup \{ I_a \}$ \\
 &&&& $\boldsymbol{\sigma}'[\boldsymbol{\mu}_\mathbf{s}[0] \mod 2^{160}]_b \equiv \boldsymbol{\sigma}[\boldsymbol{\mu}_\mathbf{s}[0] \mod 2^{160}]_b + \boldsymbol{\sigma}[I_a]_b$ \\
 &&&& $\boldsymbol{\sigma}'[I_a]_b \equiv 0$ \\
 &&&& $A'_{r} \equiv A_{r} + \begin{cases}
-R_{suicide} & \text{si} \quad I_a \notin A_\mathbf{s} \\
+R_{selfdestruct} & \text{si} \quad I_a \notin A_\mathbf{s} \\
 0 & \text{sinon}
 \end{cases}$ \\
-&&&& $C_{\text{\tiny SUICIDE}}(\boldsymbol{\sigma}, \boldsymbol{\mu}) \equiv G_{suicide} + \begin{cases}
+&&&& $C_{\text{\tiny SELFDESTRUCT}}(\boldsymbol{\sigma}, \boldsymbol{\mu}) \equiv G_{selfdestruct} + \begin{cases}
 G_{newaccount} & \text{si} \quad \boldsymbol{\sigma}[\boldsymbol{\mu}_\mathbf{s}[1] \mod 2^{160}] = \varnothing \\
 0 & \text{sinon}
 \end{cases}$ \\
@@ -2105,7 +2125,7 @@ G_{newaccount} & \text{si} \quad \boldsymbol{\sigma}[\boldsymbol{\mu}_\mathbf{s}
 %\section{Low-level Lisp-like Language}\label{app:lll}
 %The Low-level Lisp-like Language is a language created in order to efficiently author low-level programs (contracts) without having to resort to EVM-Assembly.
 
-\section{Bloc genesis}\label{app:genesis}
+\section{Bloc \textit{genesis}}\label{app:genesis}
 
 Le bloc \textit{genesis} possède 15 éléments et est spécifié ainsi\,:
 \begin{equation}
@@ -2139,7 +2159,7 @@ $J_{accesses}$ & 64 & Nombre d'accès dans une boucle de hashimoto. \\
 \end{tabular*}
 
 \subsection{Taille de l'ensemble de données et du cache}
-La taille du cache de l'Ethash $\mathbf{c} \in \mathbb{B}$ et celle de l'ensemble de données $\mathbf{d} \in \mathbb{B}$ dépend de la période, qui dépend du numéro de bloc.
+La taille du cache de l'Ethash $\mathbf{c} \in \mathbb{B}$ et celle de l'ensemble de données $\mathbf{d} \in \mathbb{B}$ dépend de la période (\textit{epoch}), qui dépend du numéro de bloc.
 \begin{equation}
  E_{epoch}(H_i) = \left\lfloor\frac{H_i}{J_{epoch}}\right\rfloor
 \end{equation}
@@ -2161,7 +2181,7 @@ E_{prime}(x - 1 \cdot y, y) & \text{sinon}
 \subsection{Génération de l'ensemble de données}
 Afin de générer l'ensemble de données, nous avons besoin du cache $\mathbf{c}$, qui est un tableau d'octets. Il dépend de la taille du cache $c_{size}$ et de  l'empreinte de la graine $\mathbf{s} \in \mathbb{B}_{32}$.
 \subsubsection{Empreinte de la graine}
-L'empreinte de la graine est différente pour chaque période. Pour la première, c'est l'empreinte Keccak-256 d'une série de 32 octets à zéro. Pour chacune des autres, c'est toujours l'empreinte Keccak-256 de l'empreinte de graine précédente\,:
+L'empreinte de la graine cryptographique (\textit{seed}) est différente pour chaque période. Pour la première, c'est l'empreinte Keccak-256 d'une série de 32 octets à zéro. Pour chacune des autres, c'est toujours l'empreinte Keccak-256 de l'empreinte de graine précédente\,:
 \begin{equation}
  \mathbf{s} = C_{seedhash}(H_i)
 \end{equation}
@@ -2176,7 +2196,7 @@ avec $\mathbf{0}_{32}$ étant 32 octets à zéro.
 \subsubsection{Cache}
 Le processus de production de cache implique d'utiliser l'empreinte de la graine pour remplir séquentiellement $c_{size}$ octets de mémoire, puis d'effectuer $J_{cacherounds}$ passes de l'algorithme RandMemoHash créé par \cite{lerner2014randmemohash}. Le cache initial $\mathbf{c'}$, qui est un tableau d'octets, sera construit comme suit.
 
-Nous définissons le tableau $\mathbf{c}_{i}$, qui est constitué de 64 octets,  comme le $i$ème élément du cache initial\,:
+Nous définissons le tableau $\mathbf{c}_{i}$, constitué de 64 octets, comme le $i$ème élément du cache initial\,:
 \begin{equation}
  \mathbf{c}_{i} = \begin{cases}
 \texttt{KEC512}(\mathbf{s}) & \text{si} \quad i = 0 \quad  \\
@@ -2239,7 +2259,7 @@ E_\text{\tiny FNV}\big(\mathbf{m}, \mathbf{c}[E_\text{\tiny FNV}(i \oplus p, \ma
 \subsection{Fonction de preuve de travail}
 Il s'agit essentiellement de maintenir un «\,mix\,» de $J_{mixbytes}$ octets et de récupérer séquentiellement et de manière répétée $J_{mixbytes}$ octets de l'ensemble de données complet, et d'utiliser la fonction $E_\text{\tiny FNV}$ pour la combiner avec le mix. $J_{mixbytes}$ octets en accès séquentiel sont utilisés pour que chaque itération de l'algorithme récupère toujours une pleine page de la RAM, minimisant ainsi les accès infructueux au \textit{translation lookaside buffer} que les ASIC pourraient théoriquement éviter.
 
-Si la sortie de cet algorithme se trouve sous l'objectif désiré, le nonce est valide. On note que l'application supplémentaire de \texttt{KEC} à la fin assure qu'il existe un nonce intermédiaire qui peut être fourni pour prouver qu'au moins une petite quantité de travail a été effectuée\,; cette rapide vérification externe de preuve de travail peut être employée contre les DDOS. Elle sert également à fournir une assurance statistique que le résultat est un nombre sur 256 bits non faussé.
+Si la sortie de cet algorithme se trouve en dessous de l'objectif désiré, le nonce est valide. On note que l'application supplémentaire de \texttt{KEC} à la fin assure qu'il existe un nonce intermédiaire qui peut être fourni pour prouver qu'au moins une petite quantité de travail a été effectuée\,; cette rapide vérification externe de preuve de travail peut être employée contre les DDOS. Elle sert également à fournir une assurance statistique que le résultat est un nombre sur 256 bits non faussé.
 
 La fonction de preuve de travail renvoie un tableau avec le mix compressé comme premier élément et l'empreinte Keccak-256 de la concaténation du mix compressé avec l'empreinte de la graine comme second élément\,:
 \begin{equation}
